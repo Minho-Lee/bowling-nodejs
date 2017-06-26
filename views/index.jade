@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	html
+	body(data-spy='scroll', data-target='.navbar')
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container
+				h1 Countdown Clock
+				div#clockdiv
+					div
+						span.days
+						.smalltext Days
+					div
+						span.hours
+						.smalltext Hours
+					div
+						span.minutes
+						.smalltext Minutes
+					div
+						span.seconds
+						.smalltext Seconds
+
