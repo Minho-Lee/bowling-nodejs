@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html ng-app="mainApp" ng-cloak>
+<!--index.html already has a container around this whole html file-->
+    <!--index.html already has id="load_main" div so no need to include it -->
+    <div class="row">
+        <h1 align="center">Welcome to Mississauga Bowling</h1>
 
-    <body>
-        <div class="container">
-            <div id="load_main">
-                <div class="row">
-                    <h1 align="center">Welcome to Mississauga Bowling</h1>
-                    <h2>Who we are</h2>
-                    <div class="panel-group">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Who?</div>
-                            <div class="panel-body">Anyone that enjoys bowling</div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">When?</div>
-                            <div class="panel-body">Every Wednesday at 8pm</div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Where?</div>
-                            <div class="panel-body">At PlanetBowl</div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">How much?</div>
-                            <div class="panel-body">$10 per person (Comes with shoes!)</div>
-                        </div>
-                    </div>
-
+        <div class="col-md-offset-1">
+            <div class="panel-group" id="bowling-info">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Who?</div>
+                    <div class="panel-body">Anyone that enjoys bowling</div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">What?</div>
+                    <div class="panel-body">Bowling!</div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">When?</div>
+                    <div class="panel-body">Every Wednesday at 8pm</div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">Where?</div>
+                    <div class="panel-body">At PlanetBowl</div>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">How much?</div>
+                    <div class="panel-body">$10 per person (Comes with shoes!)</div>
                 </div>
             </div>
+        </div>
+    </div><!--row-->
 
-        </div><!-- /.container -->
-        
-    </body>
-</html>
+    

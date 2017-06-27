@@ -51,6 +51,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//have to make a post request to send data into Cloudant
+app.post('/sumbit_player', function(req, res){
+    console.log('POST /sumbit_player');
+    console.log("req: " + req.body);
+    console.log("res: " + res)
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end('thanks');
+});
+
 app.listen(process.env.PORT || 3001);
 
 console.log('Listening on port: ' + (process.env.PORT || 3001));
