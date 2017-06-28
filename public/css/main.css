@@ -4,11 +4,16 @@ body {
 
 #bowling-info{
     width:80%;
+    margin: 0 auto;
 }
 
 .starter-template {
   padding: 40px 15px;
   text-align: center;
+}
+
+.col-centered {
+    text-align: center;
 }
 
 .icon-bar {

@@ -11,13 +11,16 @@
     "carousel": "0.0.3",
     "cfenv": "^1.0.4",
     "cloudant": "^1.8.0",
+    "consolidate": "^0.14.5",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "ejs": "^2.5.6",
     "express": "^4.13.4",
     "fs": "0.0.1-security",
+    "html": "^1.0.0",
     "jade": "^1.11.0",
     "path": "^0.12.7",
+    "swig": "^1.4.2",
     "underscore": "^1.8.3"
   },
   "repository": {

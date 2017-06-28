@@ -1,10 +1,15 @@
 //dynamically render html pages
 $("#makeTeams").on('click', function() {
+  console.log(this.href);
   $("#load_main").load("teams.html");
 });
 
 $("#goHome").on('click', function() {
   $("#load_main").load("home.html");
+});
+
+$("#contactUs").on('click', function() {
+  $('#load_main').load("contact.html");
 });
 
 //Chagne active class as the html pages render
@@ -20,3 +25,4 @@ $(document).ready(function () {
         e.preventDefault();
     });
 });
+

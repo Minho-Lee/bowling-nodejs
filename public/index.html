@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--initializes and loads all the scripts-->
-<html ng-app="mainApp" ng-cloak>
+<html>
     <head>
         <title>볼링 싸이트</title>
         <style>
@@ -31,9 +31,9 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body ng-app="mainApp" ng-cloak>
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container" ng-controller="mainCtrl">
+            <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -47,7 +47,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#home" id="goHome"><i class="fa fa-home"></i> Home</a></li>
                         <li><a href="#makeTeams" id="makeTeams"><i class="fa fa-plus-circle"></i> Make Team</a></li>
-                        <li><a href="#contact"><i class="fa fa-envelope"></i> Contact</a></li>
+                        <li><a href="#contact" id="contactUs"><i class="fa fa-envelope"></i> Contact Us</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -66,6 +66,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
         <script src=" https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js "></script>
+
         <script>
             window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js "><\/script>')
         </script>
@@ -76,7 +77,6 @@
         <script src="js/bootstrapValidator.js "></script>
         <script type="text/javascript" src="js/main.js "></script>
         <script type="text/javascript" src="js/controllers.js"></script>
-    
         <script src="js/bootstrapValidator.js "></script>
         <!-- Angular -->
         

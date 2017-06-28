@@ -1,30 +1,31 @@
 <!--index.html already has a container around this whole html file-->
     <!--index.html already has id="load_main" div so no need to include it -->
-    <div>
+    <div ng-controller="avgCtrl">
         <div class="row">
-            <h1>Make Teams!</h1>
-            <form action="/submit_player" method="post" target="_blank">
-                <div class="col-md-2">
-                    <input type="text" placeholder="Name" />
+            <h1 align="center">Make Teams!</h1>
+            <form action="submitplayer" method="post" target="_blank">
+                <div class="col-md-2 col-md-offset-1">
+                    <input type="text" name="playerName" placeholder="Name" />
                 </div>
                 <div class="col-md-2">
-                    <input type="text" placeholder="Game 1 Score" ng-model="game1"/>
+                    <input type="text" name="game1" placeholder="Game 1 Score" ng-model="game1"/>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" placeholder="Game 2 Score" ng-model="game2"/>
+                    <input type="text" name="game2" placeholder="Game 2 Score" ng-model="game2"/>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" placeholder="Game 3 Score" ng-model="game3"/>
+                    <input type="text" name="game3" placeholder="Game 3 Score" ng-model="game3"/>
                 </div>
                 <div class="col-md-2">
-                    <button value="Submit!">Submit Score!</button>
+                    <input type="submit" value="Submit!"/>
                 </div>
             </form>
         </div><!--row-->
+        <!--Angular controllers not working, acting as html element instead of angular even though controllers.js is reading in fine-->
         <div class="row">
             <div class="centered">
                 <p> Average: {{average}} </p>
             </div>
         </div><!--row-->
-
+        
     </div><!--ng-controller-->
