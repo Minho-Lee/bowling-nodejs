@@ -132,7 +132,10 @@ app.post('/submitplayer', function(req, res) {
 
 app.post('/getplayer', function(req, res) {
     var score1 = "", score2= "", score3 = "";
-    var playerName = req.body.playerName;
+    var playerName = req.body.userid;
+    //res.type('json');
+    console.log(req.body);
+    console.log(req.body.userid);
     db.find({
         selector: {
             userid: playerName
@@ -149,16 +152,18 @@ app.post('/getplayer', function(req, res) {
             score1 = eventNames[0].score1;
             score2 = eventNames[0].score2;
             score3 = eventNames[0].score3;
+            res.json({
+                player: {
+                    name: playerName,
+                    game1: score1,
+                    game2: score2,
+                    game3: score3
+                }
+            });
         } else {
             console.log("Player " + playerName + " does not exist in the databse!");
+            res.send("Player " + playerName + " does not exist in the databse!")
         }
-        res.json({
-            player: {
-                game1: score1,
-                game2: score2,
-                game3: score3
-            }
-        });
     });
 })
 
