@@ -7,8 +7,11 @@ $("#goHome").on('click', function() {
    $("#load_main").load("home.html");
 });
 
-$("#players").on('click', function() {
+$("#contactUs").on('click', function() {
+   $("#load_main").load("contact.html");
+});
 
+$("#players").on('click', function() {
    $('#load_main').load("players.html", function() {
       //this callback is here to ensure that main.js is loaded properly
       //able to recognize all id/classes before contact.html is loaded

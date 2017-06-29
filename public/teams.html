@@ -2,7 +2,7 @@
     <!--index.html already has id="load_main" div so no need to include it -->
     <div ng-controller="avgCtrl">
         <div class="row">
-            <h1 align="center">Make Teams!</h1>
+            <h1 align="center" class='spacious-title'>Make Teams!</h1>
             <form action="submitplayer" method="post" target="print_popup"
             onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');">
                 <div class="col-md-2 col-md-offset-1">
@@ -23,7 +23,7 @@
             </form>
         </div><!--row-->
         <!--Angular controllers not working, acting as html element instead of angular even though controllers.js is reading in fine-->
-        <div class="row">
+        <!-- <div class="row">
             <div class="centered">
                 <p> Average: {{average}} </p>
             </div>

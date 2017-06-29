@@ -1,9 +1,10 @@
 body {
   padding-top: 50px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #bowling-info{
-    width:80%;
+    width:60%;
     margin: 0 auto;
 }
 
@@ -14,6 +15,10 @@ body {
 
 .col-centered {
     text-align: center;
+}
+
+.spacious-title {
+    padding: 40px;
 }
 
 .icon-bar {

@@ -1,0 +1,41 @@
+<!--index.html already has a container around this whole html file-->
+    <!--index.html already has id="load_main" div so no need to include it -->
+    <h1 align="center" class="spacious-title"> Get in touch with us! </h1>
+
+    <div class="row">
+    	<div class="col-md-6">
+            <h4> If you want to help make this website better or have any suggestions, feel free to contact us!<br/><br/>
+
+                <i class="fa fa-phone" aria-hidden="true"><b>: xxx-xxx-xxxx</b></i><br/><br/>
+                <i class="fa fa-envelope-square" aria-hidden="true"><b>: example@google.com</b></i><br/><br/>
+
+                Some random bowling facts:
+                <ul><br/>
+                    <li>Max score in bowling is 300, which is 12 strikes!</li><br/>
+                    <li>If you get 9 spare all the way through, you end up with 199!</li><br/>
+                    <li>There are many different oil patterns for bowling alleys!</li><br/>
+                </ul>
+            </h4>
+            
+        <!-- Using form post method -->
+	    	<!-- <form action="getplayer" method="post" target="print_popup"
+            onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');">
+
+	    		<input type="text" name="playerName" placeholder="Player Name">
+
+	    		<input type="submit" value="Submit!">
+	    	</form> -->
+
+            
+        </div>
+
+        <div class="col-md-6">
+            <form id="contactInfo">
+                <p>Please note: all fields are <b>required.</b></p>
+                <label>First name</label><br/>
+                <input type="text" name="fname"/><br/>
+                <label>Last name</label><br/>
+                <input type="text" name="lname"/><br/>
+            </form>
+        </div>
+    </div><!--row-->
