@@ -16,26 +16,18 @@
                     <li>There are many different oil patterns for bowling alleys!</li><br/>
                 </ul>
             </h4>
-            
-        <!-- Using form post method -->
-	    	<!-- <form action="getplayer" method="post" target="print_popup"
-            onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');">
-
-	    		<input type="text" name="playerName" placeholder="Player Name">
-
-	    		<input type="submit" value="Submit!">
-	    	</form> -->
-
-            
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-5 col-md-offset-1">
             <form id="contactInfo">
-                <p>Please note: all fields are <b>required.</b></p>
+                <h4>Please note: all fields are <b>required.</b></h4>
                 <label>First name</label><br/>
-                <input type="text" name="fname"/><br/>
+                <input type="text" name="fname" placeholder="First name" /><br/>
                 <label>Last name</label><br/>
-                <input type="text" name="lname"/><br/>
+                <input type="text" name="lname" placeholder="Last name" /><br/>
+                <label>Email</label><br/>
+                <input type="email" name="email" placeholder="email"/><br/><br/>
+                <button class="btn btn-primary btn-block" id="submitContact">Send Message</button>
             </form>
         </div>
     </div><!--row-->
