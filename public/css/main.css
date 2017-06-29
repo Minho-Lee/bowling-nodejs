@@ -2,6 +2,18 @@
 / index.html    /
 ///////////////*/
 
+body {
+    padding-top: 50px;
+    font-family: 'Montserrat', sans-serif;
+    background-image: url('../img/bowling_background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+body:after{
+    
+}
+
 .icon-bar {
     width: 100%; /* Full-width */
     background-color: #555; /* Dark-grey background */
@@ -24,11 +36,6 @@
 
 .active {
     background-color: #4CAF50; /* Add an active/current color */
-}
-
-body {
-  padding-top: 50px;
-  font-family: 'Montserrat', sans-serif;
 }
 
 .starter-template {
