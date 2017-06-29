@@ -76,9 +76,10 @@ cloudant.db.create(dbname, function(err, data) {
 
 app.post('/submitplayer', function(req, res) {
     console.log(req.body);
+    var playerName = req.body.playerName
     db.find({
         selector: {
-            userid: req.body.playerName
+            userid: playerName
         }
     }, function(er, result) {
         if (er) {
@@ -89,9 +90,9 @@ app.post('/submitplayer', function(req, res) {
 
         if (result.docs.length > 0) {
             console.log('Found %d documents with name ' + eventNames[0].userid, result.docs.length);
-            score1 = eventNames[0].score1;
-            score2 = eventNames[0].score2;
-            score3 = eventNames[0].score3;
+            var score1 = eventNames[0].score1;
+            var score2 = eventNames[0].score2;
+            var score3 = eventNames[0].score3;
             //updatedPlayer = eventNames[0].scores;
             //console.log(updatedPlayer);
             score1.push(req.body.game1);
@@ -107,12 +108,12 @@ app.post('/submitplayer', function(req, res) {
                 'score2': score2,
                 'score3': score3
             };
-
             db.insert(user, function(err, body) {});
+
         } else {
-            console.log('Unable to find '+ eventNames[0].userid);
+            console.log('Unable to find '+ playerName);
             db.insert({
-                    'userid': req.body.playerName,
+                    'userid': playerName,
                     'score1': [req.body.game1],
                     'score2': [req.body.game2],
                     'score3': [req.body.game3]
@@ -121,38 +122,44 @@ app.post('/submitplayer', function(req, res) {
                     if (err)
                         console.log("Player already exists. Error: ", err); //NOTE: A View can be created through the GUI interface as well
                     else
-                        console.log("Player has been created");
+                        console.log("Player " + playerName + " has been created");
                 });
         }
-        //console.log("res: " + res);
-        //res.send('Player Saved');
-        //console.log("req: " + req);
-
     });
+    console.log(res.body);
     res.send('player saved');
 });
 
 app.post('/getplayer', function(req, res) {
-    var updatedPlayer = "";
+    var score1 = "", score2= "", score3 = "";
+    var playerName = req.body.playerName;
     db.find({
         selector: {
-            userid: req.body.userid
+            userid: playerName
         }
     }, function(er, result) {
         if (er) {
             throw er;
         }
         eventNames = result.docs;
-        console.log('Found %d documents with name ' + req.query.msg, result.docs.length);
+        console.log(eventNames);
+        console.log('Found %d documents with name ' + playerName, result.docs.length);
 
         if (result.docs.length > 0) {
-            updatedPlayer = eventNames[0].player;
+            score1 = eventNames[0].score1;
+            score2 = eventNames[0].score2;
+            score3 = eventNames[0].score3;
+        } else {
+            console.log("Player " + playerName + " does not exist in the databse!");
         }
         res.json({
-            player: updatedPlayer
+            player: {
+                game1: score1,
+                game2: score2,
+                game3: score3
+            }
         });
     });
-
 })
 
 //app.set('views', path.join(__dirname, 'views'));
