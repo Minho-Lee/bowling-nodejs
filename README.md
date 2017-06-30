@@ -1,6 +1,5 @@
-# Node.js Stem4Girls
+# Bowling Page
 
-Application developed to teach young girls about financial responsibilities
-
+Frontend(html/css/js/jquery) + Ajax Calls + Backend(CloundantNoSQL)
 
 [Install Node.js]: https://nodejs.org/en/download/
