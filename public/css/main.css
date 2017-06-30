@@ -68,6 +68,12 @@ body:after{
 / players.html  /
 ///////////////*/
 
+#playerNotFound {
+    text-align: center;
+    font-weight: normal;
+    font-size: 30px;
+    margin-top: 20px;
+}
 /*responsive table css */
 .responstable {
   margin: 1em 0;

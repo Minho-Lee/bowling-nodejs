@@ -77,7 +77,8 @@ $("#getplayers").on('click', function() {
                console.log("status: " + status);
                //console.log(typeof(res));
                if (typeof res === "string") {
-                  $("#results").html(res);
+                  $("#results").html("<div id='playerNotFound'>"+ res + "</div>");
+                  $("#showScore").html("");
                } else {
                   //$("#results").append(JSON.stringify(res));
                   console.log(res.player);
@@ -86,25 +87,19 @@ $("#getplayers").on('click', function() {
                      $("#showScore")
                         .append("<tr><th>Session</th><th>Game 1</th>\
                                  <th>Game 2</th><th>Game 3</th></tr>");
-                     for (var i = 0; i < res.player.session.length; i++) {
-                        $("#showScore")
-                           .append("\
-                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
-                              <td>"+ res.player.session[i].game2 +"</td>\
-                              <td>"+ res.player.session[i].game3+"</td></tr>");
-                     };
                   } else {
                      $("#showScore")
                         .html("<tr><th>Session</th><th>Game 1</th>\
                                  <th>Game 2</th><th>Game 3</th></tr>");
-                     for (var i = 0; i < res.player.session.length; i++) {
-                        $("#showScore")
-                           .append("\
-                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
-                              <td>"+ res.player.session[i].game2 +"</td>\
-                              <td>"+ res.player.session[i].game3+"</td></tr>");
-                     };
                   };
+                  for (var i = 0; i < res.player.session.length; i++) {
+                     $("#showScore")
+                        .append("\
+                           <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
+                           <td>"+ res.player.session[i].game2 +"</td>\
+                           <td>"+ res.player.session[i].game3+"</td></tr>");
+                  };
+                  counter++;
                };
                //This is for a different table scheme.
                /*if (counter === 0) {
