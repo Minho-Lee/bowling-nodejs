@@ -1,0 +1,8 @@
+applications:
+- path: .
+  memory: 2048M
+  instances: 1
+  domain: mybluemix.net
+  name: bowling
+  host: bowling
+  disk_quota: 2048M
