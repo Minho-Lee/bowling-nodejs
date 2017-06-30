@@ -117,13 +117,13 @@ body:after{
 / contact.html  /
 ///////////////*/
 
-#contactInfo input {
+#contactInfo input, textarea{
     width: 300px;
 }
 
 #contactInfo label {
     font-size: 20px;
-    padding: 20px 0px 5px;
+    padding: 5px 0px;
     font-weight: normal;
 }
 

@@ -1,6 +1,15 @@
 //dynamically render html pages
-$("#makeTeams").on('click', function() {
-   $("#load_main").load("teams.html");
+$("#submitplayers").on('click', function() {
+   $("#load_main").load("submitplayers.html", function() {
+      //submit button on submitplayers.html
+      //clear all inputs to make it easier for submitting more players
+      /*$("#playersubmit").on('click', function() {
+         $("input[name='playerName']").val('');
+         for (var i = 1; i <= 3; i++){
+            $("input[name='game"+ i + "']").val('');
+         };
+      });*/
+   });
 });
 
 $("#goHome").on('click', function() {
@@ -8,11 +17,29 @@ $("#goHome").on('click', function() {
 });
 
 $("#contactUs").on('click', function() {
-   $("#load_main").load("contact.html");
+   $("#load_main").load("contact.html", function() {
+      $("#contactInfo").validate({
+         debug: false,
+         rules: {
+            name: "required",
+            email: {
+               required: true,
+               email: true
+            },
+            comment: "required",
+         },
+         messages: {
+            name: "We need to know who you are!",
+            email:"Need a valid email to contact you!",
+            comment: "Let us hear from you!"
+         }
+         //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
+      });
+   });
 });
 
-$("#players").on('click', function() {
-   $('#load_main').load("players.html", function() {
+$("#getplayers").on('click', function() {
+   $('#load_main').load("getplayers.html", function() {
       //this callback is here to ensure that main.js is loaded properly
       //able to recognize all id/classes before contact.html is loaded
       
@@ -110,6 +137,9 @@ $("#players").on('click', function() {
       });
    });
 });
+
+
+
 
 //Change active class as the html pages render
 $(document).ready(function () {
