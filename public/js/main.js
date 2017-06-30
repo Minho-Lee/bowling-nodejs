@@ -50,11 +50,11 @@ $("#players").on('click', function() {
                console.log("status: " + status);
                //console.log(typeof(res));
                if (typeof res === "string") {
-                  $("#results").append(res);
+                  $("#results").html(res);
                } else {
-                  $("#results").append(JSON.stringify(res));
-                  console.log('counter: ' + counter);
+                  //$("#results").append(JSON.stringify(res));
                   console.log(res.player);
+                  $("#results").html("");
                   if (counter === 0) {
                      $("#showScore")
                         .append("<thead><tr><th scope='col' class='rounded-top-left'>\
@@ -73,7 +73,7 @@ $("#players").on('click', function() {
                               <td>"+ res.player.session[i].game2 +"</td>\
                               <td>"+ res.player.session[i].game3+"</td></tr>");
                      };
-                     counter++
+                     counter++;
                   } else {
                      $("#showScore")
                         .html("<thead><tr><th scope='col' class='rounded-top-left'>\
