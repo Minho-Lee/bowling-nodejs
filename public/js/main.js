@@ -27,11 +27,21 @@ $("#contactUs").on('click', function() {
                email: true
             },
             comment: "required",
+            subject: "required"
          },
          messages: {
             name: "We need to know who you are!",
             email:"Need a valid email to contact you!",
-            comment: "Let us hear from you!"
+            comment: "Let us hear from you!",
+            subject: "What is the message about?"
+         },
+         submitHandler: function(form) {
+            $.get("sendemail", $(form).serialize(), function(data) {
+                  if (data==="sent") {
+                     $("#message").empty().html("\
+                        Email is sent to minho.lee.93@hotmail.com");
+                     };
+                  });
          }
          //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
       });

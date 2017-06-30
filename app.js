@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var Cloudant = require('cloudant');
 var fs = require('fs');
 var cons = require('consolidate');
+var nodemailer = require('nodemailer');
 
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
@@ -128,6 +129,35 @@ app.post('/submitplayer', function(req, res) {
     //console.log(res.body);
     res.send('player saved');
 });
+
+//mailing to myself
+var smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+        user: "mississaugabowling",
+        pass: "bowlingrocks"
+    }
+});
+
+app.get('/sendemail', function(req, res) {
+    var mailOptions = {
+        "to": "mississaugabowling@gmail.com",
+        "subject": req.query.subject,
+        "text": req.query.comment + "\nE-mail : " + req.query.email 
+    };
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(err, res){
+        if(err){
+            console.log(err);
+            res.end("error");
+        } else {
+            console.log("Message sent: " + res.message);
+            res.end("sent");
+        }
+    });
+});
+
 
 app.post('/getplayer', function(req, res) {
     var score1 = "", score2= "", score3 = "";
