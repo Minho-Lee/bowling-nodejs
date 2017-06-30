@@ -84,6 +84,31 @@ $("#getplayers").on('click', function() {
                   $("#results").html("");
                   if (counter === 0) {
                      $("#showScore")
+                        .append("<tr><th>Session</th><th>Game 1</th>\
+                                 <th>Game 2</th><th>Game 3</th></tr>");
+                     for (var i = 0; i < res.player.session.length; i++) {
+                        $("#showScore")
+                           .append("\
+                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
+                              <td>"+ res.player.session[i].game2 +"</td>\
+                              <td>"+ res.player.session[i].game3+"</td></tr>");
+                     };
+                  } else {
+                     $("#showScore")
+                        .html("<tr><th>Session</th><th>Game 1</th>\
+                                 <th>Game 2</th><th>Game 3</th></tr>");
+                     for (var i = 0; i < res.player.session.length; i++) {
+                        $("#showScore")
+                           .append("\
+                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
+                              <td>"+ res.player.session[i].game2 +"</td>\
+                              <td>"+ res.player.session[i].game3+"</td></tr>");
+                     };
+                  };
+               };
+               //This is for a different table scheme.
+               /*if (counter === 0) {
+                     $("#showScore")
                         .append("<thead><tr><th scope='col' class='rounded-top-left'>\
                               Session</th><th scope='col'>Game 1</th>\
                               <th scope='col'>Game 2</th>\
@@ -119,9 +144,7 @@ $("#getplayers").on('click', function() {
                               <td>"+ res.player.session[i].game2 +"</td>\
                               <td>"+ res.player.session[i].game3+"</td></tr>");
                      };
-                  };
-               };
-
+                  };*/
                //var res_obj = {};
                //$.extend(res_obj, res);
                //$("#results").append(JSON.stringify(res_obj));
