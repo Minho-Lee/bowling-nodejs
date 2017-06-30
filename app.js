@@ -75,7 +75,7 @@ cloudant.db.create(dbname, function(err, data) {
 });
 
 app.post('/submitplayer', function(req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     var playerName = req.body.playerName
     db.find({
         selector: {
@@ -87,26 +87,23 @@ app.post('/submitplayer', function(req, res) {
         }
         eventNames = result.docs;
         console.log(eventNames);
+        //console.log(eventNames[0].session);
 
         if (result.docs.length > 0) {
-            console.log('Found %d documents with name ' + eventNames[0].userid, result.docs.length);
-            var score1 = eventNames[0].score1;
-            var score2 = eventNames[0].score2;
-            var score3 = eventNames[0].score3;
-            //updatedPlayer = eventNames[0].scores;
-            //console.log(updatedPlayer);
-            score1.push(req.body.game1);
-            score2.push(req.body.game2);
-            score3.push(req.body.game3);
+            //console.log('Found %d documents with name ' + eventNames[0].userid, result.docs.length);
+            var session = eventNames[0].session;
 
+            session.push({
+                "game1": req.body.game1,
+                "game2": req.body.game2,
+                "game3": req.body.game3
+            });
 
             var user = {
                 'userid': eventNames[0].userid,
                 '_id': eventNames[0]._id,
                 '_rev': eventNames[0]._rev,
-                'score1': score1,
-                'score2': score2,
-                'score3': score3
+                'session': eventNames[0].session
             };
             db.insert(user, function(err, body) {});
 
@@ -114,9 +111,11 @@ app.post('/submitplayer', function(req, res) {
             console.log('Unable to find '+ playerName);
             db.insert({
                     'userid': playerName,
-                    'score1': [req.body.game1],
-                    'score2': [req.body.game2],
-                    'score3': [req.body.game3]
+                    'session': [{
+                        'game1': req.body.game1,
+                        'game2': req.body.game2,
+                        'game3': req.body.game3
+                    }]
                 },
                 function(err, data) {
                     if (err)
@@ -126,7 +125,7 @@ app.post('/submitplayer', function(req, res) {
                 });
         }
     });
-    console.log(res.body);
+    //console.log(res.body);
     res.send('player saved');
 });
 
@@ -135,7 +134,7 @@ app.post('/getplayer', function(req, res) {
     var playerName = req.body.userid;
     //res.type('json');
     console.log(req.body);
-    console.log(req.body.userid);
+    //console.log(req.body.userid);
     db.find({
         selector: {
             userid: playerName
@@ -149,15 +148,12 @@ app.post('/getplayer', function(req, res) {
         console.log('Found %d documents with name ' + playerName, result.docs.length);
 
         if (result.docs.length > 0) {
-            score1 = eventNames[0].score1;
-            score2 = eventNames[0].score2;
-            score3 = eventNames[0].score3;
+            session = eventNames[0].session
+
             res.json({
                 player: {
                     name: playerName,
-                    game1: score1,
-                    game2: score2,
-                    game3: score3
+                    session: session
                 }
             });
         } else {

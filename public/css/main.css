@@ -68,6 +68,51 @@ body:after{
 / players.html  /
 ///////////////*/
 
+#showScore
+{
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;
+    margin: 45px;
+    width: 80%;
+    text-align: left;
+    border-collapse: collapse;
+}
+#showScore thead th.rounded-top-left
+{
+    background: #b9c9fe url('../img/left.png') left -1px no-repeat;
+}
+#showScore thead th.rounded-top-right
+{
+    background: #b9c9fe url('../img/right.png') right -1px no-repeat;
+}
+#showScore th
+{
+    padding: 8px;
+    font-weight: normal;
+    font-size: 13px;
+    color: #039;
+    background: #b9c9fe;
+}
+#showScore td
+{
+    padding: 8px;
+    background: #e8edff;
+    border-top: 1px solid #fff;
+    color: #669;
+}
+#showScore tfoot td.rounded-foot-left
+{
+    background: #e8edff url('../img/botleft.png') left bottom no-repeat;
+}
+#showScore tfoot td.rounded-foot-right
+{
+    background: #e8edff url('../img/botright.png') right bottom no-repeat;
+}
+#showScore tbody tr:hover td
+{
+    background: #d0dafd;
+}
+
 /*///////////////
 / contact.html  /
 ///////////////*/
