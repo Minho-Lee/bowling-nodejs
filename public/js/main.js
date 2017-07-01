@@ -44,7 +44,9 @@ $("#submitplayers").on('click', function() {
                         console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
                         console.log("status: " + status);
                         console.log(JSON.stringify(res));
+                        $("#playerSubmitMessage").html(JSON.stringify(res));
                      }
+                     $(form).reset();
                   }); //ajax done
                }
             });
