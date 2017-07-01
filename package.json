@@ -19,14 +19,14 @@
     "fs": "0.0.1-security",
     "html": "^1.0.0",
     "jade": "^1.11.0",
-    "nodemailer": "^3.0.0",
+    "nodemailer": "^4.x",
     "path": "^0.12.7",
     "swig": "^1.4.2",
     "underscore": "^1.8.3"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Minho-Lee/express-sample.git"
+    "url": "git+https://github.com/Minho-Lee/bowling-nodejs.git"
   },
   "engines": {
     "node": "6.x"
