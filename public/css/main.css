@@ -64,8 +64,16 @@ body:after{
 /  teams.html   /
 ///////////////*/
 
+/*//////////////////
+/submitplayers.html/
+//////////////////*/
+#submitGameScore {
+    padding-top: 50px;
+}
+
+
 /*///////////////
-/ players.html  /
+/getplayers.html/
 ///////////////*/
 
 #playerNotFound {

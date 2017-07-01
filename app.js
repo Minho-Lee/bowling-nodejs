@@ -91,7 +91,7 @@ app.post('/submitplayer', function(req, res) {
         //console.log(eventNames[0].session);
 
         if (result.docs.length > 0) {
-            //console.log('Found %d documents with name ' + eventNames[0].userid, result.docs.length);
+            console.log('Found %d documents with name ' + eventNames[0].userid, result.docs.length);
             var session = eventNames[0].session;
 
             session.push({

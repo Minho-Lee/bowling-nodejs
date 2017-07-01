@@ -1,6 +1,8 @@
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
    $("#load_main").load("submitplayers.html", function() {
+
+
       //submit button on submitplayers.html
       //clear all inputs to make it easier for submitting more players
       /*$("#playersubmit").on('click', function() {
@@ -121,48 +123,6 @@ $("#getplayers").on('click', function() {
                   };
                   counter++;
                };
-               //This is for a different table scheme.
-               /*if (counter === 0) {
-                     $("#showScore")
-                        .append("<thead><tr><th scope='col' class='rounded-top-left'>\
-                              Session</th><th scope='col'>Game 1</th>\
-                              <th scope='col'>Game 2</th>\
-                              <th scope='col' class='rounded-top-right'>Game 3</th>\
-                              </tr></thead>\
-                              <tfoot><tr><td colspan='3' class='rounded-foot-left'>\
-                              <em>Table Footer Testing</em></td>\
-                              <td class='rounded-foot-right'></td>\
-                              </tr></tfoot><tbody id='addScore'></tbody>");
-                     for(var i = 0; i<res.player.session.length; i++) {
-                        $("#addScore")
-                           .append("\
-                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
-                              <td>"+ res.player.session[i].game2 +"</td>\
-                              <td>"+ res.player.session[i].game3+"</td></tr>");
-                     };
-                     counter++;
-                  } else {
-                     $("#showScore")
-                        .html("<thead><tr><th scope='col' class='rounded-top-left'>\
-                              Session</th><th scope='col'>Game 1</th>\
-                              <th scope='col'>Game 2</th>\
-                              <th scope='col' class='rounded-top-right'>Game 3</th>\
-                              </tr></thead>\
-                              <tfoot><tr><td colspan='3' class='rounded-foot-left'>\
-                              <em>Table Footer Testing</em></td>\
-                              <td class='rounded-foot-right'></td>\
-                              </tr></tfoot><tbody id='addScore'></tbody>");
-                     for(var i = 0; i<res.player.session.length; i++) {
-                        $("#addScore")
-                           .append("\
-                              <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
-                              <td>"+ res.player.session[i].game2 +"</td>\
-                              <td>"+ res.player.session[i].game3+"</td></tr>");
-                     };
-                  };*/
-               //var res_obj = {};
-               //$.extend(res_obj, res);
-               //$("#results").append(JSON.stringify(res_obj));
                $("#results").append('<br/>');
             },
             error: function(xhr, textStatus, error){
@@ -191,6 +151,9 @@ $(document).ready(function () {
       }
       e.preventDefault();
    });
+   
+   webshims.setOptions('forms-ext', {types: 'date'});
+   webshims.polyfill('forms forms-ext');
 });
 
 var counter = 0;
