@@ -47,6 +47,14 @@ body{
     padding: 40px;
 }
 
+#footerLogo {
+  position:fixed;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 30px;
+}
+
 /*///////////////
 /  home.html    /
 ///////////////*/
