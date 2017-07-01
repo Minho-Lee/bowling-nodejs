@@ -29,6 +29,6 @@
     "url": "git+https://github.com/Minho-Lee/express-sample.git"
   },
   "engines": {
-    "node": "4.x"
+    "node": "6.x"
   }
 }
