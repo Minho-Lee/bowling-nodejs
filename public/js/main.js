@@ -20,32 +20,36 @@ $("#goHome").on('click', function() {
 
 $("#contactUs").on('click', function() {
    $("#load_main").load("contact.html", function() {
-      $("#contactInfo").validate({
-         debug: false,
-         rules: {
-            name: "required",
-            email: {
-               required: true,
-               email: true
-            },
-            comment: "required",
-            subject: "required"
-         },
-         messages: {
-            name: "We need to know who you are!",
-            email:"Need a valid email to contact you!",
-            comment: "Let us hear from you!",
-            subject: "What is the message about?"
-         },
-         submitHandler: function(form) {
-            $.get("sendemail", $(form).serialize(), function(data) {
-                  if (data==="sent") {
-                     $("#message").empty().html("\
-                        Email is sent to minho.lee.93@hotmail.com");
-                     };
-                  });
-         }
-         //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
+      $("#submitContact").on('click', function() {
+         $("#contactInfo")
+            .validate({
+               debug: false,
+               rules: {
+                  name: "required",
+                  email: {
+                     required: true,
+                     email: true
+                  },
+                  comment: "required",
+                  subject: "required"
+               },
+               messages: {
+                  name: "We need to know who you are!",
+                  email:"Need a valid email to contact you!",
+                  comment: "Let us hear from you!",
+                  subject: "What is the message about?"
+               },
+               submitHandler: function(form) {
+                  $.get("sendemail", $(form).serialize(), function(data) {
+                        if (data==="sent") {
+                           $("#message").empty().html("\
+                              Email is sent to minho.lee.93@hotmail.com");
+                           };
+                        });
+                  $("#message").html("<h4>Message Sent!</h4>");
+               }
+            //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
+            });
       });
    });
 });
