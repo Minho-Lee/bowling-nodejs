@@ -29,6 +29,6 @@
     "url": "git+https://github.com/Minho-Lee/bowling-nodejs.git"
   },
   "engines": {
-    "node": ">=6.0.1"
+    "node": "6.x"
   }
 }

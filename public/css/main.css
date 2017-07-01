@@ -2,16 +2,12 @@
 / index.html    /
 ///////////////*/
 
-body {
+body{
     padding-top: 50px;
     font-family: 'Montserrat', sans-serif;
     background-image: url('../img/bowling_background.png');
     background-size: 100%;
     background-repeat: repeat-y;
-}
-
-body:after{
-    
 }
 
 .icon-bar {
