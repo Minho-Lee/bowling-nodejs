@@ -27,7 +27,7 @@ app.engine('html', cons.swig);
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
-console.log(process.env);
+//console.log(process.env);
 //To Store URL of Cloudant VCAP Services as found under environment variables on from App Overview page
 var cloudant_url = 'https://a3b44601-c194-47ba-b9cd-1d8cb594b690-bluemix:d78a61c5df28e8d314e1af0ee998d7768e7b777aa4964fc369a1570299477fde@a3b44601-c194-47ba-b9cd-1d8cb594b690-bluemix.cloudant.com';
 var services = JSON.parse(process.env.VCAP_SERVICES || "{}");
