@@ -1,7 +1,54 @@
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
    $("#load_main").load("submitplayers.html", function() {
-
+      $("#playersubmit").on('click', function() {
+         // var dateformat = '/^201[0-9]{1}-[0-9]{2}-[0-9]{2}$/';
+         // console.log($("input[type='date']").val());
+         // if ($("input[type='date']").val().match(dateformat)) {
+         //    console.log('date format good!');
+         // } else {
+         //    console.log('date format BAD');
+         // };
+         $("#playerform")
+            .validate({
+               debug: false,
+               rules: {
+                  playerName: "required",
+                  date: "required",
+                  game1: {
+                     required: true,
+                     number: true
+                  },
+                  game2: {
+                     required: true,
+                     number: true
+                  },
+                  game3: {
+                     required: true,
+                     number: true
+                  }
+               },
+               messages: {
+                  playerName: "Need a name!",
+                  date: "Valid date required!",
+                  game1: "Need a valid score!",
+                  game2: "Need a valid score!",
+                  game3: "Need a valid score!"
+               },
+               submitHandler: function(form) {
+                  $.ajax({
+                     type: "POST",
+                     url: "submitplayer",
+                     data: $(form).serialize(),
+                     success: function(res, status, xhr) {
+                        console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+                        console.log("status: " + status);
+                        console.log(JSON.stringify(res));
+                     }
+                  }); //ajax done
+               }
+            });
+      });
 
       //submit button on submitplayers.html
       //clear all inputs to make it easier for submitting more players
@@ -135,7 +182,7 @@ $("#getplayers").on('click', function() {
                console.log(textStatus);
                console.log(error);
             }
-         });
+         }); //ajax done
          console.log("post action completed");
       });
    });

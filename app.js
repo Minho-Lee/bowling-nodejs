@@ -109,7 +109,7 @@ app.post('/submitplayer', function(req, res) {
                 'session': eventNames[0].session
             };
             db.insert(user, function(err, body) {});
-
+            res.send(playerName + " already exists. Update complete!");
         } else {
             console.log('Unable to find '+ playerName);
             db.insert({
@@ -127,10 +127,11 @@ app.post('/submitplayer', function(req, res) {
                     else
                         console.log("Player " + playerName + " has been created");
                 });
+            res.send(playerName + " does not exist. New player save complete!");
         }
     });
     //console.log(res.body);
-    res.send('player saved');
+    //res.send('Player' + playerName +'saved successfully!');
 });
 
 //mailing to myself

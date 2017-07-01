@@ -2,13 +2,15 @@
     <!--index.html already has id="load_main" div so no need to include it -->
     <div ng-controller="avgCtrl">
         <h1 align="center" class='spacious-title'>Submit Player!</h1>
-        <form action="submitplayer" method="post" target="print_popup"
-        onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');">
+        <h4 align="center">All fields are <b>required</b></h4>
+        <!-- <form action="submitplayer" method="post" target="print_popup"
+        onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');"> -->
+        <form id="playerform" action="">
             <div class="row">
                 <div class="col-md-3 col-md-offset-3">
                     <input type="text" name="playerName" placeholder="Name" />
                 </div>
-                <div class="col-md-5 col-md-offset-1">
+                <div class="col-md-3 col-md-offset-1">
                     <input type="date" name="date"/>
                 </div>
             </div><!--row-->
@@ -24,11 +26,12 @@
                 </div>
             </div><!--row-->
             <div class="row">
-                <div class="col-centered" style="padding-top: 50px">
-                    <button type="submit" id="playersubmit">Submit!</button>
+                <div class="col-centered" style="padding-top: 30px">
+                    <button type="submit" class="btn btn-md btn-primary" id="playersubmit">Submit!</button>
                 </div>
             </div><!--row-->
         </form>
+        <!-- </form> -->
         <!--Angular controllers not working, acting as html element instead of angular even though controllers.js is reading in fine-->
         <!-- <div class="row">
             <div class="centered">
