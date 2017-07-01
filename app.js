@@ -134,6 +134,7 @@ app.post('/submitplayer', function(req, res) {
 var smtpTransport = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
+    port: parseInt(587, 10),
     auth: {
         user: "mississaugabowling",
         pass: "bowlingrocks"
@@ -148,6 +149,7 @@ app.get('/sendemail', function(req, res) {
     };
     console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(err, res){
+        smtpTransport.close();
         if(err){
             console.log(err);
             res.end("error");
