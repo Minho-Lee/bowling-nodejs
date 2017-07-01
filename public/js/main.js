@@ -96,18 +96,28 @@ $("#getplayers").on('click', function() {
                   if (counter === 0) {
                      $("#showScore")
                         .append("<tr><th>Session</th><th>Game 1</th>\
-                                 <th>Game 2</th><th>Game 3</th></tr>");
+                                 <th>Game 2</th><th>Game 3</th>\
+                                 <th>Average</th></tr>");
                   } else {
                      $("#showScore")
                         .html("<tr><th>Session</th><th>Game 1</th>\
-                                 <th>Game 2</th><th>Game 3</th></tr>");
+                                 <th>Game 2</th><th>Game 3</th>\
+                                 <th>Average</th></tr>");
                   };
                   for (var i = 0; i < res.player.session.length; i++) {
+                     var game1 = parseInt(res.player.session[i].game1),
+                         game2 = parseInt(res.player.session[i].game2),
+                         game3 = parseInt(res.player.session[i].game3);
+
+                     var average = (game1 + game2 + game3) / 3;
+
                      $("#showScore")
                         .append("\
-                           <tr><td>"+(i+1)+"</td><td>"+ res.player.session[i].game1 + "</td>\
-                           <td>"+ res.player.session[i].game2 +"</td>\
-                           <td>"+ res.player.session[i].game3+"</td></tr>");
+                           <tr><td>"+(i+1)+"</td>\
+                           <td>"+ game1 + "</td>\
+                           <td>"+ game2 +"</td>\
+                           <td>"+ game3+"</td>\
+                           <td>"+ Math.round(average) + "</tr>");
                   };
                   counter++;
                };
