@@ -77,7 +77,8 @@ cloudant.db.create(dbname, function(err, data) {
 
 app.post('/submitplayer', function(req, res) {
     //console.log(req.body);
-    var playerName = req.body.playerName
+    var playerName = req.body.playerName,
+              date = req.body.date;
     db.find({
         selector: {
             userid: playerName
@@ -95,6 +96,7 @@ app.post('/submitplayer', function(req, res) {
             var session = eventNames[0].session;
 
             session.push({
+                "date" : date,
                 "game1": req.body.game1,
                 "game2": req.body.game2,
                 "game3": req.body.game3
@@ -113,6 +115,7 @@ app.post('/submitplayer', function(req, res) {
             db.insert({
                     'userid': playerName,
                     'session': [{
+                        'date' : date,
                         'game1': req.body.game1,
                         'game2': req.body.game2,
                         'game3': req.body.game3
