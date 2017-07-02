@@ -1,8 +1,8 @@
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
-   $("#wrapper_div").fadeOut(500, function() {
+   $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("submitplayers.html", function() {
-         $("#wrapper_div").fadeIn(500);
+         $("#wrapper_div").fadeIn(300);
          $("#playersubmit").on('click', function() {
             // var dateformat = '/^201[0-9]{1}-[0-9]{2}-[0-9]{2}$/';
             // console.log($("input[type='date']").val());
@@ -63,17 +63,17 @@ $("#submitplayers").on('click', function() {
 });//submitPlayers
 
 $("#goHome").on('click', function() {
-   $("#wrapper_div").fadeOut(500, function() {
+   $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("home.html", function() {
-         $("#wrapper_div").fadeIn(500);
+         $("#wrapper_div").fadeIn(300);
       });//load_main
    });//wrapper_div
 });//goHome
 
 $("#contactUs").on('click', function() {
-   $("#wrapper_div").fadeOut(500, function() {
+   $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("contact.html", function() {
-         $("#wrapper_div").fadeIn(500);
+         $("#wrapper_div").fadeIn(300);
          $("#submitContact").on('click', function() {
             $("#contactInfo")
                .validate({
@@ -112,9 +112,9 @@ $("#contactUs").on('click', function() {
 $("#getplayers").on('click', function() {
    //**important!!: this callback ^ is here to ensure that main.js is loaded properly
    //able to recognize all id/classes before contact.html is loaded
-   $("#wrapper_div").fadeOut(500, function() {
+   $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("getplayers.html", function() {
-         $("#wrapper_div").fadeIn(500);
+         $("#wrapper_div").fadeIn(300);
          /*$("#getInfo").on('click', function() {
             $("#displayInfo").DataTable({
                "paging": false,
