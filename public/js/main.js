@@ -260,18 +260,23 @@ $(document).ready(function () {
 
       $('.nav li').removeClass('active');
       $btn.css({'background-color': 'rgb(34,34,34)', 'color':'#9d9d9d'});
-      
+      console.log($btn[0]);
+      console.log($(this)[0].hash);
       
       //console.log($(this));
 
       //dropdown menu doesn't work with active boostrap list so making
       //a manual hack to add in css and removing them
-      //background-color: "#080808", color: "#fff"
-      //background-color: rgb(34,34,34), color: #9d9d9d
       if (!$parent.hasClass('active')) {
          if ($parent.hasClass('dropdown-content')) {
             $parent.parent().addClass('active');
-            $btn.css({'background-color': '#080808', 'color': '#fff'});
+            if ($(this)[0].hash === "#submitplayers") {
+               $btn = $btn[0];
+            } else if ($(this)[0].hash === "#getplayers") {
+               $btn = $btn[1];
+            }
+            $btn.style.backgroundColor = '#080808';
+            $btn.style.color = '#fff';
          } else {
             $parent.addClass('active');
          }
