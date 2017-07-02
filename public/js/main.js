@@ -149,11 +149,15 @@ $("#getplayers").on('click', function() {
                   console.log("status: " + status);
                   //console.log(typeof(res));
                   if (typeof res === "string") {
+                     //means player is not found
                      $("#results").html("<div id='playerNotFound'>"+ res + "</div>");
                      $("#showScore").html("");
+                     $("#wrapper_chart").hide();
                   } else {
-                     //$("#results").append(JSON.stringify(res));
+                     //means player is found
                      console.log(res.player);
+                     average_array = [];
+                     date_array = [];
                      $("#results").html("");
                      if (counter === 0) {
                         $("#showScore")
@@ -172,57 +176,65 @@ $("#getplayers").on('click', function() {
                             game3 = parseInt(res.player.session[i].game3),
                             date  = res.player.session[i].date;
 
-                        var average = (game1 + game2 + game3) / 3;
-
+                        var average = Math.round((game1 + game2 + game3) / 3);
+                        average_array.push(average);
+                        date_array.push(date);
                         $("#showScore")
                            .append("\
                               <tr><td>"+date+"</td>\
                               <td>"+ game1 + "</td>\
                               <td>"+ game2 +"</td>\
                               <td>"+ game3+"</td>\
-                              <td>"+ Math.round(average) + "</tr>");
-                     };
+                              <td>"+ average + "</tr>");
+                     };//end for
                      counter++;
-                  };
+                     //making chart
+                     ctx = document.getElementById("myChart").getContext('2d');
+
+                     //setting dimensions
+                     //ctx.canvas.width = 2000;
+                     //ctx.canvas.height = 1000;
+                     var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                           labels: date_array,
+                           datasets: [{
+                              label: 'Average by date',
+                              backgroundColor: 'red',
+                              data: average_array,
+                              borderColor: 'red',
+                              borderWidth: 1,
+                              fill: false
+                           }]
+                        },
+                        options: {
+                           responsive: true,
+                           title: {
+                              display: true,
+                              text: "Display Average"
+                           },
+                           scales: {
+                              xAxes: [{
+                                 display: true,
+                                 scaleLabel: {
+                                    display: true,
+                                    labelString: 'Date'
+                                 }
+                              }],
+                              yAxes: [{
+                                 display: true,
+                                 scaleLabel: {
+                                    display: true,
+                                    labelString: 'Average'
+                                 }
+                              }]
+                           }
+                        }
+                     });//myChart
+                     $("#wrapper_chart").show();
+                  };//end if
                   $("#results").append('<br/>');
-                  // //making chart
-                  // var ctx = document.getElementById("myChart").getContext('2d');
-                  // var myChart = new Chart(ctx, {
-                  //     type: 'line',
-                  //     data: {
-                  //         labels: res.player.session.date ,
-                  //         datasets: [{
-                  //             label: '# of Votes',
-                  //             data: [12, 19, 3, 5, 2, 3],
-                  //             backgroundColor: [
-                  //                 'rgba(255, 99, 132, 0.2)',
-                  //                 'rgba(54, 162, 235, 0.2)',
-                  //                 'rgba(255, 206, 86, 0.2)',
-                  //                 'rgba(75, 192, 192, 0.2)',
-                  //                 'rgba(153, 102, 255, 0.2)',
-                  //                 'rgba(255, 159, 64, 0.2)'
-                  //             ],
-                  //             borderColor: [
-                  //                 'rgba(255,99,132,1)',
-                  //                 'rgba(54, 162, 235, 1)',
-                  //                 'rgba(255, 206, 86, 1)',
-                  //                 'rgba(75, 192, 192, 1)',
-                  //                 'rgba(153, 102, 255, 1)',
-                  //                 'rgba(255, 159, 64, 1)'
-                  //             ],
-                  //             borderWidth: 1
-                  //         }]
-                  //     },
-                  //     options: {
-                  //         scales: {
-                  //             yAxes: [{
-                  //                 ticks: {
-                  //                     beginAtZero:true
-                  //                 }
-                  //             }]
-                  //         }
-                  //     }
-                  // });//myChart
+                  console.log(date_array);
                },
                error: function(xhr, textStatus, error){
                   console.log(xhr.statusText);
@@ -258,3 +270,4 @@ $(document).ready(function () {
 });
 
 var counter = 0;
+var average_array = [], date_array = [];
