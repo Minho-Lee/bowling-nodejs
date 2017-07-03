@@ -74,6 +74,10 @@ $("#contactUs").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("contact.html", function() {
          $("#wrapper_div").fadeIn(300);
+         $("#clearContactForm").on('click', function() {
+            $("#message").html("");
+            scrollTo('contactInfo');
+         });
          $("#submitContact").on('click', function() {
             $("#contactInfo")
                .validate({
@@ -104,6 +108,8 @@ $("#contactUs").on('click', function() {
                   }
                //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
                });//contactInfo
+            //defined scrollTo function at bottom. Just smooth scroll animation.
+            scrollTo('message');
          });//submitContact
       });//load_main
    });//wrapper_div
@@ -260,9 +266,8 @@ $(document).ready(function () {
 
       $('.nav li').removeClass('active');
       $btn.css({'background-color': 'rgb(34,34,34)', 'color':'#9d9d9d'});
-      console.log($btn[0]);
-      console.log($(this)[0].hash);
-      
+      //console.log($btn[0]);
+      //console.log($(this)[0].hash);
       //console.log($(this));
 
       //dropdown menu doesn't work with active boostrap list so making
@@ -288,5 +293,10 @@ $(document).ready(function () {
    webshims.polyfill('forms forms-ext');
 });
 
+var scrollTo = function(id) {
+   $('html, body').animate({
+                  scrollTop: $("#" + id).offset().top
+               }, 2000);
+}
 var counter = 0;
 var average_array = [], date_array = [];
