@@ -6,33 +6,28 @@
         <!-- <form action="submitplayer" method="post" target="print_popup"
         onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');"> -->
         <form id="playerform" action="">
-            <div class="row">
-                <div class="col-md-3 col-md-offset-3">
-                    <input type="date" name="date"/>
+            <div class="row text-center">
+                <input type="date" name="date" style="width: 150px"/>
+            </div>
+            <div class="row text-center">
+                <input type="text" name="playerName" placeholder="Name" style="width: 150px"/>
+            </div>
+            <div id="submitGameScore">
+                <div class="row text-center">
+                    <input type="text" name="game1" placeholder="Game 1" ng-model="game1" style="width:80px"/>
                 </div>
-                <div class="col-md-3 col-md-offset-1">
-                    <input type="text" name="playerName" placeholder="Name" />
+                <div class="row text-center">
+                    <input type="text" name="game2" placeholder="Game 2" ng-model="game2" style="width:80px"/>
                 </div>
-            </div><!--row-->
-            <div class="row" id="submitGameScore">
-                <div class="col-md-2 col-md-offset-3" >
-                    <input type="text" name="game1" placeholder="Game 1 Score" ng-model="game1"/>
+                <div class="row text-center">
+                    <input type="text" name="game3" placeholder="Game 3" ng-model="game3" style="width:80px"/>
                 </div>
-                <div class="col-md-2">
-                    <input type="text" name="game2" placeholder="Game 2 Score" ng-model="game2"/>
+                <div class="row col-centered" style="padding-top: 30px">                    
+                        <button type="submit" class="btn btn-sm btn-primary" id="playersubmit">Submit!</button><br/><br/>
+                        <h4 id="playerSubmitMessage"></h4>
                 </div>
-                <div class="col-md-2">
-                    <input type="text" name="game3" placeholder="Game 3 Score" ng-model="game3"/>
-                </div>
-            </div><!--row-->
-            <div class="row">
-                <div class="col-centered" style="padding-top: 30px">
-                    <button type="submit" class="btn btn-md btn-primary" id="playersubmit">Submit!</button><br/><br/>
-                    <h4 id="playerSubmitMessage"></h4>
-                </div>
-            </div><!--row-->
-        </form>
-        <!-- </form> -->
+            </div><!--submitGameScore-->
+        </form><!-- </form> -->
         <!--Angular controllers not working, acting as html element instead of angular even though controllers.js is reading in fine-->
         <!-- <div class="row">
             <div class="centered">
