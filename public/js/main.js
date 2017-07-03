@@ -292,7 +292,8 @@ $(document).ready(function() {
             $parent.parent().addClass('active');
             if ($(this)[0].hash === "#submitplayers") {
                $btn = $btn[0];
-            } else if ($(this)[0].hash === "#getplayers") {
+            } else if ($(this)[0].hash === "#getplayers" ||
+                       $(this)[0].hash === "#getranking") {
                $btn = $btn[1];
             }
             $btn.style.backgroundColor = '#080808';

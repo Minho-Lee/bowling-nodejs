@@ -9,7 +9,6 @@ var Cloudant = require('cloudant');
 var fs = require('fs');
 var cons = require('consolidate');
 var nodemailer = require('nodemailer');
-
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
@@ -207,7 +206,11 @@ app.post('/getplayer', function(req, res) {
 //app.set('view engine', 'html');
 
 app.get('/', function(req, res, next) {
-  res.render('index.html', { title: '' });
+    res.render('index', { title: '' }, function(err, html) {
+        console.log(html);
+        res.send('done!');
+    });
+    
 });
 
 // catch 404 and forward to error handler
