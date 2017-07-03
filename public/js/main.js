@@ -260,6 +260,7 @@ $("#getplayers").on('click', function() {
    });//wrapper_div
 });//getplayers
 
+//login page load
 $("#goToLogin").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("login.html", function() {
@@ -268,7 +269,15 @@ $("#goToLogin").on('click', function() {
    });//wrapper_div
 });//goToLogin
 
-
+//rankings page load
+$("#getrankings").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $("#load_main").load("rankings.html", function() {
+         $("#wrapper_div").fadeIn(300);
+         
+      });
+   });
+});
 
 
 //Change active class as the html pages render
@@ -293,7 +302,7 @@ $(document).ready(function() {
             if ($(this)[0].hash === "#submitplayers") {
                $btn = $btn[0];
             } else if ($(this)[0].hash === "#getplayers" ||
-                       $(this)[0].hash === "#getranking") {
+                       $(this)[0].hash === "#getrankings") {
                $btn = $btn[1];
             }
             $btn.style.backgroundColor = '#080808';
