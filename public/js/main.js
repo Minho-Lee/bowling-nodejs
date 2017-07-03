@@ -4,13 +4,6 @@ $("#submitplayers").on('click', function() {
       $("#load_main").load("submitplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
          $("#playersubmit").on('click', function() {
-            // var dateformat = '/^201[0-9]{1}-[0-9]{2}-[0-9]{2}$/';
-            // console.log($("input[type='date']").val());
-            // if ($("input[type='date']").val().match(dateformat)) {
-            //    console.log('date format good!');
-            // } else {
-            //    console.log('date format BAD');
-            // };
             $("#playerform")
                .validate({
                   debug: false,
@@ -47,6 +40,12 @@ $("#submitplayers").on('click', function() {
                            console.log("status: " + status);
                            console.log(JSON.stringify(res));
                            $("#playerSubmitMessage").html(JSON.stringify(res));
+                           //clearing fields except for the date
+                           for (var i = 1; i <= 3; i++) {
+                              $("input[name='game" + i + "']").val('');   
+                           };
+                           $("input[name='playerName']").val('');
+                           
                         },
                         error: function(xhr, textStatus, error){
                            console.log(xhr.statusText);
@@ -56,7 +55,8 @@ $("#submitplayers").on('click', function() {
                      }); //ajax done
                      //$(form).clear();
                   }
-               });
+               });//playerform
+
          });//playersubmit
       });//load_main
    });//wrapper_div
