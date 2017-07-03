@@ -66,12 +66,13 @@ $("#goHome").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("home.html", function() {
          $("#wrapper_div").fadeIn(300);
-         $("#execute").on('click', function() {
-            $("#showMap").css({'height': '500px'});
-            initMap();
-
-         })
+         $("#goToMap").on('click', function() {
+            $("#load_main").load("map.html", function() {
+               //do nothing
+            });
+         });//goToMap
       });//load_main
+      
    });//wrapper_div
 });//goHome
 
@@ -300,10 +301,10 @@ $(document).ready(function() {
    webshims.polyfill('forms forms-ext');
 });
 
-function initMap() {
+/*function initMap() {
    var uluru = {lat: 43.6505534, lng: -79.6029267}
    var map1 = new google.maps.Map(document.getElementById('myMap'), {
-      zoom: 12,
+      zoom: 14,
       center: uluru
    });
 
@@ -317,11 +318,7 @@ var scrollTo = function(id) {
    $('html, body').animate({
                   scrollTop: $("#" + id).offset().top
                }, 2000);
-}
-
-//loading map onto index and hiding because of dynamic page rendering,
-//without it, I get an error of "Uncaught TypeError: Cannot read property 'firstChild' of null"
-
+}*/
 
 
 var counter = 0;
