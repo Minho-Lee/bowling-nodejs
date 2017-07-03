@@ -30,9 +30,9 @@ body{
     background-color: #000; /* Add a hover color */
 }
 
-.active {
-    background-color: #4CAF50; /* Add an active/current color */
-}
+/*.active {
+    background-color: #4CAF50; /* Add an active/current color 
+}*/
 
 .starter-template {
   padding: 40px 15px;
@@ -160,7 +160,7 @@ body{
 .responstable th:first-child {
   display: table-cell;
   text-align: center;
-  width: 105px;
+  width: 110px;
 }
 .responstable th:nth-child(2) {
   display: table-cell;
