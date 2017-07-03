@@ -113,6 +113,12 @@ body{
     margin: 0 auto;
 }
 
+#myMap {
+  height: 80%;
+  width: 80%;
+  
+}
+
 /*///////////////
 /  teams.html   /
 ///////////////*/

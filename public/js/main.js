@@ -66,6 +66,11 @@ $("#goHome").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("home.html", function() {
          $("#wrapper_div").fadeIn(300);
+         $("#execute").on('click', function() {
+            $("#showMap").css({'height': '500px'});
+            initMap();
+
+         })
       });//load_main
    });//wrapper_div
 });//goHome
@@ -259,7 +264,9 @@ $("#getplayers").on('click', function() {
 
 
 //Change active class as the html pages render
-$(document).ready(function () {
+$(document).ready(function() {
+   //initializing map
+
    $('.nav li a').click(function(e) {
       var $btn = $('.nav li button');
       var $parent = $(this).parent();
@@ -293,10 +300,29 @@ $(document).ready(function () {
    webshims.polyfill('forms forms-ext');
 });
 
+function initMap() {
+   var uluru = {lat: 43.6505534, lng: -79.6029267}
+   var map1 = new google.maps.Map(document.getElementById('myMap'), {
+      zoom: 12,
+      center: uluru
+   });
+
+   var marker = new google.maps.Marker({
+          position: uluru,
+          map: map1
+   });
+};
+
 var scrollTo = function(id) {
    $('html, body').animate({
                   scrollTop: $("#" + id).offset().top
                }, 2000);
 }
+
+//loading map onto index and hiding because of dynamic page rendering,
+//without it, I get an error of "Uncaught TypeError: Cannot read property 'firstChild' of null"
+
+
+
 var counter = 0;
 var average_array = [], date_array = [];
