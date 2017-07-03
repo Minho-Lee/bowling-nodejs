@@ -68,11 +68,10 @@ $("#goHome").on('click', function() {
          $("#wrapper_div").fadeIn(300);
          $("#goToMap").on('click', function() {
             $("#load_main").load("map.html", function() {
-               //do nothing
+               scrollTo('scrollTopOfMap');
             });
          });//goToMap
       });//load_main
-      
    });//wrapper_div
 });//goHome
 
