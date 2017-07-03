@@ -312,12 +312,13 @@ $(document).ready(function() {
           map: map1
    });
 };
+*/
 
 var scrollTo = function(id) {
    $('html, body').animate({
                   scrollTop: $("#" + id).offset().top
                }, 2000);
-}*/
+}
 
 
 var counter = 0;
