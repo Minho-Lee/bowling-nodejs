@@ -260,6 +260,14 @@ $("#getplayers").on('click', function() {
    });//wrapper_div
 });//getplayers
 
+$("#goToLogin").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $('#load_main').load("login.html", function() {
+         $("#wrapper_div").fadeIn(300);
+      });//load_main
+   });//wrapper_div
+});//goToLogin
+
 
 
 
