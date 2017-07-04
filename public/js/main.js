@@ -171,9 +171,9 @@ $("#getplayers").on('click', function() {
                         var game1 = parseInt(res.player.session[i].game1),
                             game2 = parseInt(res.player.session[i].game2),
                             game3 = parseInt(res.player.session[i].game3),
+                            average = parseInt(res.player.session[i].average)
                             date  = res.player.session[i].date;
-
-                        var average = Math.round((game1 + game2 + game3) / 3);
+                            
                         average_array.push(average);
                         date_array.push(date);
                         $("#showScore")
