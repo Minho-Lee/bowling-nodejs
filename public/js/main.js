@@ -299,6 +299,7 @@ $("#getrankings").on('click', function() {
                         //displaying onto a table using DataTable library
                         var table = $("#displayRankings").DataTable({
                            "data" : player_array, 
+                           "ordering": false,
                            "columns" : [
                               { "title" : "Rank" },
                               { "title" : "Name" },
@@ -325,8 +326,8 @@ $("#getrankings").on('click', function() {
                      console.log(error);
                   }//error
                });//ajax done
-               //disabling retrieve button after submitting
-               $(this).prop('disabled', true);
+               //hide retrieve button after submitting
+               $(this).hide(300);
             
          });//rankings
       });
