@@ -200,6 +200,7 @@ app.post('/getplayer', function(req, res) {
 });
 
 app.post('/retrieverankings', function(req, res) {
+    console.log(req.body.userid);
     db.find({
         selector: {
             userid: req.body.userid
