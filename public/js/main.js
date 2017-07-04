@@ -279,11 +279,15 @@ $("#getrankings").on('click', function() {
             $.ajax({
                type: "POST",
                url: "/retrieverankings",
-               data: { userid: "" },
+               data: { 'text': 'userid' },
                success: function(res, status, xhr) {
                   console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
                   console.log("status: " + status);
-                  $("#rankingMsg").html(JSON.stringify(res));
+                  if (typeof res === "string") {
+                     $("#rankingMsg").html(res);
+                  } else {
+                     $("#rankingMsg").html(JSON.stringify(res));
+                  };
                }
             });
          });   

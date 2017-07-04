@@ -200,16 +200,24 @@ app.post('/getplayer', function(req, res) {
 });
 
 app.post('/retrieverankings', function(req, res) {
-    console.log(req.body.userid);
     db.find({
         selector: {
-            userid: req.body.userid
+            //userid: req.body.userid
+            //calling every doc except for _design/player by querying 'userid'
+            $text: req.body.text
         }
     }, function(err, result) {
         if (err) throw err;
 
         eventNames = result.docs;
-        console.log(eventNames);
+        if (result.docs.length > 0) {
+            res.json({
+                eventNames
+            });
+        } else {
+            console.log('Database is empty! Please add in more players!');
+            res.send('Database is empty! Please add in more players!');
+        };
     });//db.find
 });
 
