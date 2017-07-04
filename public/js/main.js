@@ -370,17 +370,17 @@ $(document).ready(function() {
    });
    
    //clicking elsewhere will close navbar (for mobile purposes)
-   $(document).click(function (event) {
-      var clickover = $(event.target);
-      var _opened = $(".navbar-collapse").hasClass("in");
-      //console.log(_opened);
-      if (_opened === true && !clickover.hasClass("navbar-toggle")) {
-      //   console.log('outside clicked');
-         $("button.navbar-toggle").click();
-      } else {
-      //   console.log('inside clicked');
-      }
-    });
+   // $(document).click(function (event) {
+   //    var clickover = $(event.target);
+   //    var _opened = $(".navbar-collapse").hasClass("in");
+   //    //console.log(_opened);
+   //    if (_opened === true && !clickover.hasClass("navbar-collapse")) {
+   //       console.log('outside clicked');
+   //       $("button.navbar-toggle").click();
+   //    } else {
+   //    //   console.log('inside clicked');
+   //    }
+   //  });
 
    webshims.setOptions('forms-ext', {types: 'date'});
    webshims.polyfill('forms forms-ext');
