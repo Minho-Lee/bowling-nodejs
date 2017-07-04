@@ -196,8 +196,21 @@ app.post('/getplayer', function(req, res) {
             console.log("Player " + playerName + " does not exist in the databse!");
             res.send("Player " + playerName + " does not exist in the databse!")
         }
-    });
-})
+    });//db.find
+});
+
+app.post('/retrieverankings', function(req, res) {
+    db.find({
+        selector: {
+            userid: req.body.userid
+        }
+    }, function(err, result) {
+        if (err) throw err;
+
+        eventNames = result.docs;
+        console.log(eventNames);
+    });//db.find
+});
 
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');

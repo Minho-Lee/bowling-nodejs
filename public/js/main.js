@@ -126,6 +126,7 @@ $("#getplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("getplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
+
          /*$("#getInfo").on('click', function() {
             $("#displayInfo").DataTable({
                "paging": false,
@@ -274,7 +275,19 @@ $("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
-         
+         $("#rankings").on('click', function() {
+            $.ajax({
+               type: "POST",
+               url: "/retrieverankings",
+               data: { userid: "" },
+               success: function(res, status, xhr) {
+                  console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+                  console.log("status: " + status);
+                  $("#rankingMsg").html(JSON.stringify(res));
+               }
+            });
+         });   
+
       });
    });
 });
