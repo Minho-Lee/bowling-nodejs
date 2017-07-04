@@ -173,7 +173,7 @@ $("#getplayers").on('click', function() {
                             game3 = parseInt(res.player.session[i].game3),
                             average = parseInt(res.player.session[i].average)
                             date  = res.player.session[i].date;
-                            
+
                         average_array.push(average);
                         date_array.push(date);
                         $("#showScore")
@@ -275,15 +275,14 @@ $("#getrankings").on('click', function() {
                         //every doc is called, now separate the names
                         //$("#rankingMsg").html(JSON.stringify(res));
                         var docs = res.eventNames;
-                        console.log(docs.length);
+                        console.log("# of players in db : " +docs.length);
                         //iterate through all docs
                         for (var outer = 0; outer < docs.length; outer++) {
+                           $("#rankingMsg").append(docs[outer].userid + ": ");
                            //iterate through all sessions
-                           for (var mid = 0; mid < docs[outer].length; mid++) {
-                              //iterate through each sessions
-                              for (var inner = 0; inner < docs[outer].session.length; inner++) {
-
-                              }
+                           for (var mid = 0; mid < docs[outer].session.length; mid++) {
+                              console.log('outer: ' + outer + "/inner: " + mid);
+                              $("#rankingMsg").append(docs[outer].session[mid].average + "<br/>");
                            }; //end for
                         }; //end for
                      }
