@@ -3,7 +3,7 @@
     <div class="row col-centered">
     	<h1 style="padding: 30px 0px">Rankings</h1>
     	
-        <table id="displayRankings" cellspacing="0" width="50%">
+        <table id="displayRankings" class="display" cellspacing="0" width="50%">
             <thead>
                 <tr>
                     <th>Rank</th>
@@ -12,7 +12,11 @@
                 </tr>
             </thead>
             <tfoot>
-            	<tr><td>Decimal points are hidden!</td></tr>
+            	<tr>
+            		<th>Rank</th>
+            		<th>Name</th>
+            		<th>Average</th>
+            	</tr>
             </tfoot>
         </table>
         <button type="submit" id="rankings">Retrieve!</button>

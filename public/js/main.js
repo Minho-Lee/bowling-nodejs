@@ -31,10 +31,16 @@ $("#submitplayers").on('click', function() {
                      game3: "Need a valid score!"
                   },
                   submitHandler: function(form) {
+                     var average = 0;
+                     //submitting 'average' field into db in order to make getrankings faster
+                     for (var i = 1; i <= 3; i++) {
+                        average += parseInt($("input[name='game" + i + "']").val());   
+                     };
+                     average = Math.round(average / 3);
                      $.ajax({
                         type: "POST",
                         url: "submitplayer",
-                        data: $(form).serialize(),
+                        data: $(form).serialize() + "&average=" + average,
                         success: function(res, status, xhr) {
                            console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
                            console.log("status: " + status);
@@ -126,27 +132,6 @@ $("#getplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("getplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
-
-         /*$("#getInfo").on('click', function() {
-            $("#displayInfo").DataTable({
-               "paging": false,
-               "processing": true,
-               "serverSide": true,
-               "ajax": {
-                  type: "POST",
-                  url: "/getplayer",
-                  data: { userid: $('#playerName').val() },
-                  dataSrc: ''
-               },
-               "columns" : [
-                  { data: "session" },
-                  { data: "session[0].game1" },
-                  { data: "session[0].game2" },
-                  { data: "session[0].game3" }
-               ]
-            });
-         });*/
-
 
          //making an ajax post call to retrieve data from cloudant
          $("#getInfo").click(function() {
@@ -271,26 +256,64 @@ $("#goToLogin").on('click', function() {
 });//goToLogin
 
 //rankings page load
+var ranking_avg = [];
 $("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
          $("#rankings").on('click', function() {
-            $.ajax({
-               type: "POST",
-               url: "/retrieverankings",
-               data: { 'text': 'userid' },
-               success: function(res, status, xhr) {
-                  console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
-                  console.log("status: " + status);
-                  if (typeof res === "string") {
-                     $("#rankingMsg").html(res);
-                  } else {
-                     $("#rankingMsg").html(JSON.stringify(res));
-                  };
-               }
-            });
-         });   
+               $.ajax({
+                  type: "POST",
+                  url: "/retrieverankings",
+                  data: { 'text': 'userid' },
+                  success: function(res, status, xhr) {
+                     console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+                     console.log("status: " + status);
+                     if (typeof res === "string") {
+                        $("#rankingMsg").html(res);
+                     } else {
+                        //every doc is called, now separate the names
+                        //$("#rankingMsg").html(JSON.stringify(res));
+                        var docs = res.eventNames;
+                        console.log(docs.length);
+                        //iterate through all docs
+                        for (var outer = 0; outer < docs.length; outer++) {
+                           //iterate through all sessions
+                           for (var mid = 0; mid < docs[outer].length; mid++) {
+                              //iterate through each sessions
+                              for (var inner = 0; inner < docs[outer].session.length; inner++) {
+
+                              }
+                           }; //end for
+                        }; //end for
+                     }
+                  },//success
+                  error: function(xhr, textStatus, error){
+                     console.log(xhr.statusText);
+                     console.log(textStatus);
+                     console.log(error);
+                  }//error
+               });//ajax done
+            
+            /*$("#displayInfo").DataTable({
+               "paging": false,
+               "processing": true,
+               "serverSide": true,
+               "ajax": {
+                  type: "POST",
+                  url: "/getplayer",
+                  data: { userid: $('#playerName').val() },
+                  dataSrc: ''
+               },
+               "columns" : [
+                  { data: "session" },
+                  { data: "session[0].game1" },
+                  { data: "session[0].game2" },
+                  { data: "session[0].game3" }
+               ]
+            });*/
+         });//rankings
+
 
       });
    });

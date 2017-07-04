@@ -99,7 +99,8 @@ app.post('/submitplayer', function(req, res) {
                 "date" : date,
                 "game1": req.body.game1,
                 "game2": req.body.game2,
-                "game3": req.body.game3
+                "game3": req.body.game3,
+                "average": req.body.average
             });
 
             var user = {
@@ -118,7 +119,8 @@ app.post('/submitplayer', function(req, res) {
                         'date' : date,
                         'game1': req.body.game1,
                         'game2': req.body.game2,
-                        'game3': req.body.game3
+                        'game3': req.body.game3,
+                        'average': req.body.average
                     }]
                 },
                 function(err, data) {
@@ -200,9 +202,10 @@ app.post('/getplayer', function(req, res) {
 });
 
 app.post('/retrieverankings', function(req, res) {
+    //console.log(req.body.text);
+    console.log('retrieving all docs for ranks!');
     db.find({
         selector: {
-            //userid: req.body.userid
             //calling every doc except for _design/player by querying 'userid'
             $text: req.body.text
         }
