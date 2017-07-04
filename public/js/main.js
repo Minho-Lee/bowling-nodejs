@@ -330,9 +330,9 @@ $("#getrankings").on('click', function() {
                $(this).hide(300);
             
          });//rankings
-      });
-   });
-});
+      });//load_main
+   });//wrapper_div
+});//getrankings.html
 
 
 //Change active class as the html pages render
@@ -369,6 +369,19 @@ $(document).ready(function() {
       e.preventDefault();
    });
    
+   //clicking elsewhere will close navbar (for mobile purposes)
+   $(document).click(function (event) {
+      var clickover = $(event.target);
+      var _opened = $(".navbar-collapse").hasClass("in");
+      //console.log(_opened);
+      if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+      //   console.log('outside clicked');
+         $("button.navbar-toggle").click();
+      } else {
+      //   console.log('inside clicked');
+      }
+    });
+
    webshims.setOptions('forms-ext', {types: 'date'});
    webshims.polyfill('forms forms-ext');
 });
@@ -387,6 +400,7 @@ $(document).ready(function() {
 };
 */
 
+//scrolls to the given id's position
 var scrollTo = function(id) {
    $('html, body').animate({
                   scrollTop: $("#" + id).offset().top
