@@ -1,7 +1,5 @@
 var mainApp = angular.module('mainApp', []);
 
-console.log("CONTROLLER.JS LOADED");
-
 mainApp.controller('mainCtrl', function($scope) {
 	console.log("mainCtrl loaded")
 

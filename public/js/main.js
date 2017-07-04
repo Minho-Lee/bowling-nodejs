@@ -1,3 +1,5 @@
+console.log("MAIN.JS LOADED");
+
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
@@ -256,12 +258,13 @@ $("#goToLogin").on('click', function() {
 });//goToLogin
 
 //rankings page load
-var ranking_avg = [];
 $("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
          $("#rankings").on('click', function() {
+               //clear everytime submit button is pressed
+               var player_array = [];
                $.ajax({
                   type: "POST",
                   url: "/retrieverankings",
@@ -278,14 +281,25 @@ $("#getrankings").on('click', function() {
                         console.log("# of players in db : " +docs.length);
                         //iterate through all docs
                         for (var outer = 0; outer < docs.length; outer++) {
-                           $("#rankingMsg").append(docs[outer].userid + ": ");
                            //iterate through all sessions
-                           for (var mid = 0; mid < docs[outer].session.length; mid++) {
-                              console.log('outer: ' + outer + "/inner: " + mid);
-                              $("#rankingMsg").append(docs[outer].session[mid].average + "<br/>");
+                           var name = docs[outer].userid;
+                           var avg_of_avg = 0;
+                           for (var inner = 0; inner < docs[outer].session.length; inner++) {
+                              // $("#rankingMsg").append(docs[outer].session[inner].average + "<br/>");
+                              avg_of_avg += parseInt((docs[outer].session[inner].average));
                            }; //end for
+                           avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
+                           player_array.push(name, avg_of_avg);
                         }; //end for
-                     }
+
+                        //at this point player_array is [name, average for each session]
+                        $("#rankingMsg").append(player_array.toString());
+
+                        for (var i = 0; i < player_array.length; i++) {
+
+                        }
+
+                     };//end if
                   },//success
                   error: function(xhr, textStatus, error){
                      console.log(xhr.statusText);
@@ -293,7 +307,8 @@ $("#getrankings").on('click', function() {
                      console.log(error);
                   }//error
                });//ajax done
-            
+               //disabling retrieve button after submitting
+               $(this).prop('disabled', true);
             /*$("#displayInfo").DataTable({
                "paging": false,
                "processing": true,
