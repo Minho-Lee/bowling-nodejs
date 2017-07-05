@@ -393,19 +393,27 @@ $(document).ready(function() {
    //    }
    //  });
 
-   $(function(){ 
+   $(document).click(function(event) {
+      var clickover = $(event.target);
+      var _opened = $(".navbar-collapse").hasClass('in');
+      
+
       var navMain = $(".navbar-collapse"); // avoid dependency on #id
       // "a:not([data-toggle])" - to avoid issues caused
       // when you have dropdown inside navbar
+
       navMain.on("click", "a:not([data-toggle])", null, function () {
          navMain.collapse('hide');
+      });
+
+      if (!clickover.hasClass('navbar-collapse') && _opened) {
+         navMain.collapse('hide');
+      };
    });
-      
-});//document.ready
 
    webshims.setOptions('forms-ext', {types: 'date'});
    webshims.polyfill('forms forms-ext');
-});
+});//document.ready
 
 /*function initMap() {
    var uluru = {lat: 43.6505534, lng: -79.6029267}
