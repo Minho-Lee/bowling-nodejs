@@ -14,15 +14,18 @@ $("#submitplayers").on('click', function() {
                      date: "required",
                      game1: {
                         required: true,
-                        number: true
+                        number: true,
+                        range: [1, 300]
                      },
                      game2: {
                         required: true,
-                        number: true
+                        number: true,
+                        range: [1, 300]
                      },
                      game3: {
                         required: true,
-                        number: true
+                        number: true,
+                        range: [1, 300]
                      }
                   },
                   messages: {
