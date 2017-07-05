@@ -41,7 +41,8 @@ if (process.env.VCAP_SERVICES) {
         console.log("password = " + services.cloudantNoSQLDB[0].credentials.password);
     }
 }
-
+console.log('process.env');
+console.log(process.env);
 //Connect using cloudant npm and URL obtained from previous step
 var cloudant = Cloudant({
     url: cloudant_url
