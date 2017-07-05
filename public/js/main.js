@@ -397,7 +397,8 @@ $(document).ready(function() {
       var clickover = $(event.target);
       var _opened = $(".navbar-collapse").hasClass('in');
       
-
+      console.log(clickover);
+      console.log(clickover.hasClass('dropdown'))
       var navMain = $(".navbar-collapse"); // avoid dependency on #id
       // "a:not([data-toggle])" - to avoid issues caused
       // when you have dropdown inside navbar
@@ -406,7 +407,9 @@ $(document).ready(function() {
          navMain.collapse('hide');
       });
 
-      if (!clickover.hasClass('navbar-collapse') && _opened) {
+      if ((!clickover.hasClass('navbar-collapse') 
+            && !clickover.hasClass('dropdown'))
+            && _opened) {
          navMain.collapse('hide');
       };
    });
