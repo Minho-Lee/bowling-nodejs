@@ -287,3 +287,10 @@ body{
 #displayRankings {
   margin:0 auto;
 }
+
+.myMap{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}

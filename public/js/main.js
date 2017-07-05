@@ -201,7 +201,7 @@ $("#getplayers").on('click', function() {
                         data: {
                            labels: date_array,
                            datasets: [{
-                              label: 'Average by date',
+                              label: 'Average',
                               backgroundColor: 'red',
                               data: average_array,
                               borderColor: 'red',
@@ -256,6 +256,8 @@ $("#goToLogin").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("login.html", function() {
          $("#wrapper_div").fadeIn(300);
+         
+         
       });//load_main
    });//wrapper_div
 });//goToLogin
@@ -341,7 +343,6 @@ $("#getrankings").on('click', function() {
                });//ajax done
                //hide retrieve button after submitting
                $(this).hide(300);
-            
          });//rankings
       });//load_main
    });//wrapper_div
