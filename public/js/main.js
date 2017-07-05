@@ -382,15 +382,26 @@ $(document).ready(function() {
    //clicking elsewhere will close navbar (for mobile purposes)
    // $(document).click(function (event) {
    //    var clickover = $(event.target);
-   //    var _opened = $(".navbar-collapse").hasClass("in");
-   //    //console.log(_opened);
+   //    var _opened = $(".navbar-collapse").hasClass("navbar-collapse") && 
+   //                  $(".navbar-collapse").hasClass("in");
+   //    console.log(clickover);
    //    if (_opened === true && !clickover.hasClass("navbar-collapse")) {
    //       console.log('outside clicked');
    //       $("button.navbar-toggle").click();
    //    } else {
-   //    //   console.log('inside clicked');
+   //       console.log('inside clicked');
    //    }
    //  });
+
+   $(function(){ 
+      var navMain = $(".navbar-collapse"); // avoid dependency on #id
+      // "a:not([data-toggle])" - to avoid issues caused
+      // when you have dropdown inside navbar
+      navMain.on("click", "a:not([data-toggle])", null, function () {
+         navMain.collapse('hide');
+   });
+      
+});//document.ready
 
    webshims.setOptions('forms-ext', {types: 'date'});
    webshims.polyfill('forms forms-ext');
