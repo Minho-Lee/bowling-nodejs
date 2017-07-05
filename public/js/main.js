@@ -65,10 +65,10 @@ $("#submitplayers").on('click', function() {
                         }
                      }); //ajax done
                      //$(form).clear();
-                  }
+                  }//submitHandler
                });//playerform
-
-         });//playersubmit
+            scrollTo('playerSubmitMessage')
+         });//playersubmit button
       });//load_main
    });//wrapper_div
 });//submitPlayers
