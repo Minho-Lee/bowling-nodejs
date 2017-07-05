@@ -407,9 +407,8 @@ $(document).ready(function() {
          navMain.collapse('hide');
       });
 
-      if ((!clickover.hasClass('navbar-collapse') 
-            && !clickover.hasClass('dropdown'))
-            && _opened) {
+      if (!clickover.hasClass('navbar-collapse') && !clickover.hasClass('dropdown') 
+          && !clickover.hasClass('dropbtn') && _opened) {
          navMain.collapse('hide');
       };
    });
