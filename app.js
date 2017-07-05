@@ -157,25 +157,31 @@ app.post('/submitplayer', function(req, res) {
 var smtpTransport = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
-    port: parseInt(587, 10),
+    port: 465,
+    secure: true, //use TLS
     auth: {
         user: email_userid,
         pass: email_password
     }
 });
 
+
+
 app.get('/sendemail', function(req, response) {
-    var result = "";
-    var mailOptions = {
-        "to": "mississaugabowling@gmail.com",
-        "subject": req.query.subject,
-        "text": req.query.message + "\nE-mail : " + req.query.email,
-        "date": new Date()
-    };
     //careful when there are two sets of responses. Make sure to use
     //different naming conventions since 'res' will collide and only use
     //the inner variable, outer 'res' will be out of scope
+    var mailOptions = {
+        "from": req.query.email,
+        "to": "mississaugabowling@gmail.com",
+        "replyTo": req.query.email,
+        "subject": req.query.subject,
+        "text": req.query.message + "\nE-mail back to : " + req.query.email,
+        "date": new Date()
+    };
+
     smtpTransport.sendMail(mailOptions, function(err, res){
+        smtpTransport.close();
         if(err){
             console.log(err);
             response.json({
@@ -183,14 +189,11 @@ app.get('/sendemail', function(req, response) {
             });
         } else {
             console.log("Message sent!");
+            //console.log(res);
             response.json({
                 'status': 'success'
-            })
+            });
         }
-        smtpTransport.close();
-        // response.json({
-        //     'status' : status
-        // });
     });
 });
 

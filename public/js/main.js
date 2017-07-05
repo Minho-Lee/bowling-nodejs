@@ -43,6 +43,7 @@ $("#submitplayers").on('click', function() {
                      };
                      average = Math.round(average / 3);
                      $.ajax({
+                        cache: false,
                         type: "POST",
                         url: "submitplayer",
                         data: $(form).serialize() + "&average=" + average,
@@ -120,33 +121,31 @@ $("#contactUs").on('click', function() {
                   },
                   submitHandler: function(form) {
                      $.ajax({
+                        cache: false,
                         url: 'sendemail',
                         type: 'GET',
                         data: $(form).serialize(),
-                        success: function(res, status, xhr) {
-                           //res from get request comes back before nodemailer action is done
-                           //thus status is empty upon clicking 'send message' until later.
-                           //how to fix??
-                           console.log("good send!");
-                           email_status = res.status;
-                        },
-                        error: function(xhr, textStatus, error){
-                           console.log('ajax error on nodemailer!');
-                           console.log(xhr.statusText);
-                           console.log(textStatus);
-                           console.log(error);
-                        }//error
+                     }) //ajax call complete
+                     .done(function(data) {
+                        //gets a confirmation from nodemailer to see
+                        if (data.status === "success") {
+                           $("#submitMessage").prop('disabled', true)
+                           $("#messageSent").empty()
+                                            .html("Email is sent to mississaugabowling@gmail.com");
+                        } else {
+                           $("#messageSent").empty()
+                                            .html("Error has occurred, please try again later.");
+                        };
+                        //defined scrollTo function at bottom. Just smooth scroll animation.
+                        scrollTo('messageSent');
+                     })
+                     .fail(function(xhr, textStatus, err) {
+                        console.log(xhr.statusText);
+                        console.log(textStatus);
+                        console.log(error);
                      });
                   }//submitHandler
                });//contactInfo
-               console.log(email_status);
-               console.log(email_status === "success");
-            if (email_status === "success") {
-               $("#submitMessage").prop('disabled', true)
-               $("#messageSent").empty().html("Email is sent to mississaugabowling@gmail.com");
-               //defined scrollTo function at bottom. Just smooth scroll animation.
-               scrollTo('messageSent');
-            }
          });//submitMessage
       });//load_main
    });//wrapper_div
