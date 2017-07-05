@@ -289,7 +289,7 @@ $("#getrankings").on('click', function() {
                               avg_of_avg += parseInt((docs[outer].session[inner].average));
                            }; //end for
                            avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
-                           player_array.push([0, name, avg_of_avg]);
+                           player_array.push([0, name, parseInt(avg_of_avg)]);
                         }; //end for
                         //at this point player_array is [name, average for each session]
                         console.log(player_array);
@@ -299,7 +299,7 @@ $("#getrankings").on('click', function() {
                         //displaying onto a table using DataTable library
                         var table = $("#displayRankings").DataTable({
                            "data" : player_array, 
-                           "ordering": false,
+                           //"paging": false,
                            "columns" : [
                               { "title" : "Rank" },
                               { "title" : "Name" },
@@ -309,8 +309,18 @@ $("#getrankings").on('click', function() {
                               "searchable": false,
                               "orderable": false,
                               "targets": 0
+                           },
+                           {
+                              "searchable": true,
+                              "orderable": false,
+                              "targets": 1
+                           },
+                           {
+                              "searchable": false,
+                              "orderable": false,
+                              "targets": 2
                            }],
-                           "order": [[2, 'desc']]
+                           "order" : [[2, 'desc']]
                         });//dataTable init
                         //puts a default index rank
                         table.on( 'order.dt search.dt', function () {
