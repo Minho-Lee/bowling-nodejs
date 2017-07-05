@@ -9,9 +9,10 @@ var Cloudant = require('cloudant');
 var fs = require('fs');
 var cons = require('consolidate');
 var nodemailer = require('nodemailer');
+var nodemailer_config = require('./config.js')
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
-var cfenv = require('cfenv');
+//var cfenv = require('cfenv');
 
 // create a new express server
 var app = express();
@@ -147,8 +148,8 @@ var smtpTransport = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: parseInt(587, 10),
     auth: {
-        user: process.env.nodemailer_userid,
-        pass: process.env.nodemailer_password
+        user: (process.env.nodemailer_userid || nodemailer_config.nodemailer_userid),
+        pass: (process.env.nodemailer_password || nodemailer_config.nodemailer_password)
     }
 });
 
