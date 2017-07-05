@@ -263,19 +263,26 @@ body{
 ///////////////*/
 
 #contactInfo input, textarea{
-    width: 300px;
+  width: 300px;
 }
 
-#contactInfo label {
-    font-size: 20px;
-    padding: 5px 0px;
-    font-weight: normal;
+#contactInfo label.contactFields{
+  font-size: 20px;
+  padding: 5px 0px;
+  font-weight: normal;
 }
 
 #contactInfo .btn-block {
-    width: 300px;
+  width: 300px;
 }
 
+#messageSent {
+  font-size: 15px;
+}
+
+.error {
+  font-size: 15px;
+}
 /*///////////////
 /   login.html  /
 ///////////////*/

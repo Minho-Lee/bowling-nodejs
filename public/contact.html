@@ -6,8 +6,7 @@
     	<div class="col-md-6">
             <h4> If you want to help make this website better or have any suggestions, feel free to contact us!<br/><br/>
 
-                <i class="fa fa-phone" aria-hidden="true"><b>: xxx-xxx-xxxx</b></i><br/><br/>
-                <i class="fa fa-envelope-square" aria-hidden="true"><b>: example@google.com</b></i><br/><br/>
+                <i class="fa fa-envelope-square" aria-hidden="true"><b>: mississaugabowling@google.com</b></i><br/><br/>
 
                 Some random bowling facts:
                 <ul><br/>
@@ -21,17 +20,17 @@
         <div class="col-md-5 col-md-offset-1">
             <form id="contactInfo" action="">
                 <h4>Please note: all fields are <b>required.</b></h4>
-                <label>Name</label><br/>
+                <label class="contactFields">Name</label><br/>
                 <input type="text" name="name" placeholder="Name" /><br/>
-                <label>Email</label><br/>
-                <input type="email" name="email" placeholder="email"/><br/>
-                <label>Subject</label><br/>
+                <label class="contactFields">Email</label><br/>
+                <input type="email" name="email" placeholder="Email"/><br/>
+                <label class="contactFields">Subject</label><br/>
                 <input type="text" name="subject" placeholder="Subject"/><br/>
-                <label>Comment</label><br/>
-                <textarea name="comment"></textarea><br/>
-                <button class="btn btn-primary btn-block" id="submitContact">Send Message</button>
+                <label class="contactFields">Message</label><br/>
+                <textarea name="message"></textarea><br/>
+                <button class="btn btn-primary btn-block" id="submitMessage">Send Message</button>
                 <button class="btn btn-block btn-danger" type="reset" id="clearContactForm">Clear</button>
             </form>
-            <span id="message"></span>
+            <span id="messageSent"></span>
         </div>
     </div><!--row-->

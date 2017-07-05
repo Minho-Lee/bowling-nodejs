@@ -91,10 +91,12 @@ $("#contactUs").on('click', function() {
       $("#load_main").load("contact.html", function() {
          $("#wrapper_div").fadeIn(300);
          $("#clearContactForm").on('click', function() {
-            $("#message").html("");
+            $("#messageSent").html("");
+            $("#submitMessage").prop('disabled', false);
             scrollTo('contactInfo');
          });
-         $("#submitContact").on('click', function() {
+         $("#submitMessage").on('click', function() {
+            email_status = "";
             $("#contactInfo")
                .validate({
                   debug: false,
@@ -104,29 +106,48 @@ $("#contactUs").on('click', function() {
                         required: true,
                         email: true
                      },
-                     comment: "required",
+                     message: "required",
                      subject: "required"
                   },
                   messages: {
                      name: "We need to know who you are!",
-                     email:"Need a valid email to contact you!",
-                     comment: "Let us hear from you!",
+                     email: {
+                        required: "Need a valid email to contact you!",
+                        email: "Email must be in form of name@domain.com"
+                     },
+                     message: "Let us hear from you!",
                      subject: "What is the message about?"
                   },
                   submitHandler: function(form) {
-                     $.get("sendemail", $(form).serialize(), function(data) {
-                           if (data==="sent") {
-                              $("#message").empty().html("\
-                                 Email is sent to minho.lee.93@hotmail.com");
-                              };
-                           });
-                     $("#message").html("<h4>Message Sent!</h4>");
-                  }
-               //add SubmitHandler to do ajax post call (use serialize to use stuff inside form)
+                     $.ajax({
+                        url: 'sendemail',
+                        type: 'GET',
+                        data: $(form).serialize(),
+                        success: function(res, status, xhr) {
+                           //res from get request comes back before nodemailer action is done
+                           //thus status is empty upon clicking 'send message' until later.
+                           //how to fix??
+                           console.log("good send!");
+                           email_status = res.status;
+                        },
+                        error: function(xhr, textStatus, error){
+                           console.log('ajax error on nodemailer!');
+                           console.log(xhr.statusText);
+                           console.log(textStatus);
+                           console.log(error);
+                        }//error
+                     });
+                  }//submitHandler
                });//contactInfo
-            //defined scrollTo function at bottom. Just smooth scroll animation.
-            scrollTo('message');
-         });//submitContact
+               console.log(email_status);
+               console.log(email_status === "success");
+            if (email_status === "success") {
+               $("#submitMessage").prop('disabled', true)
+               $("#messageSent").empty().html("Email is sent to mississaugabowling@gmail.com");
+               //defined scrollTo function at bottom. Just smooth scroll animation.
+               scrollTo('messageSent');
+            }
+         });//submitMessage
       });//load_main
    });//wrapper_div
 });//contactUs
@@ -256,8 +277,8 @@ $("#goToLogin").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("login.html", function() {
          $("#wrapper_div").fadeIn(300);
-         
-         
+
+
       });//load_main
    });//wrapper_div
 });//goToLogin
@@ -383,26 +404,11 @@ $(document).ready(function() {
       e.preventDefault();
    });
    
-   //clicking elsewhere will close navbar (for mobile purposes)
-   // $(document).click(function (event) {
-   //    var clickover = $(event.target);
-   //    var _opened = $(".navbar-collapse").hasClass("navbar-collapse") && 
-   //                  $(".navbar-collapse").hasClass("in");
-   //    console.log(clickover);
-   //    if (_opened === true && !clickover.hasClass("navbar-collapse")) {
-   //       console.log('outside clicked');
-   //       $("button.navbar-toggle").click();
-   //    } else {
-   //       console.log('inside clicked');
-   //    }
-   //  });
-
+   //clicking elsewhere will close navbar (for mobile purposes, or reduced browser size)
    $(document).click(function(event) {
       var clickover = $(event.target);
       var _opened = $(".navbar-collapse").hasClass('in');
       
-      console.log(clickover);
-      console.log(clickover.hasClass('dropdown'))
       var navMain = $(".navbar-collapse"); // avoid dependency on #id
       // "a:not([data-toggle])" - to avoid issues caused
       // when you have dropdown inside navbar
@@ -442,6 +448,6 @@ var scrollTo = function(id) {
                }, 2000);
 }
 
-
+var email_status = "";
 var counter = 0;
 var average_array = [], date_array = [], player_array = [];
