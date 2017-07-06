@@ -100,7 +100,6 @@ $("#contactUs").on('click', function() {
             scrollTo('contactInfo');
          });
          $("#submitMessage").on('click', function() {
-            email_status = "";
             $("#contactInfo")
                .validate({
                   debug: false,
@@ -178,17 +177,22 @@ $("#getplayers").on('click', function() {
                      $("#showScore").html("");
                      $("#wrapper_chart").hide();
                   } else {
+                     //console.log(res.player);
+
                      //means player is found
-                     console.log(res.player);
+                     //reset playerAverage to display the average for new player
+                     playerAverage = 0
                      average_array = [];
                      date_array = [];
                      $("#results").html("");
                      if (counter === 0) {
+                        //if first time making the table
                         $("#showScore")
                            .append("<tr><th>Date</th><th>Game 1</th>\
                                     <th>Game 2</th><th>Game 3</th>\
                                     <th>Average</th></tr>");
                      } else {
+                        //if table has been made before
                         $("#showScore")
                            .html("<tr><th>Date</th><th>Game 1</th>\
                                     <th>Game 2</th><th>Game 3</th>\
@@ -201,6 +205,7 @@ $("#getplayers").on('click', function() {
                             average = parseInt(res.player.session[i].average)
                             date  = res.player.session[i].date;
 
+                        playerAverage += average;
                         average_array.push(average);
                         date_array.push(date);
                         $("#showScore")
@@ -211,6 +216,9 @@ $("#getplayers").on('click', function() {
                               <td>"+ game3+"</td>\
                               <td>"+ average + "</tr>");
                      };//end for
+                     playerAverage = Math.round(playerAverage / res.player.session.length);
+                     $("#playerAverage").html('<h4>Player ' + $("#playerName").val() + 
+                        ' currently has average of ' + playerAverage + '!</h4>');
                      counter++;
                      //making chart
                      ctx = document.getElementById("myChart").getContext('2d');
@@ -290,14 +298,20 @@ $("#maketeams").on('click', function() {
          $("#wrapper_div").fadeIn(300);
          var teamtable = $("#teamselection").DataTable({
             "data": player_array_team,
+            "paging": false,
             "columns": [
                { "title": "Name" },
                { "title": "Average" }
             ],
             "columnDefs": [{
+               "searchable": true,
+               "orderable": false,
+               "targets": 0
+            },
+            {
                "searchable": false,
                "orderable": false,
-               "targets": [0,1]
+               "targets": 1
             }],
             "order": [[1, 'desc']]
 
@@ -474,7 +488,7 @@ var scrollTo = function(id) {
                }, 2000);
 }
 
-var email_status = "";
+var playerAverage = 0;
 var counter = 0;
 var average_array = [], date_array = [];
 var player_array_rank = [], player_array_team = [];

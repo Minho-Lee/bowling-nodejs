@@ -202,7 +202,6 @@ app.get('/sendemail', function(req, response) {
 app.post('/getplayer', function(req, res) {
     var score1 = "", score2= "", score3 = "";
     var playerName = req.body.userid;
-    //res.type('json');
     console.log(req.body);
     //console.log(req.body.userid);
     db.find({
@@ -214,7 +213,7 @@ app.post('/getplayer', function(req, res) {
             throw er;
         }
         eventNames = result.docs;
-        console.log(eventNames);
+        //console.log(eventNames);
         console.log('Found %d documents with name ' + playerName, result.docs.length);
 
         if (result.docs.length > 0) {
