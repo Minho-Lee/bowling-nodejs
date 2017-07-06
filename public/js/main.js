@@ -330,13 +330,16 @@ $("#maketeams").on('click', function() {
             };
          };
          
+         //in order to make selection, alternate clicks will select and unselect players
          $("#teamselection tbody").on('click', 'tr', function() {
             var player_click = $(this).data('clicks');
             var idx = teamtable.row(this).index();
+            //upon initialization of player_click, it is undefined.
             if (player_click || (typeof player_click === 'undefined')) {
                teamtable.cell(idx, 0).data('Selected').draw();
                $(this).addClass('selected');
                if (typeof player_click === 'undefined'){
+                  //accounting for the first click, forcefully update its data to false
                   player_click = $(this).data('clicks', !player_click);      
                }
             } else {
@@ -444,29 +447,19 @@ $(document).ready(function() {
    getDocs();
 
    $('.nav li a').click(function(e) {
-      var $btn = $('.nav li button');
+      //var $btn = $('.nav li button');
       var $parent = $(this).parent();
-
+      //var $hash = $(this)[0].hash;
       $('.nav li').removeClass('active');
-      $btn.css({'background-color': 'rgb(34,34,34)', 'color':'#9d9d9d'});
-      //console.log($btn[0]);
-      //console.log($(this)[0].hash);
-      //console.log($(this));
+      
+      // console.log($parent);
+      // console.log($parent.parent());
 
-      //dropdown menu doesn't work with active boostrap list so making
-      //a manual hack to add in css and removing them
       if (!$parent.hasClass('active')) {
-         if ($parent.hasClass('dropdown-content')) {
-            $parent.parent().addClass('active');
-            if ($(this)[0].hash === "#submitplayers") {
-               $btn = $btn[0];
-            } else if ($(this)[0].hash === "#getplayers" ||
-                       $(this)[0].hash === "#getrankings" || 
-                       $(this)[0].hash === "#maketeams"){
-               $btn = $btn[1];
-            }
-            $btn.style.backgroundColor = '#080808';
-            $btn.style.color = '#fff';
+         if ($parent.parent().hasClass('dropdown-menu')) {
+            //adding active class to the list which is a direct child of ul navbar
+            $parent.parent().parent().addClass('active');
+            
          } else {
             $parent.addClass('active');
          }

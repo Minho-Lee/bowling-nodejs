@@ -48,19 +48,24 @@
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#home" id="goHome"><i class="fa fa-home"></i> Home</a></li>
-                        <li class="dropdown">
-                            <button class="dropbtn" id="dropbtn1"><i class="fa fa-lock" aria-hidden="true"></i> Admin</button>
+                        <!-- <button class="dropbtn" id="dropbtn1"><i class="fa fa-lock" aria-hidden="true"></i> Admin</button>
                             <div class="dropdown-content">
                                 <a href="#submitplayers" id="submitplayers"><i class="fa fa-plus-circle"></i> Submit Player</a>
-                            </div>
+                            </div> -->
+                        <!-- Code above ^ was hover menu drop, but navbar cuts short on mobile where the dropdown menu would be cut off because it goes past the border -->
+                        <li class="dropdown">
+                            <a href="#admin" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lock" aria-hidden="true"></i> Admin</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#submitplayers" id="submitplayers"><i class="fa fa-plus-circle"></i> Submit Players</a>
+                            </ul>
                         </li>
                         <li class="dropdown">
-                            <button class="dropbtn" id="dropbtn2"><i class="fa fa-users" aria-hidden="true"></i> Members</button>
-                            <div class="dropdown-content">
-                                <a href="#getplayers" id="getplayers"><i class="fa fa-search"></i> Player Info</a>
-                                <a href="#getrankings" id="getrankings"><i class="fa fa-list-ol"></i> Ranking</a>
-                                <a href="#maketeams" id="maketeams"><i class="fa fa-handshake-o"></i> Make Teams</a>
-                            </div>                            
+                            <a href="#members" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users" aria-hidden="true"></i> Members</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#getplayers" id="getplayers" class="dropdown-toggle"><i class="fa fa-search"></i> Player Info</a></li>
+                                <li><a href="#getrankings" id="getrankings"><i class="fa fa-list-ol"></i> Ranking</a></li>
+                                <li><a href="#maketeams" id="maketeams"><i class="fa fa-handshake-o"></i> Make Teams</a></li>
+                            </ul>
                         </li>
                         <li><a href="#contactUs" id="contactUs"><i class="fa fa-envelope"></i> Contact Us</a></li>
                     </ul>
