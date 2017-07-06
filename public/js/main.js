@@ -361,8 +361,6 @@ $("#maketeams").on('click', function() {
          var selected_array = [];
          $("#teamSubmit").on('click', function() {
             var selectedPlayers = teamtable.rows('.selected');
-            //remove selected rows from the original table
-            selectedPlayers.remove().draw();
             
             if (selectedPlayers.count() < 4) {
                $("#teamSubmitMessage").html("<br/><h4>Please select more than 4 players</h4>");
@@ -375,22 +373,9 @@ $("#maketeams").on('click', function() {
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
-               var selectedTable = $("#selectedTable").DataTable({
-                  "data": selected_array,
-                  "searching": false,
-                  "paging": false,
-                  "columns": [
-                     { "title": "Name" },
-                     { "title": "Average" }
-                  ],
-                  "columnDefs": [{
-                     "orderable": false,
-                     "searchable": false,
-                     "targets": [0,1]
-                  }],
-                  "order": [[1, 'desc']]
-                  
-               });//selectedTable end
+               createTable('selectedTable1', selected_array);
+               //remove selected rows from the original table
+               selectedPlayers.remove().draw();
             }
             scrollTo('teamSubmitMessage');
 
@@ -399,6 +384,25 @@ $("#maketeams").on('click', function() {
       });//load_main
    });//wrapper_div
 });//maketeams load
+
+//method for creating a table for splitting into small tables (groups of 4)
+var createTable = function(id, arr) {
+   id = $("#"+ id).DataTable({
+      "data": arr,
+      "searching": false,
+      "paging": false,
+      "columns": [
+         { "title" : "Name" },
+         { "title" : "Average" }
+      ],
+      "columnDefs": [{
+         "orderable": false,
+         "searchable": false,
+         "targets": [0,1]
+      }],
+      "order": [[1, 'desc']]
+   });//DataTable done
+}//createTable method
 
 //rankings page load
 $("#getrankings").on('click', function() {
