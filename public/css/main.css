@@ -44,7 +44,7 @@ body{
 }
 
 .spacious-title {
-    padding: 40px;
+    padding: 30px;
 }
 
 /* Dropdown Button */
@@ -109,13 +109,14 @@ body{
 ///////////////*/
 
 #bowling-info{
-    width:60%;
+    width:80%;
     margin: 0 auto;
 }
 
 /*///////////////
 /  teams.html   /
 ///////////////*/
+
 
 /*//////////////////
 /submitplayers.html/

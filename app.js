@@ -173,13 +173,14 @@ app.get('/sendemail', function(req, response) {
     //the inner variable, outer 'res' will be out of scope
     var mailOptions = {
         "from": req.query.email,
+        //note: the 'to' field will actually send the email to the designated email
         "to": "mississaugabowling@gmail.com",
         "replyTo": req.query.email,
         "subject": req.query.subject,
         "text": req.query.message + "\nE-mail back to : " + req.query.email,
         "date": new Date()
     };
-
+    //console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(err, res){
         smtpTransport.close();
         if(err){
@@ -189,7 +190,7 @@ app.get('/sendemail', function(req, response) {
             });
         } else {
             console.log("Message sent!");
-            //console.log(res);
+            //notice it is response.json which comes from the get request parameters
             response.json({
                 'status': 'success'
             });

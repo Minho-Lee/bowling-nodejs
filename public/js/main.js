@@ -282,6 +282,16 @@ $("#goToLogin").on('click', function() {
    });//wrapper_div
 });//goToLogin
 
+$("#maketeams").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $("#load_main").load('teams.html', function() {
+         $("#wrapper_div").fadeIn(300);
+         
+
+      });//load_main
+   });//wrapper_div
+});//maketeams load
+
 //rankings page load
 $("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
@@ -316,11 +326,8 @@ $("#getrankings").on('click', function() {
                            avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
                            player_array.push([0, name, parseInt(avg_of_avg)]);
                         }; //end for
+
                         //at this point player_array is [name, average for each session]
-                        console.log(player_array);
-                        // for (var i=0; i < player_array.length; i++){
-                        //    player_array[i].index = 0;
-                        // }
                         //displaying onto a table using DataTable library
                         var table = $("#displayRankings").DataTable({
                            "data" : player_array, 
