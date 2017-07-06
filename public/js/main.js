@@ -365,26 +365,46 @@ $("#maketeams").on('click', function() {
             var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
             if (selectedPlayers.count() < 4) {
                $("#teamSubmitMessage").html("<br/><h4>Please select more than 4 players</h4>");
+            } else if (selectedPlayers.count() % 4 !== 0 ) {
+               $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4</h4>");
             } else {
                for (var i = 0; i < selectedPlayers.count(); i++) {
-                  selected_array.push([selectedPlayers[0][i],
-                                       selectedPlayers.data()[i][1], 
-                                       selectedPlayers.data()[i][2]]);
+                  //since the indices for the rows are not stored in order of the 
+                  //newly selected rows, no need to push in the name, score ahead of time
+                  //just query the name and score after using the indices
+                  selected_array.push([selectedPlayers[0][i]]);
                }//at this point selected_array will have [original idx, name, average] of all selected players
-               console.log(selected_array);
-
+               //console.log(selected_array);
+               
                //separate selected_array into groups of 4 (one from each respsective tier)
                //for now select in multiples of 4
                p_per_tier = selectedPlayers.count() / 4;
-               for (var i = 0; i < p_per_tier; i++) {
-
+               tier_counter = 0;
+               for (var i = 0; i < selectedPlayers.count(); i++ ) {
+                  if (i < p_per_tier) {
+                     tier_1.push([1, teamtable.row(selected_array[i][0]).data()[1],
+                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                  } else if (i < p_per_tier * 2) {
+                     tier_2.push([1, teamtable.row(selected_array[i][0]).data()[1],
+                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                  } else if (i < p_per_tier * 3) {
+                     tier_3.push([1, teamtable.row(selected_array[i][0]).data()[1],
+                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                  } else {
+                     tier_4.push([1, teamtable.row(selected_array[i][0]).data()[1],
+                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                  };
                };
-               
+               //console.log(tier_1);
+
                $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
-               createTable('selectedTable1', selected_array);
+               createTable('selectedTable1', tier_1);
+               createTable('selectedTable2', tier_2);
+               createTable('selectedTable3', tier_3);
+               createTable('selectedTable4', tier_4);
                //remove selected rows from the original table
                selectedPlayers.remove().draw();
             }
