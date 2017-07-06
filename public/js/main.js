@@ -358,17 +358,43 @@ $("#maketeams").on('click', function() {
          //    $(this).data('clicks', !player_click);
          });
          page_reload_counter = 1;
-
+         var selected_array = [];
          $("#teamSubmit").on('click', function() {
-            var playerNums = teamtable.rows('.selected').count();
-            console.log(teamtable.rows('.selected'));
-            // $.ajax({
-            //    url: "maketeams",
-            //    data: 
-            // });//ajax end
+            var selectedPlayers = teamtable.rows('.selected');
+            //remove selected rows from the original table
+            selectedPlayers.remove().draw();
+            
+            if (selectedPlayers.count() < 4) {
+               $("#teamSubmitMessage").html("<br/><h4>Please select more than 4 players</h4>");
+            } else {
+               for (var i = 0; i < selectedPlayers.count(); i++) {
+                  selected_array.push([selectedPlayers.data()[i][1], selectedPlayers.data()[i][2]]);
+               }//at this point selected_array will have [name, average] of all selected players
+               console.log(selected_array);
+               $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
+                  " Players have been submitted</h4>");
+               //NTS: selected_array picks up selection from top to bottom regardless of
+               //which player has been selected first -> makes it easier to split it into tiers.
+               var selectedTable = $("#selectedTable").DataTable({
+                  "data": selected_array,
+                  "searching": false,
+                  "paging": false,
+                  "columns": [
+                     { "title": "Name" },
+                     { "title": "Average" }
+                  ],
+                  "columnDefs": [{
+                     "orderable": false,
+                     "searchable": false,
+                     "targets": [0,1]
+                  }],
+                  "order": [[1, 'desc']]
+                  
+               });//selectedTable end
+            }
+            scrollTo('teamSubmitMessage');
 
-            $("#teamSubmitMessage").html("<br/><h4>"+ playerNums +
-               " Players have been submitted</h4>");
+
          });//teamSubmit button
       });//load_main
    });//wrapper_div
