@@ -57,7 +57,11 @@ $("#submitplayers").on('click', function() {
                               $("input[name='game" + i + "']").val('');   
                            };
                            $("input[name='playerName']").val('');
-                           
+                           //if a player gets submitted properly then reset the arrays
+                           //and query all the docs again
+                           player_array_team = [];
+                           player_array_rank = [];
+                           getDocs();
                         },
                         error: function(xhr, textStatus, error){
                            console.log(xhr.statusText);
@@ -65,7 +69,6 @@ $("#submitplayers").on('click', function() {
                            console.log(error);
                         }
                      }); //ajax done
-                     //$(form).clear();
                   }//submitHandler
                });//playerform
             scrollTo('playerSubmitMessage')
@@ -157,7 +160,6 @@ $("#getplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("getplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
-
          //making an ajax post call to retrieve data from cloudant
          $("#getInfo").click(function() {
             $.ajax({
@@ -286,8 +288,20 @@ $("#maketeams").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load('teams.html', function() {
          $("#wrapper_div").fadeIn(300);
-         
+         var teamtable = $("#teamselection").DataTable({
+            "data": player_array_team,
+            "columns": [
+               { "title": "Name" },
+               { "title": "Average" }
+            ],
+            "columnDefs": [{
+               "searchable": false,
+               "orderable": false,
+               "targets": [0,1]
+            }],
+            "order": [[1, 'desc']]
 
+         });//DataTable end
       });//load_main
    });//wrapper_div
 });//maketeams load
@@ -298,87 +312,92 @@ $("#getrankings").on('click', function() {
       $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
          $("#rankings").on('click', function() {
-               //clear everytime submit button is pressed
-               player_array = [];
-               $.ajax({
-                  type: "POST",
-                  url: "/retrieverankings",
-                  data: { 'text': 'userid' },
-                  success: function(res, status, xhr) {
-                     console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
-                     console.log("status: " + status);
-                     if (typeof res === "string") {
-                        $("#rankingMsg").html(res);
-                     } else {
-                        //every doc is called, now separate the names
-                        //$("#rankingMsg").html(JSON.stringify(res));
-                        var docs = res.eventNames;
-                        console.log("# of players in db : " +docs.length);
-                        //iterate through all docs
-                        for (var outer = 0; outer < docs.length; outer++) {
-                           //iterate through all sessions
-                           var name = docs[outer].userid;
-                           var avg_of_avg = 0;
-                           for (var inner = 0; inner < docs[outer].session.length; inner++) {
-                              // $("#rankingMsg").append(docs[outer].session[inner].average + "<br/>");
-                              avg_of_avg += parseInt((docs[outer].session[inner].average));
-                           }; //end for
-                           avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
-                           player_array.push([0, name, parseInt(avg_of_avg)]);
-                        }; //end for
-
-                        //at this point player_array is [name, average for each session]
-                        //displaying onto a table using DataTable library
-                        var table = $("#displayRankings").DataTable({
-                           "data" : player_array, 
-                           //"paging": false,
-                           "columns" : [
-                              { "title" : "Rank" },
-                              { "title" : "Name" },
-                              { "title" : "Average" }
-                           ],
-                           "columnDefs": [{
-                              "searchable": false,
-                              "orderable": false,
-                              "targets": 0
-                           },
-                           {
-                              "searchable": true,
-                              "orderable": false,
-                              "targets": 1
-                           },
-                           {
-                              "searchable": false,
-                              "orderable": false,
-                              "targets": 2
-                           }],
-                           "order" : [[2, 'desc']]
-                        });//dataTable init
-                        //puts a default index rank
-                        table.on( 'order.dt search.dt', function () {
-                           table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                              cell.innerHTML = i + 1;
-                           });
-                        }).draw();
-                     };//end if
-                  },//success
-                  error: function(xhr, textStatus, error){
-                     console.log(xhr.statusText);
-                     console.log(textStatus);
-                     console.log(error);
-                  }//error
-               });//ajax done
-               //hide retrieve button after submitting
-               $(this).hide(300);
+            //at this point player_array is [name, average for each session]
+            //displaying onto a table using DataTable library
+            var table = $("#displayRankings").DataTable({
+               "data" : player_array_rank, 
+               //"paging": false,
+               "columns" : [
+                  { "title" : "Rank" },
+                  { "title" : "Name" },
+                  { "title" : "Average" }
+               ],
+               "columnDefs": [{
+                  "searchable": false,
+                  "orderable": false,
+                  "targets": 0
+               },
+               {
+                  "searchable": true,
+                  "orderable": false,
+                  "targets": 1
+               },
+               {
+                  "searchable": false,
+                  "orderable": false,
+                  "targets": 2
+               }],
+               "order" : [[2, 'desc']]
+            });//dataTable init
+            //puts a default index rank
+            table.on( 'order.dt search.dt', function () {
+               table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                  cell.innerHTML = i + 1;
+               });
+            }).draw();
+            //hide retrieve button after submitting
+            $(this).hide(300);
          });//rankings
       });//load_main
    });//wrapper_div
 });//getrankings.html
 
+//function to query all the docs in the db
+function getDocs(){
+   $.ajax({
+      type: "POST",
+      url: "/retrieverankings",
+      data: { 'text': 'userid' },
+      success: function(res, status, xhr) {
+         console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+         console.log("status: " + status);
+         if (typeof res === "string") {
+            $("#rankingMsg").html(res);
+         } else {
+            //every doc is called, now separate the names
+            //$("#rankingMsg").html(JSON.stringify(res));
+            var docs = res.eventNames;
+            console.log("# of players in db : " +docs.length);
+            //iterate through all docs
+            for (var outer = 0; outer < docs.length; outer++) {
+               //iterate through all sessions
+               var name = docs[outer].userid;
+               var avg_of_avg = 0;
+               for (var inner = 0; inner < docs[outer].session.length; inner++) {
+                  // $("#rankingMsg").append(docs[outer].session[inner].average + "<br/>");
+                  avg_of_avg += parseInt((docs[outer].session[inner].average));
+               }; //end for
+               avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
+               //making teams would not require a rank but rather a clickable option
+               //as the first column so no need to push in a default rank column
+               player_array_rank.push([0, name, parseInt(avg_of_avg)]);
+               player_array_team.push([name, parseInt(avg_of_avg)]);
+            }; //end for
+         }//end if
+      },
+      error: function(xhr, textStatus, error){
+         console.log(xhr.statusText);
+         console.log(textStatus);
+         console.log(error);
+      }//error
+   });//ajax done
+}
 
 //Change active class as the html pages render
 $(document).ready(function() {
-   //initializing map
+   //make ajax call when doc is loaded to fill in player_array so that 
+   //other html pages can use it to make their tables with the same info.
+   getDocs();
 
    $('.nav li a').click(function(e) {
       var $btn = $('.nav li button');
@@ -398,7 +417,8 @@ $(document).ready(function() {
             if ($(this)[0].hash === "#submitplayers") {
                $btn = $btn[0];
             } else if ($(this)[0].hash === "#getplayers" ||
-                       $(this)[0].hash === "#getrankings") {
+                       $(this)[0].hash === "#getrankings" || 
+                       $(this)[0].hash === "#maketeams"){
                $btn = $btn[1];
             }
             $btn.style.backgroundColor = '#080808';
@@ -456,4 +476,7 @@ var scrollTo = function(id) {
 
 var email_status = "";
 var counter = 0;
-var average_array = [], date_array = [], player_array = [];
+var average_array = [], date_array = [];
+var player_array_rank = [], player_array_team = [];
+
+
