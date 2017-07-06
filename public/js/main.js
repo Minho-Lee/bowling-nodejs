@@ -292,6 +292,7 @@ $("#goToLogin").on('click', function() {
    });//wrapper_div
 });//goToLogin
 
+var page_reload_counter = 0;
 $("#maketeams").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load('teams.html', function() {
@@ -300,22 +301,51 @@ $("#maketeams").on('click', function() {
             "data": player_array_team,
             "paging": false,
             "columns": [
+               { "title": "Selected"},
                { "title": "Name" },
                { "title": "Average" }
             ],
-            "columnDefs": [{
+            "columnDefs": [
+            {
                "searchable": true,
                "orderable": false,
-               "targets": 0
+               "targets": 1
             },
             {
                "searchable": false,
                "orderable": false,
-               "targets": 1
+               "targets": [0,2]
+            },
+            {
+               "width": "20%",
+               "targets": 0
             }],
-            "order": [[1, 'desc']]
+            "order": [[2, 'desc']]
 
          });//DataTable end
+         if (page_reload_counter !== 0) {
+            //teamtable.ajax.reload(); --> runs into errors 
+            for (var i = 0; i < teamtable.rows().count(); i++) {
+               teamtable.cell(i, 0).data('').draw();
+            };
+         };
+         
+         $("#teamselection tbody").on('click', 'tr', function() {
+            var player_click = $(this).data('clicks');
+            var idx = teamtable.row(this).index();
+            if (player_click || (typeof player_click === 'undefined')) {
+               teamtable.cell(idx, 0).data('Selected').draw();
+               $(this).addClass('selected');
+               if (typeof player_click === 'undefined'){
+                  player_click = $(this).data('clicks', !player_click);      
+               }
+            } else {
+               teamtable.cell(idx, 0).data('').draw();
+               $(this).removeClass('selected');
+            }
+            $(this).data('clicks', !player_click);
+         });
+         page_reload_counter = 1;
       });//load_main
    });//wrapper_div
 });//maketeams load
@@ -395,7 +425,7 @@ function getDocs(){
                //making teams would not require a rank but rather a clickable option
                //as the first column so no need to push in a default rank column
                player_array_rank.push([0, name, parseInt(avg_of_avg)]);
-               player_array_team.push([name, parseInt(avg_of_avg)]);
+               player_array_team.push(["", name, parseInt(avg_of_avg)]);
             }; //end for
          }//end if
       },

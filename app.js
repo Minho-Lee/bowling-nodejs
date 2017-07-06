@@ -234,7 +234,7 @@ app.post('/getplayer', function(req, res) {
 
 app.post('/retrieverankings', function(req, res) {
     //console.log(req.body.text);
-    console.log('retrieving all docs for ranks!');
+    console.log('retrieving all docs from db!');
     db.find({
         selector: {
             //calling every doc except for _design/player by querying 'userid'
