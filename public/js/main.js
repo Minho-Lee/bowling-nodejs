@@ -175,6 +175,7 @@ $("#getplayers").on('click', function() {
                      //means player is not found
                      $("#results").html("<div id='playerNotFound'>"+ res + "</div>");
                      $("#showScore").html("");
+                     $("#playerAverage").html("");
                      $("#wrapper_chart").hide();
                   } else {
                      //console.log(res.player);
@@ -266,7 +267,6 @@ $("#getplayers").on('click', function() {
                      $("#wrapper_chart").show();
                   };//end if
                   $("#results").append('<br/>');
-                  console.log(date_array);
                },
                error: function(xhr, textStatus, error){
                   console.log(xhr.statusText);
