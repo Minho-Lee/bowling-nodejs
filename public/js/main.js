@@ -407,6 +407,7 @@ $("#maketeams").on('click', function() {
                createTable('selectedTable4', tier_4);
                //remove selected rows from the original table
                selectedPlayers.remove().draw();
+               $("#teamSubmit").hide('slow');
             }
             scrollTo('teamSubmitMessage');
 
