@@ -323,6 +323,7 @@ $("#maketeams").on('click', function() {
             "order": [[2, 'desc']]
 
          });//DataTable end
+         //if it's not first time loading teams.html, then refresh the table
          if (page_reload_counter !== 0) {
             //teamtable.ajax.reload(); --> runs into errors 
             for (var i = 0; i < teamtable.rows().count(); i++) {
@@ -349,6 +350,12 @@ $("#maketeams").on('click', function() {
             $(this).data('clicks', !player_click);
          });
          page_reload_counter = 1;
+
+         $("#teamSubmit").on('click', function() {
+            var playerNums = teamtable.rows('.selected').count();
+            $("#teamSubmitMessage").html("<br/><h4>"+ teamtable.rows('.selected').count() +
+               " Players have been submitted</h4>");
+         });//teamSubmit button
       });//load_main
    });//wrapper_div
 });//maketeams load

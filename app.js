@@ -151,7 +151,7 @@ app.post('/submitplayer', function(req, res) {
     });
     //console.log(res.body);
     //res.send('Player' + playerName +'saved successfully!');
-});
+});//submitplayer post
 
 //mailing to myself
 var smtpTransport = nodemailer.createTransport({
@@ -196,7 +196,7 @@ app.get('/sendemail', function(req, response) {
             });
         }
     });
-});
+});//sendemail get
 
 
 app.post('/getplayer', function(req, res) {
@@ -230,7 +230,7 @@ app.post('/getplayer', function(req, res) {
             res.send("Player " + playerName + " does not exist in the databse!")
         }
     });//db.find
-});
+});//getplayer post
 
 app.post('/retrieverankings', function(req, res) {
     //console.log(req.body.text);
@@ -253,7 +253,11 @@ app.post('/retrieverankings', function(req, res) {
             res.send('Database is empty! Please add in more players!');
         };
     });//db.find
-});
+});//retrieveranking post
+
+app.post('/maketeams', function(req, res) {
+
+})//make teams
 
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
