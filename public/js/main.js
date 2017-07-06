@@ -333,27 +333,41 @@ $("#maketeams").on('click', function() {
          
          //in order to make selection, alternate clicks will select and unselect players
          $("#teamselection tbody").on('click', 'tr', function() {
-            var player_click = $(this).data('clicks');
+            $(this).toggleClass('selected');
             var idx = teamtable.row(this).index();
-            //upon initialization of player_click, it is undefined.
-            if (player_click || (typeof player_click === 'undefined')) {
+            if ($(this).hasClass('selected')) {
                teamtable.cell(idx, 0).data('Selected').draw();
-               $(this).addClass('selected');
-               if (typeof player_click === 'undefined'){
-                  //accounting for the first click, forcefully update its data to false
-                  player_click = $(this).data('clicks', !player_click);      
-               }
             } else {
                teamtable.cell(idx, 0).data('').draw();
-               $(this).removeClass('selected');
             }
-            $(this).data('clicks', !player_click);
+         //MUCH easier way to select rows ^^^^^^
+         //    var player_click = $(this).data('clicks');
+         //    var idx = teamtable.row(this).index();
+         //    //upon initialization of player_click, it is undefined.
+         //    if (player_click || (typeof player_click === 'undefined')) {
+         //       teamtable.cell(idx, 0).data('Selected').draw();
+         //       $(this).addClass('selected');
+         //       if (typeof player_click === 'undefined'){
+         //          //accounting for the first click, forcefully update its data to false
+         //          player_click = $(this).data('clicks', !player_click);      
+         //       }
+         //    } else {
+         //       teamtable.cell(idx, 0).data('').draw();
+         //       $(this).removeClass('selected');
+         //    }
+         //    $(this).data('clicks', !player_click);
          });
          page_reload_counter = 1;
 
          $("#teamSubmit").on('click', function() {
             var playerNums = teamtable.rows('.selected').count();
-            $("#teamSubmitMessage").html("<br/><h4>"+ teamtable.rows('.selected').count() +
+            console.log(teamtable.rows('.selected'));
+            // $.ajax({
+            //    url: "maketeams",
+            //    data: 
+            // });//ajax end
+
+            $("#teamSubmitMessage").html("<br/><h4>"+ playerNums +
                " Players have been submitted</h4>");
          });//teamSubmit button
       });//load_main
