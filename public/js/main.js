@@ -355,7 +355,7 @@ $("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
-         $("#rankings").on('click', function() {
+         //$("#rankings").on('click', function() {
             //at this point player_array is [name, average for each session]
             //displaying onto a table using DataTable library
             var table = $("#displayRankings").DataTable({
@@ -390,8 +390,8 @@ $("#getrankings").on('click', function() {
                });
             }).draw();
             //hide retrieve button after submitting
-            $(this).hide(300);
-         });//rankings
+           // $(this).hide(300);
+         //});//rankings
       });//load_main
    });//wrapper_div
 });//getrankings.html
