@@ -360,15 +360,26 @@ $("#maketeams").on('click', function() {
          page_reload_counter = 1;
          var selected_array = [];
          $("#teamSubmit").on('click', function() {
+            ;
             var selectedPlayers = teamtable.rows('.selected');
-            
+            var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
             if (selectedPlayers.count() < 4) {
                $("#teamSubmitMessage").html("<br/><h4>Please select more than 4 players</h4>");
             } else {
                for (var i = 0; i < selectedPlayers.count(); i++) {
-                  selected_array.push([selectedPlayers.data()[i][1], selectedPlayers.data()[i][2]]);
-               }//at this point selected_array will have [name, average] of all selected players
+                  selected_array.push([selectedPlayers[0][i],
+                                       selectedPlayers.data()[i][1], 
+                                       selectedPlayers.data()[i][2]]);
+               }//at this point selected_array will have [original idx, name, average] of all selected players
                console.log(selected_array);
+
+               //separate selected_array into groups of 4 (one from each respsective tier)
+               //for now select in multiples of 4
+               p_per_tier = selectedPlayers.count() / 4;
+               for (var i = 0; i < p_per_tier; i++) {
+
+               };
+               
                $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
@@ -392,16 +403,22 @@ var createTable = function(id, arr) {
       "searching": false,
       "paging": false,
       "columns": [
+         { "title" : "Order"},
          { "title" : "Name" },
          { "title" : "Average" }
       ],
       "columnDefs": [{
          "orderable": false,
          "searchable": false,
-         "targets": [0,1]
+         "targets": [0,1,2]
       }],
-      "order": [[1, 'desc']]
+      "order": [[2, 'desc']]
    });//DataTable done
+   id.on( 'order.dt search.dt', function () {
+      id.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+         cell.innerHTML = i + 1;
+      });
+   }).draw();
 }//createTable method
 
 //rankings page load
