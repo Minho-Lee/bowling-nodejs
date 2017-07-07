@@ -387,23 +387,33 @@ $("#maketeams").on('click', function() {
                
                //separate selected_array into groups of 4 (one from each respsective tier)
                //for now select in multiples of 4
-               p_per_tier = Math.ceil(selectedPlayers.count() / 4);
-               tier_counter = 0;
+               num_of_teams = Math.ceil(selectedPlayers.count() / 4);
+               var tier_1_high=0, tier_2_high=0, tier_3_high=0, tier_4_high=0;
                for (var i = 0; i < selectedPlayers.count(); i++ ) {
-                  if (i < p_per_tier) {
-                     tier_1.push([1, teamtable.row(selected_array[i][0]).data()[2],
-                                     teamtable.row(selected_array[i][0]).data()[3]]);
-                  } else if (i < p_per_tier * 2) {
-                     tier_2.push([1, teamtable.row(selected_array[i][0]).data()[2],
-                                     teamtable.row(selected_array[i][0]).data()[3]]);
-                  } else if (i < p_per_tier * 3) {
-                     tier_3.push([1, teamtable.row(selected_array[i][0]).data()[2],
-                                     teamtable.row(selected_array[i][0]).data()[3]]);
+                  var tempName = teamtable.row(selected_array[i][0]).data()[2],
+                      tempAvg = teamtable.row(selected_array[i][0]).data()[3];
+                  console.log(tempName + ' / ' + tempAvg);
+                  if (i === 0) {
+                     tier_1_high = tempAvg;
+                  } else if (i === num_of_teams) {
+                     tier_2_high = tempAvg;
+                  } else if (i === num_of_teams * 2) {
+                     tier_3_high = tempAvg;
+                  } else if (i === num_of_teams * 3) {
+                     tier_4_high = tempAvg;
+                  }
+                  if (i < num_of_teams) {
+                     tier_1.push([1, tempName, tempAvg, (tier_1_high - tempAvg)]);
+                  } else if (i < num_of_teams * 2) {
+                     tier_2.push([1, tempName, tempAvg, (tier_2_high - tempAvg)]);
+                  } else if (i < num_of_teams * 3) {
+                     tier_3.push([1, tempName, tempAvg, (tier_3_high - tempAvg)]);
                   } else {
-                     tier_4.push([1, teamtable.row(selected_array[i][0]).data()[2],
-                                     teamtable.row(selected_array[i][0]).data()[3]]);
+                     tier_4.push([1, tempName, tempAvg, (tier_4_high - tempAvg)]);
                   };
+                  //console.log(tier_1_high + ' / ' + tier_2_high + ' / ' + tier_3_high + ' / ' + tier_4_high);
                };
+
                
                $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
                   " Players have been submitted</h4>");
@@ -419,19 +429,23 @@ $("#maketeams").on('click', function() {
                tier_2 = _.shuffle(tier_2);
                tier_3 = _.shuffle(tier_3);
                tier_4 = _.shuffle(tier_4);
-               assorted_array = [];
-               for (var i = 0; i < p_per_tier; i++) {
-                  assorted_array.push(tier_1.pop());
-                  assorted_array.push(tier_2.pop());
-                  assorted_array.push(tier_3.pop());
-                  assorted_array.push(tier_4.pop());
+               assorted_array = [], team_average = [];
+               for (var i = 0; i < num_of_teams; i++) {
+                  var temp1 = tier_1.pop(), temp2 = tier_2.pop(),
+                      temp3 = tier_3.pop(), temp4 = tier_4.pop();
+                  // assorted_array.push(temp1, tier_1_high);
+                  // assorted_array.push(temp2, tier_2_high);
+                  // assorted_array.push(temp3, tier_3_high);
+                  // assorted_array.push(temp4, tier_4_high);
+                  assorted_array.push(temp1, temp2, temp3, temp4);
+                  team_average.push(Math.round((temp1[2] + temp2[2] + temp3[2] + temp4[2])/4));
                };
-
+               console.log(team_average);
                var tableNum = 1;
                //creating tables for each team
                
                for (var i = 0; i < assorted_array.length; i+= 4){
-                  createOrderedTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
+                  createTeamTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
                   tableNum += 1;
                };
 
@@ -461,8 +475,9 @@ $("#maketeams").on('click', function() {
 
 
 //method for creating a table for splitting into small ordered tables (groups of 4)
-var createOrderedTable = function(id, arr) {
+var createTeamTable = function(id, arr) {
    id = $("#"+ id).DataTable({
+      //for dom documentation, refer to https://datatables.net/reference/option/dom
       "dom": '<"toolbar">tri',
       "data": arr,
       "searching": false,
@@ -470,12 +485,17 @@ var createOrderedTable = function(id, arr) {
       "columns": [
          { "title" : "Tier"},
          { "title" : "Name" },
-         { "title" : "Average" }
+         { "title" : "Average" },
+         { "title" : "Handicap" }
       ],
       "columnDefs": [{
          "orderable": false,
          "searchable": false,
-         "targets": [0,1,2]
+         "targets": [0,1,2,3]
+      },
+      {
+         "width": "15%",
+         "targets": 3
       }],
       "order": [[2, 'desc']]
    });//DataTable done
@@ -484,7 +504,7 @@ var createOrderedTable = function(id, arr) {
          cell.innerHTML = i + 1;
       });
    }).draw();
-}//createOrderedTable method
+}//createTeamTable method
 
 //create a table that's not ordered, just shows as data is fed
 var createTable = function(id, arr) {
