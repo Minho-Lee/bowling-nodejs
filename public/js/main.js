@@ -392,7 +392,7 @@ $("#maketeams").on('click', function() {
                for (var i = 0; i < selectedPlayers.count(); i++ ) {
                   var tempName = teamtable.row(selected_array[i][0]).data()[2],
                       tempAvg = teamtable.row(selected_array[i][0]).data()[3];
-                  console.log(tempName + ' / ' + tempAvg);
+                  // console.log(tempName + ' / ' + tempAvg);
                   if (i === 0) {
                      tier_1_high = tempAvg;
                   } else if (i === num_of_teams) {
@@ -459,11 +459,13 @@ $("#maketeams").on('click', function() {
                   // $(this).text('@media (min-width: 582px) { \
                   //              .toolbar { margin-left : 194px; color: red }}');
 
+                  //write on each table its team numbers
                   $(this).html('<b style="font-size: 16px">Team' + div_counter + '</b>')
                   div_counter++;
                });
                //$("div.toolbar").html('<b>Team 1</b>');
                $("#teamSubmit").hide('slow');
+               
             }//end if
             scrollTo('teamSubmitMessage');
 
@@ -498,13 +500,21 @@ var createTeamTable = function(id, arr) {
          "targets": 3
       }],
       "order": [[2, 'desc']]
+
    });//DataTable done
+   //putting tiers in front
    id.on( 'order.dt search.dt', function () {
       id.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
          cell.innerHTML = i + 1;
       });
    }).draw();
-}//createTeamTable method
+   console.log($(id.table().footer()).contents().last()[0]);
+   //adding a row in the end to indicate what their overall hadicap is
+   $(id.table().footer()).contents().last()[0].textContent=
+         "The overall handicap for this team is " + id.column(3).data().sum();
+   $(id.table().footer()).addClass('teamtable-footer');
+
+};//createTeamTable method
 
 //create a table that's not ordered, just shows as data is fed
 var createTable = function(id, arr) {
