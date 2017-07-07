@@ -360,7 +360,6 @@ $("#maketeams").on('click', function() {
          page_reload_counter = 1;
          var selected_array = [];
          $("#teamSubmit").on('click', function() {
-            ;
             var selectedPlayers = teamtable.rows('.selected');
             var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
             if (selectedPlayers.count() < 4) {
@@ -378,7 +377,7 @@ $("#maketeams").on('click', function() {
                
                //separate selected_array into groups of 4 (one from each respsective tier)
                //for now select in multiples of 4
-               p_per_tier = selectedPlayers.count() / 4;
+               p_per_tier = Math.ceil(selectedPlayers.count() / 4);
                tier_counter = 0;
                for (var i = 0; i < selectedPlayers.count(); i++ ) {
                   if (i < p_per_tier) {
@@ -395,18 +394,33 @@ $("#maketeams").on('click', function() {
                                      teamtable.row(selected_array[i][0]).data()[2]]);
                   };
                };
-               //console.log(tier_1);
-
+               
                $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
-               createTable('selectedTable1', tier_1);
-               createTable('selectedTable2', tier_2);
-               createTable('selectedTable3', tier_3);
-               createTable('selectedTable4', tier_4);
+               createOrderedTable('selectedTable1', tier_1);
+               createOrderedTable('selectedTable2', tier_2);
+               createOrderedTable('selectedTable3', tier_3);
+               createOrderedTable('selectedTable4', tier_4);
                //remove selected rows from the original table
                selectedPlayers.remove().draw();
+
+               //for some reason, fisherYates algorithm for shuffling is not working for my 2d array
+               //thus using underscore.js
+               tier_1 = _.shuffle(tier_1);
+               tier_2 = _.shuffle(tier_2);
+               tier_3 = _.shuffle(tier_3);
+               tier_4 = _.shuffle(tier_4);
+               assorted_array = [];
+               for (var i = 0; i < p_per_tier; i++) {
+                  assorted_array.push(tier_1.pop());
+                  assorted_array.push(tier_2.pop());
+                  assorted_array.push(tier_3.pop());
+                  assorted_array.push(tier_4.pop());
+               };
+               createTable('selectedTable5', assorted_array);
+
                $("#teamSubmit").hide('slow');
             }
             scrollTo('teamSubmitMessage');
@@ -417,8 +431,9 @@ $("#maketeams").on('click', function() {
    });//wrapper_div
 });//maketeams load
 
-//method for creating a table for splitting into small tables (groups of 4)
-var createTable = function(id, arr) {
+
+//method for creating a table for splitting into small ordered tables (groups of 4)
+var createOrderedTable = function(id, arr) {
    id = $("#"+ id).DataTable({
       "data": arr,
       "searching": false,
@@ -440,7 +455,31 @@ var createTable = function(id, arr) {
          cell.innerHTML = i + 1;
       });
    }).draw();
-}//createTable method
+}//createOrderedTable method
+
+//create a table that's not ordered, just shows as data is fed
+var createTable = function(id, arr) {
+   id = $("#"+ id).DataTable({
+      "data": arr,
+      "searching": false,
+      "paging": false,
+      "columns": [
+         { "title" : "Order"},
+         { "title" : "Name" },
+         { "title" : "Average" }
+      ],
+      "columnDefs": [{
+         "orderable": false,
+         "searchable": false,
+         "targets": [0,1,2]
+      }],
+   });//DataTable done
+   id.on( 'order.dt search.dt', function () {
+      id.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+         cell.innerHTML = i + 1;
+      });
+   }).draw();
+}
 
 //rankings page load
 $("#getrankings").on('click', function() {
@@ -495,7 +534,7 @@ function getDocs(){
       url: "/retrieverankings",
       data: { 'text': 'userid' },
       success: function(res, status, xhr) {
-         console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+         console.log("getDocs() success! Type: "+ xhr.getResponseHeader("content-type"));
          console.log("status: " + status);
          if (typeof res === "string") {
             $("#rankingMsg").html(res);
@@ -592,6 +631,17 @@ $(document).ready(function() {
    });
 };
 */
+
+//checks if two arrays are identical (content and length)
+function arraysEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length)
+        return false;
+    for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+            return false;
+    }
+    return true;
+};
 
 //scrolls to the given id's position
 var scrollTo = function(id) {
