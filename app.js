@@ -255,10 +255,6 @@ app.post('/retrieverankings', function(req, res) {
     });//db.find
 });//retrieveranking post
 
-app.post('/maketeams', function(req, res) {
-
-})//make teams
-
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 

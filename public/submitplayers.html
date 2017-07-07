@@ -1,38 +1,29 @@
 <!--index.html already has a container around this whole html file-->
     <!--index.html already has id="load_main" div so no need to include it -->
-    <div ng-controller="avgCtrl">
-        <h1 align="center" class='spacious-title'>Submit Player!</h1>
-        <h4 align="center">All fields are <b>required</b></h4>
-        <!-- <form action="submitplayer" method="post" target="print_popup"
-        onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');"> -->
-        <form id="playerform" action="">
+    <h1 align="center" class='spacious-title'>Submit Player!</h1>
+    <h4 align="center">All fields are <b>required</b></h4>
+    <!-- <form action="submitplayer" method="post" target="print_popup"
+    onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');"> -->
+    <form id="playerform" action="">
+        <div class="row text-center">
+            <input type="date" name="date" style="width: 150px"/>
+        </div>
+        <div class="row text-center">
+            <input type="text" name="playerName" placeholder="Name" style="width: 150px"/>
+        </div>
+        <div id="submitGameScore">
             <div class="row text-center">
-                <input type="date" name="date" style="width: 150px"/>
+                <input type="text" name="game1" placeholder="Game 1 Score" style="width:150px"/>
             </div>
             <div class="row text-center">
-                <input type="text" name="playerName" placeholder="Name" style="width: 150px"/>
+                <input type="text" name="game2" placeholder="Game 2 Score" style="width:150px"/>
             </div>
-            <div id="submitGameScore">
-                <div class="row text-center">
-                    <input type="text" name="game1" placeholder="Game 1 Score" ng-model="game1" style="width:150px"/>
-                </div>
-                <div class="row text-center">
-                    <input type="text" name="game2" placeholder="Game 2 Score" ng-model="game2" style="width:150px"/>
-                </div>
-                <div class="row text-center">
-                    <input type="text" name="game3" placeholder="Game 3 Score" ng-model="game3" style="width:150px"/>
-                </div>
-                <div class="row col-centered" style="padding-top: 30px">                    
-                        <button type="submit" class="btn btn-sm btn-primary" id="playersubmit">Submit!</button><br/><br/>
-                        <h4 id="playerSubmitMessage"></h4>
-                </div>
-            </div><!--submitGameScore-->
-        </form><!-- </form> -->
-        <!--Angular controllers not working, acting as html element instead of angular even though controllers.js is reading in fine-->
-        <!-- <div class="row">
-            <div class="centered">
-                <p> Average: {{average}} </p>
+            <div class="row text-center">
+                <input type="text" name="game3" placeholder="Game 3 Score" style="width:150px"/>
             </div>
-        </div><!--row-->
-        
-    </div><!--ng-controller-->
+            <div class="row col-centered" style="padding-top: 30px">                    
+                    <button type="submit" class="btn btn-sm btn-primary" id="playersubmit">Submit!</button><br/><br/>
+                    <h4 id="playerSubmitMessage"></h4>
+            </div>
+        </div><!--submitGameScore-->
+    </form><!-- </form> -->
