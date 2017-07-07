@@ -399,10 +399,10 @@ $("#maketeams").on('click', function() {
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
-               createOrderedTable('selectedTable1', tier_1);
-               createOrderedTable('selectedTable2', tier_2);
-               createOrderedTable('selectedTable3', tier_3);
-               createOrderedTable('selectedTable4', tier_4);
+               // createOrderedTable('selectedTable1', tier_1);
+               // createOrderedTable('selectedTable2', tier_2);
+               // createOrderedTable('selectedTable3', tier_3);
+               // createOrderedTable('selectedTable4', tier_4);
                //remove selected rows from the original table
                selectedPlayers.remove().draw();
 
@@ -419,10 +419,16 @@ $("#maketeams").on('click', function() {
                   assorted_array.push(tier_3.pop());
                   assorted_array.push(tier_4.pop());
                };
-               createTable('selectedTable5', assorted_array);
 
+               var tableNum = 1;
+               //creating tables for each team
+               for (var i = 0; i < assorted_array.length; i+= 4){
+                  createOrderedTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
+                  tableNum += 1;
+               };
+               
                $("#teamSubmit").hide('slow');
-            }
+            }//end if
             scrollTo('teamSubmitMessage');
 
 
@@ -439,7 +445,7 @@ var createOrderedTable = function(id, arr) {
       "searching": false,
       "paging": false,
       "columns": [
-         { "title" : "Order"},
+         { "title" : "Tier"},
          { "title" : "Name" },
          { "title" : "Average" }
       ],
