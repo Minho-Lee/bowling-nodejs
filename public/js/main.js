@@ -325,7 +325,8 @@ $("#maketeams").on('click', function() {
                "width": "10%",
                "targets": 1
             }],
-            "order": [[3, 'desc']]
+            "order": [[3, 'desc']],
+            "title": 'hi'
          });//DataTable end
          teamtable.on( 'order.dt search.dt', function () {
             teamtable.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
@@ -372,7 +373,7 @@ $("#maketeams").on('click', function() {
             var selectedPlayers = teamtable.rows('.selected');
             var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
             if (selectedPlayers.count() < 4) {
-               $("#teamSubmitMessage").html("<br/><h4>Please select more than 4 players</h4>");
+               $("#teamSubmitMessage").html("<br/><h4>Please select more than  or equal to 4 players</h4>");
             } else if (selectedPlayers.count() % 4 !== 0 ) {
                $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4</h4>");
             } else {
@@ -428,12 +429,26 @@ $("#maketeams").on('click', function() {
 
                var tableNum = 1;
                //creating tables for each team
-               //$("div.toolbar").html('<b>Title</b>').css({'text-align':'center'});
+               
                for (var i = 0; i < assorted_array.length; i+= 4){
                   createOrderedTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
                   tableNum += 1;
                };
-               
+
+               //NTS: space in b/w elements means grab descendants, no space means && operation
+               var div_counter = 1;
+               $("div .toolbar").each(function() {
+                  // $(this).css({  'font-size': '16px',
+                  //                'text-align': 'left',
+                  //                'margin-left': '234px'
+                  // });
+                  // $(this).text('@media (min-width: 582px) { \
+                  //              .toolbar { margin-left : 194px; color: red }}');
+
+                  $(this).html('<b style="font-size: 16px">Team' + div_counter + '</b>')
+                  div_counter++;
+               });
+               //$("div.toolbar").html('<b>Team 1</b>');
                $("#teamSubmit").hide('slow');
             }//end if
             scrollTo('teamSubmitMessage');
@@ -448,7 +463,7 @@ $("#maketeams").on('click', function() {
 //method for creating a table for splitting into small ordered tables (groups of 4)
 var createOrderedTable = function(id, arr) {
    id = $("#"+ id).DataTable({
-      //"dom": "<'toolbar'>",
+      "dom": '<"toolbar">tri',
       "data": arr,
       "searching": false,
       "paging": false,
@@ -482,18 +497,10 @@ var createTable = function(id, arr) {
          { "title" : "Name" },
          { "title" : "Average" }
       ],
-      "columnDefs": [{
-         "orderable": false,
-         "searchable": false,
-         "targets": [0,1,2]
-      }],
+      "orderable": false,
+      "searchable": false
    });//DataTable done
-   id.on( 'order.dt search.dt', function () {
-      id.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-         cell.innerHTML = i + 1;
-      });
-   }).draw();
-}
+}//createTable method
 
 //rankings page load
 $("#getrankings").on('click', function() {
