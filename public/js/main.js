@@ -302,6 +302,7 @@ $("#maketeams").on('click', function() {
             "paging": false,
             "columns": [
                { "title": "Selected"},
+               { "title": "Rank" },
                { "title": "Name" },
                { "title": "Average" }
             ],
@@ -309,20 +310,28 @@ $("#maketeams").on('click', function() {
             {
                "searchable": true,
                "orderable": false,
-               "targets": 1
+               "targets": 2
             },
             {
                "searchable": false,
                "orderable": false,
-               "targets": [0,2]
+               "targets": [0,1,3]
             },
             {
                "width": "20%",
                "targets": 0
+            },
+            {
+               "width": "10%",
+               "targets": 1
             }],
-            "order": [[2, 'desc']]
-
+            "order": [[3, 'desc']]
          });//DataTable end
+         teamtable.on( 'order.dt search.dt', function () {
+            teamtable.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+               cell.innerHTML = i + 1;
+            });
+         }).draw();
          //if it's not first time loading teams.html, then refresh the table
          if (page_reload_counter !== 0) {
             //teamtable.ajax.reload(); --> runs into errors 
@@ -381,17 +390,17 @@ $("#maketeams").on('click', function() {
                tier_counter = 0;
                for (var i = 0; i < selectedPlayers.count(); i++ ) {
                   if (i < p_per_tier) {
-                     tier_1.push([1, teamtable.row(selected_array[i][0]).data()[1],
-                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                     tier_1.push([1, teamtable.row(selected_array[i][0]).data()[2],
+                                     teamtable.row(selected_array[i][0]).data()[3]]);
                   } else if (i < p_per_tier * 2) {
-                     tier_2.push([1, teamtable.row(selected_array[i][0]).data()[1],
-                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                     tier_2.push([1, teamtable.row(selected_array[i][0]).data()[2],
+                                     teamtable.row(selected_array[i][0]).data()[3]]);
                   } else if (i < p_per_tier * 3) {
-                     tier_3.push([1, teamtable.row(selected_array[i][0]).data()[1],
-                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                     tier_3.push([1, teamtable.row(selected_array[i][0]).data()[2],
+                                     teamtable.row(selected_array[i][0]).data()[3]]);
                   } else {
-                     tier_4.push([1, teamtable.row(selected_array[i][0]).data()[1],
-                                     teamtable.row(selected_array[i][0]).data()[2]]);
+                     tier_4.push([1, teamtable.row(selected_array[i][0]).data()[2],
+                                     teamtable.row(selected_array[i][0]).data()[3]]);
                   };
                };
                
@@ -399,10 +408,7 @@ $("#maketeams").on('click', function() {
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
-               // createOrderedTable('selectedTable1', tier_1);
-               // createOrderedTable('selectedTable2', tier_2);
-               // createOrderedTable('selectedTable3', tier_3);
-               // createOrderedTable('selectedTable4', tier_4);
+               
                //remove selected rows from the original table
                selectedPlayers.remove().draw();
 
@@ -422,6 +428,7 @@ $("#maketeams").on('click', function() {
 
                var tableNum = 1;
                //creating tables for each team
+               //$("div.toolbar").html('<b>Title</b>').css({'text-align':'center'});
                for (var i = 0; i < assorted_array.length; i+= 4){
                   createOrderedTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
                   tableNum += 1;
@@ -441,6 +448,7 @@ $("#maketeams").on('click', function() {
 //method for creating a table for splitting into small ordered tables (groups of 4)
 var createOrderedTable = function(id, arr) {
    id = $("#"+ id).DataTable({
+      //"dom": "<'toolbar'>",
       "data": arr,
       "searching": false,
       "paging": false,
@@ -562,7 +570,7 @@ function getDocs(){
                //making teams would not require a rank but rather a clickable option
                //as the first column so no need to push in a default rank column
                player_array_rank.push([0, name, parseInt(avg_of_avg)]);
-               player_array_team.push(["", name, parseInt(avg_of_avg)]);
+               player_array_team.push(["", 0, name, parseInt(avg_of_avg)]);
             }; //end for
          }//end if
       },
