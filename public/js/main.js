@@ -445,7 +445,10 @@ $("#maketeams").on('click', function() {
                //creating tables for each team
                
                for (var i = 0; i < assorted_array.length; i+= 4){
-                  createTeamTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
+                  var team_handicap =
+                     createTeamTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
+                  $('#selectedTable' + tableNum).after('<h4 class="show-handicap"\
+                        >Overall team handicap is ' + team_handicap + '!</h4>');
                   tableNum += 1;
                };
 
@@ -481,6 +484,7 @@ var createTeamTable = function(id, arr) {
    id = $("#"+ id).DataTable({
       //for dom documentation, refer to https://datatables.net/reference/option/dom
       "dom": '<"toolbar">tri',
+      "info": false,
       "data": arr,
       "searching": false,
       "paging": false,
@@ -508,11 +512,12 @@ var createTeamTable = function(id, arr) {
          cell.innerHTML = i + 1;
       });
    }).draw();
-   console.log($(id.table().footer()).contents().last()[0]);
+   //returning the sum of the handicaps
+   return id.column(3).data().sum();
    //adding a row in the end to indicate what their overall hadicap is
-   $(id.table().footer()).contents().last()[0].textContent=
-         "The overall handicap for this team is " + id.column(3).data().sum();
-   $(id.table().footer()).addClass('teamtable-footer');
+   // $(id.table().footer()).contents().last()[0].textContent=
+   //       "The overall handicap for this team is " + id.column(3).data().sum();
+   // $(id.table().footer()).addClass('teamtable-footer');
 
 };//createTeamTable method
 
