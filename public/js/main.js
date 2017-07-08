@@ -476,7 +476,7 @@ $("#maketeams").on('click', function() {
                      //       "Name": $("#newname").val(),
                      //       "Average": $("#newavg").val()
                      //    }).draw().nodes().addClass('selected');
-                     // }
+                     }
 
                   });//end validate
             });//newplayer submit button
