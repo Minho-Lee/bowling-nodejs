@@ -23,14 +23,14 @@ $("#submitplayers").on('click', function() {
                $(".playerform_tip_odd").tooltipster({
                   animation: 'slide',
                   delay: 200,
-                  side: 'right',
+                  side: ['right'],
                   trigger: 'custom',
                   onlyOne: false
                });
                $(".playerform_tip_even").tooltipster({
                   animation: 'slide',
                   delay: 200,
-                  side: 'left',
+                  side: ['left'],
                   trigger: 'custom',
                   onlyOne: false
                });
@@ -461,7 +461,7 @@ $("#maketeams").on('click', function() {
                         average: "Invalid Score!"
                      },
                      errorPlacement: function(err, element) {
-                        console.log(element);
+                        //console.log(element);
                         $(element).tooltipster('content', $(err).text());
                         $(element).tooltipster('show');
                      },
@@ -469,8 +469,14 @@ $("#maketeams").on('click', function() {
                         $(element).tooltipster('content', 'Accepted!');
                      },
                      submitHandler: function(form) {
-                        console.log($(form).serialize());
-                     }
+                        
+                     //    teamtable.row.add({
+                     //       'Selected': 'Selected',
+                     //       "Rank": 0,
+                     //       "Name": $("#newname").val(),
+                     //       "Average": $("#newavg").val()
+                     //    }).draw().nodes().addClass('selected');
+                     // }
 
                   });//end validate
             });//newplayer submit button
