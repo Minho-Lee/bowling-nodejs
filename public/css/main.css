@@ -120,6 +120,10 @@ body{
 .show-handicap {
   font-size: 16px;
 }
+
+#clickableIcon {
+  cursor: pointer;
+}
 /*div .toolbar {
   'font-size': '16px';
   'margin-left': '234px';

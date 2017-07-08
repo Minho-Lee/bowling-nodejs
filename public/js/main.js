@@ -340,7 +340,17 @@ $("#maketeams").on('click', function() {
                teamtable.cell(i, 0).data('').draw();
             };
          };
-         
+         //adding new players as they are added at the end of the teamtable as new rows
+         $("#clickableIcon").on('click', function() {
+            $("#newcomers").append("<input type='text' placeholder='name' id='newname'/> \
+                                    <input type='text' placeholder='average' id='newavg'/> \
+                                    <button type='submit' class='btn btn-sm btn-success'\
+                                    id='newsubmit'>Add New Player!</button>\
+                                    <button type='button' class='btn btn-sm btn-warning'\
+                                    id='newsubmitDone'>Done!</button><br/>");
+            $("#clickableIcon").slideUp(1000);
+         });//clickableIcon
+
          //in order to make selection, alternate clicks will select and unselect players
          $("#teamselection tbody").on('click', 'tr', function() {
             $(this).toggleClass('selected');
