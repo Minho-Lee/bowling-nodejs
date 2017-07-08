@@ -124,6 +124,14 @@ body{
 #clickableIcon {
   cursor: pointer;
 }
+
+#newplayerForm {
+  margin-bottom: 10px;
+}
+
+#newplayerForm input[type='text'] {
+  margin-bottom: 10px;
+}
 /*div .toolbar {
   'font-size': '16px';
   'margin-left': '234px';

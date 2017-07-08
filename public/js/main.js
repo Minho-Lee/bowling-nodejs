@@ -396,9 +396,9 @@ $("#maketeams").on('click', function() {
          var firstClick = true;
          $("#clickableIcon").on('click', function() {
             var text="<form id='newplayerForm'><input type='text' name='playername' \
-                        placeholder='Name' id='newname' class='tooltipster'/>\
+                        placeholder='Name' id='newname' class='tooltipster'/><br/>\
                         <input type='text' name='average' placeholder='Average' id='newavg'\
-                        class='tooltipster'/> <button type='submit' \
+                        class='tooltipster'/><br/><button type='submit' \
                         class='btn btn-sm btn-success' id='newsubmit'>\
                         Add New Player!</button> <button type='button' class='btn btn-sm \
                         btn-warning' id='newsubmitDone'>Done!</button><br/></form>"
@@ -407,7 +407,7 @@ $("#maketeams").on('click', function() {
                $(".tooltipster").tooltipster({
                   animation: 'fall',
                   delay: 200,
-                  side: 'bottom',
+                  side: 'right',
                   trigger: 'custom'
                });
             } else {
