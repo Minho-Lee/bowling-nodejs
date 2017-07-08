@@ -11,15 +11,26 @@ $("#submitplayers").on('click', function() {
                console.log('playerform tooltip init');
 
                $('#playerform').find('div').find('input').each(function(i, element) {
-                  if ($(element).attr('name') !== 'date') {
-                     $(element).addClass('playerform_tip');
-                  };
+                  var $name = $(element).attr('name');
+                  if ($name == 'playerName' || $name === "game2") {
+                     $(element).addClass('playerform_tip_odd');
+                  } else if ($name === 'game1' || $name === 'game3') {
+                     $(element).addClass('playerform_tip_even');
+                  } 
+                  //not adding a tiptoolster class to input type[date] -> not supported
                });
 
-               $(".playerform_tip").tooltipster({
+               $(".playerform_tip_odd").tooltipster({
                   animation: 'slide',
                   delay: 200,
                   side: 'right',
+                  trigger: 'custom',
+                  onlyOne: false
+               });
+               $(".playerform_tip_even").tooltipster({
+                  animation: 'slide',
+                  delay: 200,
+                  side: 'left',
                   trigger: 'custom',
                   onlyOne: false
                });
@@ -52,11 +63,11 @@ $("#submitplayers").on('click', function() {
                      }
                   },
                   messages: {
-                     playerName: "Need a name!",
+                     playerName: "Need a player name!",
                      date: "Valid date required!",
-                     game1: "Need a valid score!",
-                     game2: "Need a valid score!",
-                     game3: "Need a valid score!"
+                     game1: "Need a valid game 1 score!",
+                     game2: "Need a valid game 2 score!",
+                     game3: "Need a valid game 3score!"
                   },
                   errorPlacement: function(err, element) {
                      if ($(element).attr('name') === 'date') {
