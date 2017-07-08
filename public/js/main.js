@@ -341,15 +341,61 @@ $("#maketeams").on('click', function() {
             };
          };
          //adding new players as they are added at the end of the teamtable as new rows
+         var firstClick = true;
          $("#clickableIcon").on('click', function() {
-            $("#newcomers").append("<input type='text' placeholder='name' id='newname'/> \
-                                    <input type='text' placeholder='average' id='newavg'/> \
-                                    <button type='submit' class='btn btn-sm btn-success'\
-                                    id='newsubmit'>Add New Player!</button>\
-                                    <button type='button' class='btn btn-sm btn-warning'\
-                                    id='newsubmitDone'>Done!</button><br/>");
-            $("#clickableIcon").slideUp(1000);
+            var text="<form id='newplayerForm'><input type='text' name='playername' \
+                        placeholder='Name' id='newname' class='tooltipster'/>\
+                        <input type='text' name='average' placeholder='Average' id='newavg'\
+                        class='tooltipster'/> <button type='submit' \
+                        class='btn btn-sm btn-success' id='newsubmit'>\
+                        Add New Player!</button> <button type='button' class='btn btn-sm \
+                        btn-warning' id='newsubmitDone'>Done!</button><br/></form>"
+            if (firstClick) {
+               $("#newcomers").append(text);   
+            } else {
+               //if not first time clicking icon, just show it since it's already loaded.
+               $("#newplayerForm").slideDown('slow');
+            };
+            //enabling jquery plugin tooltipster
+            $(".tooltipster").tooltipster();
+            scrollTo('newplayerForm');
+            //hide the add icon
+            $("#clickableIcon").slideUp('slow');
+
+            //the newly created 'Done' button needs to be within this callback function
+            //or it goes out of scope
+            $("#newsubmitDone").on('click', function() {
+               //reshow the click icon
+               console.log('submit done');
+               $("#clickableIcon").slideDown('slow');
+               $("#newplayerForm").slideUp('slow');
+            });//newplayer done button
+
+            $("#newsubmit").on('click', function() {
+               $("#newplayerForm")
+                  .validate({
+                     debug: false,
+                     rules: {
+                        playername: "required",
+                        average: {
+                           required: true,
+                           number: true,
+                           range: [1,300]
+                        }
+                     },
+                     messages: {
+                        playername: "Your name is required!",
+                        average: "We need your score!"
+                     },
+                     errorPlacement
+                  });//end validate
+            });//newplayer submit button
+
+
+            firstClick = false;
          });//clickableIcon
+
+
 
          //in order to make selection, alternate clicks will select and unselect players
          $("#teamselection tbody").on('click', 'tr', function() {
