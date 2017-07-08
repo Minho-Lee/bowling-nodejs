@@ -352,12 +352,18 @@ $("#maketeams").on('click', function() {
                         btn-warning' id='newsubmitDone'>Done!</button><br/></form>"
             if (firstClick) {
                $("#newcomers").append(text);   
+               $(".tooltipster").tooltipster({
+                  animation: 'fade',
+                  delay: 200,
+                  trigger: 'custom'
+               });
             } else {
                //if not first time clicking icon, just show it since it's already loaded.
                $("#newplayerForm").slideDown('slow');
+               $(".tooltipster").show();
             };
             //enabling jquery plugin tooltipster
-            $(".tooltipster").tooltipster();
+            
             scrollTo('newplayerForm');
             //hide the add icon
             $("#clickableIcon").slideUp('slow');
@@ -366,9 +372,12 @@ $("#maketeams").on('click', function() {
             //or it goes out of scope
             $("#newsubmitDone").on('click', function() {
                //reshow the click icon
-               console.log('submit done');
                $("#clickableIcon").slideDown('slow');
                $("#newplayerForm").slideUp('slow');
+               //clearing all input boxes in the new player form
+               $("#newplayerForm")[0].reset();
+               $(".tooltipster").hide();
+
             });//newplayer done button
 
             $("#newsubmit").on('click', function() {
@@ -387,7 +396,17 @@ $("#maketeams").on('click', function() {
                         playername: "Your name is required!",
                         average: "We need your score!"
                      },
-                     errorPlacement
+                     errorPlacement: function(err, element) {
+                        $(element).tooltipster('update', $(err).text());
+                        $(element).tooltipster('show');
+                     },
+                     success: function(label, element) {
+                        $(element).tooltipster('update', 'Accepted!');
+                     },
+                     submitHandler: function(form) {
+                        console.log($(form).serialize());
+                     }
+
                   });//end validate
             });//newplayer submit button
 
