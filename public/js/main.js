@@ -412,13 +412,13 @@ $("#maketeams").on('click', function() {
                $(".tooltipster-right").tooltipster({
                   animation: 'fall',
                   delay: 200,
-                  side: 'right',
+                  side: ['right', 'top'],
                   trigger: 'custom'
                });
                $(".tooltipster-left").tooltipster({
                   animation: 'fall',
                   delay: 200,
-                  side: 'left',
+                  side: ['left', 'bottom'],
                   trigger: 'custom'
                });
             } else {
