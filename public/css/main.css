@@ -96,6 +96,10 @@ body{
     color: white;
 }
 
+#navbar {
+  z-index: 100;
+}
+
 #footerLogo {
   position:fixed;
   bottom: 0;

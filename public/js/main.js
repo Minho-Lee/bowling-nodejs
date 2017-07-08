@@ -398,24 +398,33 @@ $("#maketeams").on('click', function() {
          var firstClick = true;
          $("#clickableIcon").on('click', function() {
             var text="<form id='newplayerForm'><input type='text' name='playername' \
-                        placeholder='Name' id='newname' class='tooltipster'/><br/>\
+                        placeholder='Name' id='newname' class='tooltipster-right'/><br/>\
                         <input type='text' name='average' placeholder='Average' id='newavg'\
-                        class='tooltipster'/><br/><button type='submit' \
+                        class='tooltipster-left'/><br/><button type='submit' \
                         class='btn btn-sm btn-success' id='newsubmit'>\
                         Add New Player!</button> <button type='button' class='btn btn-sm \
                         btn-warning' id='newsubmitDone'>Done!</button><br/></form>"
             if (firstClick) {
-               $("#newcomers").append(text);   
-               $(".tooltipster").tooltipster({
+               $("#newcomers").append(text);
+               //initialize tooltipster -> notice this is not in document.ready because
+               //creation of the classes specified below are created through a cilck of a button
+               //not ready in the html files beforehand
+               $(".tooltipster-right").tooltipster({
                   animation: 'fall',
                   delay: 200,
                   side: 'right',
                   trigger: 'custom'
                });
+               $(".tooltipster-left").tooltipster({
+                  animation: 'fall',
+                  delay: 200,
+                  side: 'left',
+                  trigger: 'custom'
+               });
             } else {
                //if not first time clicking icon, just show it since it's already loaded.
                $("#newplayerForm").slideDown('slow');
-               //$(".tooltipster").tooltipster('open');
+               //$(".tooltipster-left, .tooltipster-right").tooltipster('show');
             };
             //enabling jquery plugin tooltipster
             
@@ -431,7 +440,7 @@ $("#maketeams").on('click', function() {
                $("#newplayerForm").slideUp('slow');
                //clearing all input boxes in the new player form
                $("#newplayerForm")[0].reset();
-               $(".tooltipster").tooltipster('close');
+               $(".tooltipster-right, .tooltipster-left").tooltipster('close');
 
             });//newplayer done button
 
