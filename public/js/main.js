@@ -353,14 +353,15 @@ $("#maketeams").on('click', function() {
             if (firstClick) {
                $("#newcomers").append(text);   
                $(".tooltipster").tooltipster({
-                  animation: 'fade',
+                  animation: 'fall',
                   delay: 200,
+                  side: 'bottom',
                   trigger: 'custom'
                });
             } else {
                //if not first time clicking icon, just show it since it's already loaded.
                $("#newplayerForm").slideDown('slow');
-               $(".tooltipster").show();
+               //$(".tooltipster").tooltipster('open');
             };
             //enabling jquery plugin tooltipster
             
@@ -376,11 +377,12 @@ $("#maketeams").on('click', function() {
                $("#newplayerForm").slideUp('slow');
                //clearing all input boxes in the new player form
                $("#newplayerForm")[0].reset();
-               $(".tooltipster").hide();
+               $(".tooltipster").tooltipster('close');
 
             });//newplayer done button
 
             $("#newsubmit").on('click', function() {
+               console.log('newsubmit button clicked');
                $("#newplayerForm")
                   .validate({
                      debug: false,
@@ -397,11 +399,11 @@ $("#maketeams").on('click', function() {
                         average: "We need your score!"
                      },
                      errorPlacement: function(err, element) {
-                        $(element).tooltipster('update', $(err).text());
+                        $(element).tooltipster('content', $(err).text());
                         $(element).tooltipster('show');
                      },
                      success: function(label, element) {
-                        $(element).tooltipster('update', 'Accepted!');
+                        $(element).tooltipster('content', 'Accepted!');
                      },
                      submitHandler: function(form) {
                         console.log($(form).serialize());
@@ -409,7 +411,7 @@ $("#maketeams").on('click', function() {
 
                   });//end validate
             });//newplayer submit button
-
+            console.log('newsubmit button done');
 
             firstClick = false;
          });//clickableIcon
