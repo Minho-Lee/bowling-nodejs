@@ -131,6 +131,7 @@ body{
 
 #newplayerForm input[type='text'] {
   margin-bottom: 10px;
+  width: 120px;
 }
 /*div .toolbar {
   'font-size': '16px';

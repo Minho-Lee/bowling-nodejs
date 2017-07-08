@@ -38,7 +38,8 @@ $("#submitplayers").on('click', function() {
                //NTS: tooltipster ONLY applies to type="text"
                
             } else {
-               $(".playerform_tip").tooltipster('show');
+               $(".playerform_tip_even").tooltipster('show');
+               $(".playerform_tip_odd").tooltipster('show');
             };
             $("#playerform")
                .validate({
@@ -65,9 +66,9 @@ $("#submitplayers").on('click', function() {
                   messages: {
                      playerName: "Need a player name!",
                      date: "Valid date required!",
-                     game1: "Need a valid game 1 score!",
-                     game2: "Need a valid game 2 score!",
-                     game3: "Need a valid game 3score!"
+                     game1: "Need a valid score!",
+                     game2: "Need a valid score!",
+                     game3: "Need a valid score!"
                   },
                   errorPlacement: function(err, element) {
                      if ($(element).attr('name') === 'date') {
@@ -111,7 +112,8 @@ $("#submitplayers").on('click', function() {
                            player_array_team = [];
                            player_array_rank = [];
                            getDocs();
-                           $(".playerform_tip").tooltipster('close');
+                           $(".playerform_tip_even").tooltipster('close');
+                           $(".playerform_tip_odd").tooltipster('close');
                            $("#date-error").html("");
                         },
                         error: function(xhr, textStatus, error){
@@ -446,8 +448,8 @@ $("#maketeams").on('click', function() {
                         }
                      },
                      messages: {
-                        playername: "Your name is required!",
-                        average: "We need your score!"
+                        playername: "Invalid name!",
+                        average: "Invalid Score!"
                      },
                      errorPlacement: function(err, element) {
                         console.log(element);
