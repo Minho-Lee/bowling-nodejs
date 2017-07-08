@@ -5,7 +5,30 @@ $("#submitplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("submitplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
+         var firstClick = true
          $("#playersubmit").on('click', function() {
+            if (firstClick) {
+               console.log('playerform tooltip init');
+
+               $('#playerform').find('div').find('input').each(function(i, element) {
+                  if ($(element).attr('name') !== 'date') {
+                     $(element).addClass('playerform_tip');
+                  };
+               });
+
+               $(".playerform_tip").tooltipster({
+                  animation: 'slide',
+                  delay: 200,
+                  side: 'right',
+                  trigger: 'custom',
+                  onlyOne: false
+               });
+               //apply 'playerform_tip' class onto every div in the playerform
+               //NTS: tooltipster ONLY applies to type="text"
+               
+            } else {
+               $(".playerform_tip").tooltipster('show');
+            };
             $("#playerform")
                .validate({
                   debug: false,
@@ -35,6 +58,21 @@ $("#submitplayers").on('click', function() {
                      game2: "Need a valid score!",
                      game3: "Need a valid score!"
                   },
+                  errorPlacement: function(err, element) {
+                     if ($(element).attr('name') === 'date') {
+                        $("#date-error").html("Valid Date Required!");
+                     } else {
+                        $(element).tooltipster('content', $(err).text());
+                        $(element).tooltipster('show');
+                     }
+                  },
+                  success: function(label, element) {
+                     if ($(element).attr('name') === 'date') {
+                        $("#date-error").html("Accepted!");
+                     } else {
+                        $(element).tooltipster('content', 'Accepted!');
+                     };
+                  },
                   submitHandler: function(form) {
                      var average = 0;
                      //submitting 'average' field into db in order to make getrankings faster
@@ -62,6 +100,8 @@ $("#submitplayers").on('click', function() {
                            player_array_team = [];
                            player_array_rank = [];
                            getDocs();
+                           $(".playerform_tip").tooltipster('close');
+                           $("#date-error").html("");
                         },
                         error: function(xhr, textStatus, error){
                            console.log(xhr.statusText);
@@ -71,6 +111,7 @@ $("#submitplayers").on('click', function() {
                      }); //ajax done
                   }//submitHandler
                });//playerform
+            firstClick = false;
             scrollTo('playerSubmitMessage')
          });//playersubmit button
       });//load_main
@@ -382,7 +423,6 @@ $("#maketeams").on('click', function() {
             });//newplayer done button
 
             $("#newsubmit").on('click', function() {
-               console.log('newsubmit button clicked');
                $("#newplayerForm")
                   .validate({
                      debug: false,
@@ -399,6 +439,7 @@ $("#maketeams").on('click', function() {
                         average: "We need your score!"
                      },
                      errorPlacement: function(err, element) {
+                        console.log(element);
                         $(element).tooltipster('content', $(err).text());
                         $(element).tooltipster('show');
                      },
@@ -411,7 +452,6 @@ $("#maketeams").on('click', function() {
 
                   });//end validate
             });//newplayer submit button
-            console.log('newsubmit button done');
 
             firstClick = false;
          });//clickableIcon

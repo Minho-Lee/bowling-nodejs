@@ -4,14 +4,16 @@
     <h4 align="center">All fields are <b>required</b></h4>
     <!-- <form action="submitplayer" method="post" target="print_popup"
     onsubmit="window.open('about:blank','print_popup','top=300, left=500,width=300,height=300');"> -->
-    <form id="playerform" action="">
+    <form id="playerform">
         <div class="row text-center">
-            <input type="date" name="date" style="width: 150px"/>
+            <input type="date" name="date" min="2017-01-01" style="width: 170px"/><br/>
+            <label id="date-error"></label>
         </div>
-        <div class="row text-center">
-            <input type="text" name="playerName" placeholder="Name" style="width: 150px"/>
-        </div>
+        
         <div id="submitGameScore">
+            <div class="row text-center">
+                <input type="text" name="playerName" placeholder="Name" style="width: 150px"/>
+            </div>
             <div class="row text-center">
                 <input type="text" name="game1" placeholder="Game 1 Score" style="width:150px"/>
             </div>

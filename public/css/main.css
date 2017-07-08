@@ -134,7 +134,11 @@ body{
 /submitplayers.html/
 //////////////////*/
 #submitGameScore {
-    padding-top: 30px;
+    padding-top: 10px;
+}
+
+#submitGameScore input[type='text'] {
+  margin-bottom: 10px;
 }
 
 /*///////////////
