@@ -477,7 +477,6 @@ $("#maketeams").on('click', function() {
                         teamtable.row.add([
                            '', 0, $("#newname").val(), parseInt($("#newavg").val())
                         ]).draw().to$().addClass('selected');
-                        var instances = $.tooltipster.instances();
                         $.each(instances, function(i, instance) {
                            instance.close();
                         });
