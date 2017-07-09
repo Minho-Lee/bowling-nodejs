@@ -513,15 +513,17 @@ $("#maketeams").on('click', function() {
          var selected_array = [];
          $("#teamSubmit").on('click', function() {
             var selectedPlayers = teamtable.rows('.selected');
-            var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
-            if (selectedPlayers.count() < 4) {
+            var playercount = selectedPlayers.count();
+            var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [], tier_5 = [];
+            if (playercount < 4) {
                $("#teamSubmitMessage").html("<br/><h4>Please select more than  or equal to 4 players</h4>");
-            } else if (selectedPlayers.count() % 4 === 1  ||
-                       selectedPlayers.count() % 4 === 2) {
-               $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4 or one less\
-                                                      than multiples of 4</h4>");
+            // } else if (playercount % 4 === 2) {
+            //    $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4 or one less\
+            //                                           than multiples of 4</h4>");
             } else {
-               for (var i = 0; i < selectedPlayers.count(); i++) {
+               var offset_plus_1 = (playercount % 4 === 1),
+                   offset_plus_2 = (playercount % 4 === 2);
+               for (var i = 0; i < playercount; i++) {
                   //since the indices for the rows are not stored in order of the 
                   //newly selected rows, no need to push in the name, score ahead of time
                   //just query the name and score after using the indices
@@ -529,13 +531,19 @@ $("#maketeams").on('click', function() {
                }//at this point selected_array will have [original idx, name, average] of all selected players
                //console.log(selected_array);
                
+               var num_of_teams = 0;
                //separate selected_array into groups of 4 (one from each respsective tier)
-               //for now select in multiples of 4
-               num_of_teams = Math.ceil(selectedPlayers.count() / 4);
-               var tier_1_high=0, tier_2_high=0, tier_3_high=0, tier_4_high=0;
+               if (offset_plus_1 || offset_plus_2) {
+                  num_of_teams = Math.floor(playercount / 4);
+               } else {
+                  num_of_teams = Math.ceil(playercount / 4);
+               }
+               
+               var tier_1_high=0, tier_2_high=0, tier_3_high=0, tier_4_high=0, tier_5_high=0;
                var tempName = "", tempAvg = 0;
+
                for (var i = 0; i < num_of_teams * 4; i++ ) {
-                  if (i < selectedPlayers.count()) {
+                  if (i < playercount) {
                      tempName = teamtable.row(selected_array[i][0]).data()[2];
                      tempAvg = teamtable.row(selected_array[i][0]).data()[3];
                   };
@@ -555,19 +563,40 @@ $("#maketeams").on('click', function() {
                      tier_2.push([1, tempName, tempAvg, (tier_2_high - tempAvg)]);
                   } else if (i < num_of_teams * 3) {
                      tier_3.push([1, tempName, tempAvg, (tier_3_high - tempAvg)]);
-                  } else if (i < selectedPlayers.count()) {
-                     //if the num of players are one less than multiples of 4, then the
-                     //last score to be inserted would be tier_4_high with a placeholder name
+                  } else if (i < playercount) {
                      tier_4.push([1, tempName, tempAvg, (tier_4_high - tempAvg)]);
                   } else {
-                     console.log('nobody')
+                     //if the num of players are one less than multiples of 4, then the
+                     //last score to be inserted would be tier_4_high with a placeholder name
                      tier_4.push([1, 'Nobody', 0, tier_4_high]);
                   };
                   //console.log(tier_1_high + ' / ' + tier_2_high + ' / ' + tier_3_high + ' / ' + tier_4_high);
                };
 
-               
-               $("#teamSubmitMessage").html("<br/><h4>"+ selectedPlayers.count() +
+               //when number of players is 1 or 2 greater than multiples of 4
+               if (offset_plus_1) {
+                  tier_5_high = teamtable.row(selected_array[playercount-1][0]).data()[3];
+                  var temp_player = [1, 'Nobody', 0, tier_5_high];
+                  tier_5.push([1, teamtable.row(selected_array[playercount-1][0]).data()[2],
+                                  tier_5_high, 0]);
+                  for (var i = 0; i < num_of_teams - 1; i++) {
+                     tier_5.push(temp_player);   
+                  }
+               } else if (offset_plus_2) {
+                  console.log(num_of_teams);
+                  tier_5_high = teamtable.row(selected_array[playercount-2][0]).data()[3];
+                  tier_5.push([1, teamtable.row(selected_array[playercount-2][0]).data()[2],
+                                 tier_5_high, 0]);
+                  tier_5.push([1, teamtable.row(selected_array[playercount-1][0]).data()[2],
+                                 teamtable.row(selected_array[playercount-1][0]).data()[3],
+                        tier_5_high - teamtable.row(selected_array[playercount-1][0]).data()[3]]);
+                  var temp_player = [1, 'Nobody', 0, tier_5_high];
+                  for (var i = 0; i < num_of_teams - 2; i++) {
+                     tier_5.push(temp_player);
+                  };
+               }
+               console.log(tier_5);
+               $("#teamSubmitMessage").html("<br/><h4>"+ playercount +
                   " Players have been submitted</h4>");
                //NTS: selected_array picks up selection from top to bottom regardless of
                //which player has been selected first -> makes it easier to split it into tiers.
@@ -576,30 +605,40 @@ $("#maketeams").on('click', function() {
                selectedPlayers.remove().draw();
 
                //for some reason, fisherYates algorithm for shuffling is not working for my 2d array
-               //thus using underscore.js
+               //thus using underscore.js shuffle method
                tier_1 = _.shuffle(tier_1);
                tier_2 = _.shuffle(tier_2);
                tier_3 = _.shuffle(tier_3);
                tier_4 = _.shuffle(tier_4);
-               console.log(tier_4);
+               tier_5 = _.shuffle(tier_5);
+
+               console.log(offset_plus_2);
                assorted_array = [], team_average = [];
                for (var i = 0; i < num_of_teams; i++) {
                   var temp1 = tier_1.pop(), temp2 = tier_2.pop(),
-                      temp3 = tier_3.pop(), temp4 = tier_4.pop();
-                  // assorted_array.push(temp1, tier_1_high);
-                  // assorted_array.push(temp2, tier_2_high);
-                  // assorted_array.push(temp3, tier_3_high);
-                  // assorted_array.push(temp4, tier_4_high);
-                  assorted_array.push(temp1, temp2, temp3, temp4);
-                  team_average.push(Math.round((temp1[2] + temp2[2] + temp3[2] + temp4[2])/4));
+                      temp3 = tier_3.pop(), temp4 = tier_4.pop(), temp5 = tier_5.pop();
+
+                  if (offset_plus_1 || offset_plus_2) {
+                     assorted_array.push(temp1, temp2, temp3, temp4, temp5);
+                     team_average.push(Math.round((temp1[2] + temp2[2] + temp3[2] + temp4[2]+ temp5[2])/5));
+                  } else {
+                     assorted_array.push(temp1, temp2, temp3, temp4);
+                     team_average.push(Math.round((temp1[2] + temp2[2] + temp3[2] + temp4[2])/4));
+                  }
+                  
                };
                //console.log(team_average);
-               var tableNum = 1;
+
                //creating tables for each team
-               
-               for (var i = 0; i < assorted_array.length; i+= 4){
+               var tableNum = 1;
+               var jump = 0;
+               //if playercount is greater than multiples of 4 by one or two then slice by 5
+               if (offset_plus_1 || offset_plus_2) { jump = 5; }
+               else { jump = 4; }
+
+               for (var i = 0; i < assorted_array.length; i+= jump){
                   var team_handicap =
-                     createTeamTable('selectedTable'+ tableNum, assorted_array.slice(i,i+4));
+                     createTeamTable('selectedTable'+ tableNum, assorted_array.slice(i,i+jump));
                   $('#selectedTable' + tableNum).after('<h4 class="show-handicap"\
                         >Overall team handicap is ' + team_handicap + '!</h4>');
                   tableNum += 1;
@@ -733,9 +772,6 @@ var createTeamTable = function(id, arr) {
    //returning the sum of the handicaps
    return id.column(3).data().sum();
    //adding a row in the end to indicate what their overall hadicap is
-   // $(id.table().footer()).contents().last()[0].textContent=
-   //       "The overall handicap for this team is " + id.column(3).data().sum();
-   // $(id.table().footer()).addClass('teamtable-footer');
 
 };//createTeamTable method
 
