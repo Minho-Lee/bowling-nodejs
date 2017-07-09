@@ -325,9 +325,19 @@ body{
   margin:0 auto;
 }
 
+/*///////////////
+/   map.html    /
+///////////////*/
 .myMap{
-  display:block;
+  /*display:block;
   margin-left: auto;
-  margin-right: auto;
-  width: 600px;
+  margin-right: auto;*/
+  position:relative;
+  padding-bottom: 75%;
+  height: 600px;
+}
+
+.myMap iframe {
+  width: 100% !important;
+  
 }
