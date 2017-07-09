@@ -135,12 +135,13 @@ $("#notifications").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("notifications.html", function() {
          $("#wrapper_div").fadeIn(300);
-         
-         
+
+
       });//load_main
    });//wrapper_div
 });//notifications
 /*ADMIN SECTION DONE*/
+
 $("#goHome").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("home.html", function() {
@@ -154,69 +155,7 @@ $("#goHome").on('click', function() {
    });//wrapper_div
 });//goHome
 
-$("#contactUs").on('click', function() {
-   $("#wrapper_div").fadeOut(300, function() {
-      $("#load_main").load("contact.html", function() {
-         $("#wrapper_div").fadeIn(300);
-         $("#clearContactForm").on('click', function() {
-            $("#messageSent").html("");
-            $("#submitMessage").prop('disabled', false);
-            scrollTo('contactInfo');
-         });
-         $("#submitMessage").on('click', function() {
-            $("#contactInfo")
-               .validate({
-                  debug: false,
-                  rules: {
-                     name: "required",
-                     email: {
-                        required: true,
-                        email: true
-                     },
-                     message: "required",
-                     subject: "required"
-                  },
-                  messages: {
-                     name: "We need to know who you are!",
-                     email: {
-                        required: "Need a valid email to contact you!",
-                        email: "Email must be in form of name@domain.com"
-                     },
-                     message: "Let us hear from you!",
-                     subject: "What is the message about?"
-                  },
-                  submitHandler: function(form) {
-                     $.ajax({
-                        cache: false,
-                        url: 'sendemail',
-                        type: 'GET',
-                        data: $(form).serialize(),
-                     }) //ajax call complete
-                     .done(function(data) {
-                        //gets a confirmation from nodemailer to see
-                        if (data.status === "success") {
-                           $("#submitMessage").prop('disabled', true)
-                           $("#messageSent").empty()
-                                            .html("Email is sent to mississaugabowling@gmail.com");
-                        } else {
-                           $("#messageSent").empty()
-                                            .html("Error has occurred, please try again later.");
-                        };
-                        //defined scrollTo function at bottom. Just smooth scroll animation.
-                        scrollTo('messageSent');
-                     })
-                     .fail(function(xhr, textStatus, err) {
-                        console.log(xhr.statusText);
-                        console.log(textStatus);
-                        console.log(error);
-                     });
-                  }//submitHandler
-               });//contactInfo
-         });//submitMessage
-      });//load_main
-   });//wrapper_div
-});//contactUs
-
+/*MEMBERS SECTION*/
 $("#getplayers").on('click', function() {
    //**important!!: this callback ^ is here to ensure that main.js is loaded properly
    //able to recognize all id/classes before contact.html is loaded
@@ -345,16 +284,52 @@ $("#getplayers").on('click', function() {
    });//wrapper_div
 });//getplayers
 
-//login page load
-$("#goToLogin").on('click', function() {
+//rankings page load
+$("#getrankings").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
-      $('#load_main').load("login.html", function() {
+      $("#load_main").load("rankings.html", function() {
          $("#wrapper_div").fadeIn(300);
-
-
+         //$("#rankings").on('click', function() {
+            // Retrieve ^ button disabled. Now ranking loads on page load
+            //at this point player_array is [name, average for each session]
+            //displaying onto a table using DataTable library
+            var table = $("#displayRankings").DataTable({
+               "data" : player_array_rank, 
+               //"paging": false,
+               "columns" : [
+                  { "title" : "Rank" },
+                  { "title" : "Name" },
+                  { "title" : "Average" }
+               ],
+               "columnDefs": [{
+                  "searchable": false,
+                  "orderable": false,
+                  "targets": 0
+               },
+               {
+                  "searchable": true,
+                  "orderable": false,
+                  "targets": 1
+               },
+               {
+                  "searchable": false,
+                  "orderable": false,
+                  "targets": 2
+               }],
+               "order" : [[2, 'desc']]
+            });//dataTable init
+            //puts a default index rank
+            table.on( 'order.dt search.dt', function () {
+               table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                  cell.innerHTML = i + 1;
+               });
+            }).draw();
+            //hide retrieve button after submitting
+           // $(this).hide(300);
+         //});//rankings
       });//load_main
    });//wrapper_div
-});//goToLogin
+});//getrankings.html
 
 var page_reload_counter = 0;
 $("#maketeams").on('click', function() {
@@ -541,8 +516,10 @@ $("#maketeams").on('click', function() {
             var tier_1 = [], tier_2 = [], tier_3 = [], tier_4 = [];
             if (selectedPlayers.count() < 4) {
                $("#teamSubmitMessage").html("<br/><h4>Please select more than  or equal to 4 players</h4>");
-            } else if (selectedPlayers.count() % 4 !== 0 ) {
-               $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4</h4>");
+            } else if (selectedPlayers.count() % 4 === 1  ||
+                       selectedPlayers.count() % 4 === 2) {
+               $("#teamSubmitMessage").html("<br/><h4>Please select multiples of 4 or one less\
+                                                      than multiples of 4</h4>");
             } else {
                for (var i = 0; i < selectedPlayers.count(); i++) {
                   //since the indices for the rows are not stored in order of the 
@@ -556,10 +533,12 @@ $("#maketeams").on('click', function() {
                //for now select in multiples of 4
                num_of_teams = Math.ceil(selectedPlayers.count() / 4);
                var tier_1_high=0, tier_2_high=0, tier_3_high=0, tier_4_high=0;
-               for (var i = 0; i < selectedPlayers.count(); i++ ) {
-                  var tempName = teamtable.row(selected_array[i][0]).data()[2],
-                      tempAvg = teamtable.row(selected_array[i][0]).data()[3];
-                  // console.log(tempName + ' / ' + tempAvg);
+               var tempName = "", tempAvg = 0;
+               for (var i = 0; i < num_of_teams * 4; i++ ) {
+                  if (i < selectedPlayers.count()) {
+                     tempName = teamtable.row(selected_array[i][0]).data()[2];
+                     tempAvg = teamtable.row(selected_array[i][0]).data()[3];
+                  };
                   if (i === 0) {
                      tier_1_high = tempAvg;
                   } else if (i === num_of_teams) {
@@ -569,14 +548,20 @@ $("#maketeams").on('click', function() {
                   } else if (i === num_of_teams * 3) {
                      tier_4_high = tempAvg;
                   }
+
                   if (i < num_of_teams) {
                      tier_1.push([1, tempName, tempAvg, (tier_1_high - tempAvg)]);
                   } else if (i < num_of_teams * 2) {
                      tier_2.push([1, tempName, tempAvg, (tier_2_high - tempAvg)]);
                   } else if (i < num_of_teams * 3) {
                      tier_3.push([1, tempName, tempAvg, (tier_3_high - tempAvg)]);
-                  } else {
+                  } else if (i < selectedPlayers.count()) {
+                     //if the num of players are one less than multiples of 4, then the
+                     //last score to be inserted would be tier_4_high with a placeholder name
                      tier_4.push([1, tempName, tempAvg, (tier_4_high - tempAvg)]);
+                  } else {
+                     console.log('nobody')
+                     tier_4.push([1, 'Nobody', 0, tier_4_high]);
                   };
                   //console.log(tier_1_high + ' / ' + tier_2_high + ' / ' + tier_3_high + ' / ' + tier_4_high);
                };
@@ -596,6 +581,7 @@ $("#maketeams").on('click', function() {
                tier_2 = _.shuffle(tier_2);
                tier_3 = _.shuffle(tier_3);
                tier_4 = _.shuffle(tier_4);
+               console.log(tier_4);
                assorted_array = [], team_average = [];
                for (var i = 0; i < num_of_teams; i++) {
                   var temp1 = tier_1.pop(), temp2 = tier_2.pop(),
@@ -632,13 +618,84 @@ $("#maketeams").on('click', function() {
                
             }//end if
             scrollTo('teamSubmitMessage');
-
-
          });//teamSubmit button
       });//load_main
    });//wrapper_div
 });//maketeams load
+/*MEMBERS SECTION END*/
 
+$("#contactUs").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $("#load_main").load("contact.html", function() {
+         $("#wrapper_div").fadeIn(300);
+         $("#clearContactForm").on('click', function() {
+            $("#messageSent").html("");
+            $("#submitMessage").prop('disabled', false);
+            scrollTo('contactInfo');
+         });
+         $("#submitMessage").on('click', function() {
+            $("#contactInfo")
+               .validate({
+                  debug: false,
+                  rules: {
+                     name: "required",
+                     email: {
+                        required: true,
+                        email: true
+                     },
+                     message: "required",
+                     subject: "required"
+                  },
+                  messages: {
+                     name: "We need to know who you are!",
+                     email: {
+                        required: "Need a valid email to contact you!",
+                        email: "Email must be in form of name@domain.com"
+                     },
+                     message: "Let us hear from you!",
+                     subject: "What is the message about?"
+                  },
+                  submitHandler: function(form) {
+                     $.ajax({
+                        cache: false,
+                        url: 'sendemail',
+                        type: 'GET',
+                        data: $(form).serialize(),
+                     }) //ajax call complete
+                     .done(function(data) {
+                        //gets a confirmation from nodemailer to see
+                        if (data.status === "success") {
+                           $("#submitMessage").prop('disabled', true)
+                           $("#messageSent").empty()
+                                            .html("Email is sent to mississaugabowling@gmail.com");
+                        } else {
+                           $("#messageSent").empty()
+                                            .html("Error has occurred, please try again later.");
+                        };
+                        //defined scrollTo function at bottom. Just smooth scroll animation.
+                        scrollTo('messageSent');
+                     })
+                     .fail(function(xhr, textStatus, err) {
+                        console.log(xhr.statusText);
+                        console.log(textStatus);
+                        console.log(error);
+                     });
+                  }//submitHandler
+               });//contactInfo
+         });//submitMessage
+      });//load_main
+   });//wrapper_div
+});//contactUs
+
+//login page load
+$("#goToLogin").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $('#load_main').load("login.html", function() {
+         $("#wrapper_div").fadeIn(300);
+
+      });//load_main
+   });//wrapper_div
+});//goToLogin
 
 //method for creating a table for splitting into small ordered tables (groups of 4)
 var createTeamTable = function(id, arr) {
@@ -698,51 +755,6 @@ var createTable = function(id, arr) {
    });//DataTable done
 }//createTable method
 
-//rankings page load
-$("#getrankings").on('click', function() {
-   $("#wrapper_div").fadeOut(300, function() {
-      $("#load_main").load("rankings.html", function() {
-         $("#wrapper_div").fadeIn(300);
-         //$("#rankings").on('click', function() {
-            //at this point player_array is [name, average for each session]
-            //displaying onto a table using DataTable library
-            var table = $("#displayRankings").DataTable({
-               "data" : player_array_rank, 
-               //"paging": false,
-               "columns" : [
-                  { "title" : "Rank" },
-                  { "title" : "Name" },
-                  { "title" : "Average" }
-               ],
-               "columnDefs": [{
-                  "searchable": false,
-                  "orderable": false,
-                  "targets": 0
-               },
-               {
-                  "searchable": true,
-                  "orderable": false,
-                  "targets": 1
-               },
-               {
-                  "searchable": false,
-                  "orderable": false,
-                  "targets": 2
-               }],
-               "order" : [[2, 'desc']]
-            });//dataTable init
-            //puts a default index rank
-            table.on( 'order.dt search.dt', function () {
-               table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                  cell.innerHTML = i + 1;
-               });
-            }).draw();
-            //hide retrieve button after submitting
-           // $(this).hide(300);
-         //});//rankings
-      });//load_main
-   });//wrapper_div
-});//getrankings.html
 
 //function to query all the docs in the db
 function getDocs(){

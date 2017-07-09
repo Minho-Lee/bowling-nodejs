@@ -262,7 +262,7 @@ app.post('/retrieverankings', function(req, res) {
 //app.set('view engine', 'html');
 
 app.get('/', function(req, res, next) {
-    res.render('index', { title: '' }, function(err, html) {
+    res.render('index', { title: 'hello' }, function(err, html) {
         console.log(html);
         res.send('done!');
     });
