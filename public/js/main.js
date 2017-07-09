@@ -1,5 +1,6 @@
 console.log("MAIN.JS LOADED");
 
+/* ADMIN SECTION */
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
@@ -130,6 +131,16 @@ $("#submitplayers").on('click', function() {
    });//wrapper_div
 });//submitPlayers
 
+$("#notifications").on('click', function() {
+   $("#wrapper_div").fadeOut(300, function() {
+      $("#load_main").load("notifications.html", function() {
+         $("#wrapper_div").fadeIn(300);
+         
+         
+      });//load_main
+   });//wrapper_div
+});//notifications
+/*ADMIN SECTION DONE*/
 $("#goHome").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $("#load_main").load("home.html", function() {
@@ -596,7 +607,7 @@ $("#maketeams").on('click', function() {
                   assorted_array.push(temp1, temp2, temp3, temp4);
                   team_average.push(Math.round((temp1[2] + temp2[2] + temp3[2] + temp4[2])/4));
                };
-               console.log(team_average);
+               //console.log(team_average);
                var tableNum = 1;
                //creating tables for each team
                
@@ -611,12 +622,6 @@ $("#maketeams").on('click', function() {
                //NTS: space in b/w elements means grab descendants, no space means && operation
                var div_counter = 1;
                $("div .toolbar").each(function() {
-                  // $(this).css({  'font-size': '16px',
-                  //                'text-align': 'left',
-                  //                'margin-left': '234px'
-                  // });
-                  // $(this).text('@media (min-width: 582px) { \
-                  //              .toolbar { margin-left : 194px; color: red }}');
 
                   //write on each table its team numbers
                   $(this).html('<b style="font-size: 16px">Team' + div_counter + '</b>')
