@@ -112,8 +112,7 @@ $("#submitplayers").on('click', function() {
                            player_array_team = [];
                            player_array_rank = [];
                            getDocs();
-                           $(".playerform_tip_even").tooltipster('close');
-                           $(".playerform_tip_odd").tooltipster('close');
+                           $(".playerform_tip_even, .playerform_tip_odd").tooltipster('close');
                            $("#date-error").html("");
                         },
                         error: function(xhr, textStatus, error){
@@ -397,7 +396,8 @@ $("#maketeams").on('click', function() {
          //adding new players as they are added at the end of the teamtable as new rows
          var firstClick = true;
          $("#clickableIcon").on('click', function() {
-            var text="<form id='newplayerForm'><input type='text' name='playername' \
+            var text="<form id='newplayerForm' onsubmit='return false'>\
+                        <input type='text' name='playername' \
                         placeholder='Name' id='newname' class='tooltipster-right'/><br/>\
                         <input type='text' name='average' placeholder='Average' id='newavg'\
                         class='tooltipster-left'/><br/><button type='submit' \
@@ -421,10 +421,13 @@ $("#maketeams").on('click', function() {
                   side: ['left', 'bottom'],
                   trigger: 'custom'
                });
+
+               var instances = $.tooltipster.instances();
+               console.log('tooltipster initialized');
             } else {
                //if not first time clicking icon, just show it since it's already loaded.
                $("#newplayerForm").slideDown('slow');
-               //$(".tooltipster-left, .tooltipster-right").tooltipster('show');
+               $(".tooltipster-left, .tooltipster-right").tooltipster('open');
             };
             //enabling jquery plugin tooltipster
             
@@ -439,8 +442,10 @@ $("#maketeams").on('click', function() {
                $("#clickableIcon").slideDown('slow');
                $("#newplayerForm").slideUp('slow');
                //clearing all input boxes in the new player form
+               $.each(instances, function(i, instance) {
+                  instance.close();
+               });
                $("#newplayerForm")[0].reset();
-               $(".tooltipster-right, .tooltipster-left").tooltipster('close');
 
             });//newplayer done button
 
@@ -469,13 +474,15 @@ $("#maketeams").on('click', function() {
                         $(element).tooltipster('content', 'Accepted!');
                      },
                      submitHandler: function(form) {
-                        
-                     //    teamtable.row.add({
-                     //       'Selected': 'Selected',
-                     //       "Rank": 0,
-                     //       "Name": $("#newname").val(),
-                     //       "Average": $("#newavg").val()
-                     //    }).draw().nodes().addClass('selected');
+                        teamtable.row.add([
+                           '', 0, $("#newname").val(), parseInt($("#newavg").val())
+                        ]).draw().to$().addClass('selected');
+                        var instances = $.tooltipster.instances();
+                        $.each(instances, function(i, instance) {
+                           instance.close();
+                        });
+                        $("#newname, #newavg").val('');
+                        console.log('adding new player row done');
                      }
 
                   });//end validate
@@ -483,11 +490,16 @@ $("#maketeams").on('click', function() {
 
             firstClick = false;
          });//clickableIcon
-
-
+         
+         //this is to find out what kind of data/dataType each cell has
+         // $("#teamselection tbody").on('click', 'td', function() {
+         //    console.log(teamtable.cell(this).data());
+         //    console.log(typeof teamtable.cell(this).data());
+         // });
 
          //in order to make selection, alternate clicks will select and unselect players
          $("#teamselection tbody").on('click', 'tr', function() {
+            
             $(this).toggleClass('selected');
             var idx = teamtable.row(this).index();
             if ($(this).hasClass('selected')) {
