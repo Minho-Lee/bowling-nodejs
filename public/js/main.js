@@ -220,6 +220,21 @@ $("#getplayers").on('click', function() {
                               <td>"+ game3+"</td>\
                               <td>"+ average + "</tr>");
                      };//end for
+
+                     //if player hit over 200, then change the color of that game to red
+                     $("#showScore tr td").each(function(i, element) {
+                        var goodscore = parseInt($(element)[0].firstChild.data);
+                        //could've easily used vanilla javascript (which would've been easier)
+                        // goodscore = parseInt(element.innerHTML)
+
+                        if (goodscore >= 200 && goodscore <= 300) {
+                           $(element).css('color', 'red');
+                        };
+                        // if (parseInt(element.innerHTML) > 300) {
+                        //    $(element).css('color', 'blue');
+                        // } 
+                     });
+
                      playerAverage = Math.round(playerAverage / res.player.session.length);
                      $("#playerAverage").html('<h4>Player ' + $("#playerName").val() + 
                         ' currently has average of ' + playerAverage + '!</h4>');
