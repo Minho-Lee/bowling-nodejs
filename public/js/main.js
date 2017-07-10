@@ -772,13 +772,13 @@ $("#goToLogin").on('click', function() {
                         data: $(form).serialize()
                      })//ajax end
                      .done(function(data){
-                        console.log(data);
+                        //console.log(data);
                         if (typeof data === 'boolean') {
                            sessionStorage.setItem('adminMode', data);
+                           location.reload();
                         } else {
                            $("#loginmessage").html(data.message);
                         };
-                        location.reload();
                      })
                      .fail(function(xhr, textStatus, err) {
                         console.log(xhr.statusText);
@@ -786,7 +786,7 @@ $("#goToLogin").on('click', function() {
                         console.log(err);
                      });
                   }//loginform
-               });
+               });//validate
          }); //loginsubmit
       });//load_main
    });//wrapper_div
