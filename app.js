@@ -26,6 +26,8 @@ if (appEnv.isLocal === true) {
 } else {
     email_userid = process.env.nodemailer_userid;
     email_password = process.env.nodemailer_password;
+    admin_userid = process.env.admin_userid;
+    admin_password = process.env.admin_password;
 };
 
 // create a new express server
@@ -269,7 +271,16 @@ app.get('/', function(req, res, next) {
         console.log(html);
         res.send('done!');
     });
-    
+});
+
+app.post('/login', function(req, res) {
+    if (req.body.username === admin_userid && req.body.password === admin_password) {
+        res.send(true);
+    } else {
+        res.json({
+            'message': 'Wrong login credentials!'
+        });
+    }
 });
 
 // catch 404 and forward to error handler

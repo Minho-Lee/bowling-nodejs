@@ -4,6 +4,7 @@ console.log("MAIN.JS LOADED");
 //dynamically render html pages
 $("#submitplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
+      if (sessionStorage.getItem('adminMode') === 'true') {
       $("#load_main").load("submitplayers.html", function() {
          $("#wrapper_div").fadeIn(300);
          var firstClick = true
@@ -128,6 +129,9 @@ $("#submitplayers").on('click', function() {
             scrollTo('playerSubmitMessage')
          });//playersubmit button
       });//load_main
+      } else {
+         alert('Not Authenticated');
+      }//check adminMode
    });//wrapper_div
 });//submitPlayers
 
@@ -732,7 +736,7 @@ $("#contactUs").on('click', function() {
                      .fail(function(xhr, textStatus, err) {
                         console.log(xhr.statusText);
                         console.log(textStatus);
-                        console.log(error);
+                        console.log(err);
                      });
                   }//submitHandler
                });//contactInfo
@@ -762,8 +766,26 @@ $("#goToLogin").on('click', function() {
                      password: 'At least 8 characters'
                   },
                   submitHandler: function(form){
-                     
-                  }
+                     $.ajax({
+                        type: "POST",
+                        url: '/login',
+                        data: $(form).serialize()
+                     })//ajax end
+                     .done(function(data){
+                        console.log(data);
+                        if (typeof data === 'boolean') {
+                           sessionStorage.setItem('adminMode', data);
+                        } else {
+                           $("#loginmessage").html(data.message);
+                        };
+                        location.reload();
+                     })
+                     .fail(function(xhr, textStatus, err) {
+                        console.log(xhr.statusText);
+                        console.log(textStatus);
+                        console.log(err);
+                     });
+                  }//loginform
                });
          }); //loginsubmit
       });//load_main
@@ -953,5 +975,3 @@ var playerAverage = 0;
 var counter = 0;
 var average_array = [], date_array = [];
 var player_array_rank = [], player_array_team = [];
-
-
