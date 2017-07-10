@@ -12,14 +12,17 @@ var nodemailer = require('nodemailer');
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
-var email_userid = "", email_password = "";
+var email_userid = "", email_password = "", admin_userid = "", admin_password = "";
 
 //checking if it's running locally or on the server
 var appEnv = cfenv.getAppEnv();
 if (appEnv.isLocal === true) {
-    var nodemailer_config = require('./config.js')
-    email_userid = nodemailer_config.nodemailer_userid;
-    email_password = nodemailer_config.nodemailer_password;
+    var local_config = require('./config.js')
+    email_userid = local_config.nodemailer_userid;
+    email_password = local_config.nodemailer_password;
+    admin_userid = local_config.admin_userid;
+    admin_password = local_config.admin_password;
+
 } else {
     email_userid = process.env.nodemailer_userid;
     email_password = process.env.nodemailer_password;

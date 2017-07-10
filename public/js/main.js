@@ -746,7 +746,26 @@ $("#goToLogin").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       $('#load_main').load("login.html", function() {
          $("#wrapper_div").fadeIn(300);
-
+         $("#loginsubmit").on('click', function() {
+            $("#loginform")
+               .validate({
+                  debug: false,
+                  rules: {
+                     username: "required",
+                     password: {
+                        required: true,
+                        minlength: 8
+                     }
+                  },
+                  messages: {
+                     username: 'Username required',
+                     password: 'At least 8 characters'
+                  },
+                  submitHandler: function(form){
+                     
+                  }
+               });
+         }); //loginsubmit
       });//load_main
    });//wrapper_div
 });//goToLogin
