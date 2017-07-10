@@ -246,15 +246,15 @@ $("#getplayers").on('click', function() {
                      //making chart
                      ctx = document.getElementById("myChart").getContext('2d');
 
-                     //setting dimensions
-                     //ctx.canvas.width = 2000;
-                     //ctx.canvas.height = 1000;
+                     //setting dimensions does NOT work for chartjs
+                     //ctx.canvas.width = ___ DOES NOT work
+                     //if anything, change the container size that wraps around it.
                      var myChart = new Chart(ctx, {
                         type: 'line',
                         data: {
                            labels: date_array,
                            datasets: [{
-                              label: 'Average',
+                              label: "Average",
                               backgroundColor: 'red',
                               data: average_array,
                               borderColor: 'red',
@@ -264,6 +264,7 @@ $("#getplayers").on('click', function() {
                         },
                         options: {
                            responsive: true,
+                           maintainAspectRatio: false,
                            title: {
                               display: true,
                               text: "Display Average"
