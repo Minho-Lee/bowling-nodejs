@@ -724,7 +724,10 @@ $("#contactUs").on('click', function() {
                      .done(function(data) {
                         //gets a confirmation from nodemailer to see
                         if (data.status === "success") {
-                           $("#submitMessage").prop('disabled', true)
+                           //clear all fields upon a successful submission
+                           $("#contactInfo").find('input, textarea').each(function(i ,element) {
+                              element.value = '';
+                           });
                            $("#messageSent").empty()
                                             .html("Email is sent to mississaugabowling@gmail.com");
                         } else {
