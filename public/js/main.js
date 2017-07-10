@@ -5,132 +5,132 @@ console.log("MAIN.JS LOADED");
 $("#submitplayers").on('click', function() {
    $("#wrapper_div").fadeOut(300, function() {
       if (sessionStorage.getItem('adminMode') === 'true') {
-      $("#load_main").load("submitplayers.html", function() {
-         $("#wrapper_div").fadeIn(300);
-         var firstClick = true
-         $("#playersubmit").on('click', function() {
-            if (firstClick) {
-               console.log('playerform tooltip init');
+         $("#load_main").load("submitplayers.html", function() {
+            $("#wrapper_div").fadeIn(300);
+            var firstClick = true
+            $("#playersubmit").on('click', function() {
+               if (firstClick) {
+                  console.log('playerform tooltip init');
 
-               $('#playerform').find('div').find('input').each(function(i, element) {
-                  var $name = $(element).attr('name');
-                  if ($name == 'playerName' || $name === "game2") {
-                     $(element).addClass('playerform_tip_odd');
-                  } else if ($name === 'game1' || $name === 'game3') {
-                     $(element).addClass('playerform_tip_even');
-                  } 
-                  //not adding a tiptoolster class to input type[date] -> not supported
-               });
+                  $('#playerform').find('div').find('input').each(function(i, element) {
+                     var $name = $(element).attr('name');
+                     if ($name == 'playerName' || $name === "game2") {
+                        $(element).addClass('playerform_tip_odd');
+                     } else if ($name === 'game1' || $name === 'game3') {
+                        $(element).addClass('playerform_tip_even');
+                     } 
+                     //not adding a tiptoolster class to input type[date] -> not supported
+                  });
 
-               $(".playerform_tip_odd").tooltipster({
-                  animation: 'slide',
-                  delay: 200,
-                  side: ['right'],
-                  trigger: 'custom',
-                  onlyOne: false
-               });
-               $(".playerform_tip_even").tooltipster({
-                  animation: 'slide',
-                  delay: 200,
-                  side: ['left'],
-                  trigger: 'custom',
-                  onlyOne: false
-               });
-               //apply 'playerform_tip' class onto every div in the playerform
-               //NTS: tooltipster ONLY applies to type="text"
-               
-            } else {
-               $(".playerform_tip_even").tooltipster('show');
-               $(".playerform_tip_odd").tooltipster('show');
-            };
-            $("#playerform")
-               .validate({
-                  debug: false,
-                  rules: {
-                     playerName: "required",
-                     date: "required",
-                     game1: {
-                        required: true,
-                        number: true,
-                        range: [1, 300]
-                     },
-                     game2: {
-                        required: true,
-                        number: true,
-                        range: [1, 300]
-                     },
-                     game3: {
-                        required: true,
-                        number: true,
-                        range: [1, 300]
-                     }
-                  },
-                  messages: {
-                     playerName: "Need a player name!",
-                     date: "Valid date required!",
-                     game1: "Need a valid score!",
-                     game2: "Need a valid score!",
-                     game3: "Need a valid score!"
-                  },
-                  errorPlacement: function(err, element) {
-                     if ($(element).attr('name') === 'date') {
-                        $("#date-error").html("Valid Date Required!");
-                     } else {
-                        $(element).tooltipster('content', $(err).text());
-                        $(element).tooltipster('show');
-                     }
-                  },
-                  success: function(label, element) {
-                     if ($(element).attr('name') === 'date') {
-                        $("#date-error").html("Accepted!");
-                     } else {
-                        $(element).tooltipster('content', 'Accepted!');
-                     };
-                  },
-                  submitHandler: function(form) {
-                     var average = 0;
-                     //submitting 'average' field into db in order to make getrankings faster
-                     for (var i = 1; i <= 3; i++) {
-                        average += parseInt($("input[name='game" + i + "']").val());   
-                     };
-                     average = Math.round(average / 3);
-                     $.ajax({
-                        cache: false,
-                        type: "POST",
-                        url: "submitplayer",
-                        data: $(form).serialize() + "&average=" + average,
-                        success: function(res, status, xhr) {
-                           console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
-                           console.log("status: " + status);
-                           console.log(JSON.stringify(res));
-                           $("#playerSubmitMessage").html(JSON.stringify(res));
-                           //clearing fields except for the date
-                           for (var i = 1; i <= 3; i++) {
-                              $("input[name='game" + i + "']").val('');   
-                           };
-                           $("input[name='playerName']").val('');
-                           //if a player gets submitted properly then reset the arrays
-                           //and query all the docs again
-                           player_array_team = [];
-                           player_array_rank = [];
-                           getDocs();
-                           $(".playerform_tip_even, .playerform_tip_odd").tooltipster('close');
-                           $("#date-error").html("");
+                  $(".playerform_tip_odd").tooltipster({
+                     animation: 'slide',
+                     delay: 200,
+                     side: ['right'],
+                     trigger: 'custom',
+                     onlyOne: false
+                  });
+                  $(".playerform_tip_even").tooltipster({
+                     animation: 'slide',
+                     delay: 200,
+                     side: ['left'],
+                     trigger: 'custom',
+                     onlyOne: false
+                  });
+                  //apply 'playerform_tip' class onto every div in the playerform
+                  //NTS: tooltipster ONLY applies to type="text"
+                  
+               } else {
+                  $(".playerform_tip_even").tooltipster('show');
+                  $(".playerform_tip_odd").tooltipster('show');
+               };
+               $("#playerform")
+                  .validate({
+                     debug: false,
+                     rules: {
+                        playerName: "required",
+                        date: "required",
+                        game1: {
+                           required: true,
+                           number: true,
+                           range: [1, 300]
                         },
-                        error: function(xhr, textStatus, error){
-                           console.log(xhr.statusText);
-                           console.log(textStatus);
-                           console.log(error);
+                        game2: {
+                           required: true,
+                           number: true,
+                           range: [1, 300]
+                        },
+                        game3: {
+                           required: true,
+                           number: true,
+                           range: [1, 300]
                         }
-                     }); //ajax done
-                  }//submitHandler
-               });//playerform
-            firstClick = false;
-            scrollTo('playerSubmitMessage')
-         });//playersubmit button
-      });//load_main
+                     },
+                     messages: {
+                        playerName: "Need a player name!",
+                        date: "Valid date required!",
+                        game1: "Need a valid score!",
+                        game2: "Need a valid score!",
+                        game3: "Need a valid score!"
+                     },
+                     errorPlacement: function(err, element) {
+                        if ($(element).attr('name') === 'date') {
+                           $("#date-error").html("Valid Date Required!");
+                        } else {
+                           $(element).tooltipster('content', $(err).text());
+                           $(element).tooltipster('show');
+                        }
+                     },
+                     success: function(label, element) {
+                        if ($(element).attr('name') === 'date') {
+                           $("#date-error").html("Accepted!");
+                        } else {
+                           $(element).tooltipster('content', 'Accepted!');
+                        };
+                     },
+                     submitHandler: function(form) {
+                        var average = 0;
+                        //submitting 'average' field into db in order to make getrankings faster
+                        for (var i = 1; i <= 3; i++) {
+                           average += parseInt($("input[name='game" + i + "']").val());   
+                        };
+                        average = Math.round(average / 3);
+                        $.ajax({
+                           cache: false,
+                           type: "POST",
+                           url: "submitplayer",
+                           data: $(form).serialize() + "&average=" + average,
+                           success: function(res, status, xhr) {
+                              console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+                              console.log("status: " + status);
+                              console.log(JSON.stringify(res));
+                              $("#playerSubmitMessage").html(JSON.stringify(res));
+                              //clearing fields except for the date
+                              for (var i = 1; i <= 3; i++) {
+                                 $("input[name='game" + i + "']").val('');   
+                              };
+                              $("input[name='playerName']").val('');
+                              //if a player gets submitted properly then reset the arrays
+                              //and query all the docs again
+                              player_array_team = [];
+                              player_array_rank = [];
+                              getDocs();
+                              $(".playerform_tip_even, .playerform_tip_odd").tooltipster('close');
+                              $("#date-error").html("");
+                           },
+                           error: function(xhr, textStatus, error){
+                              console.log(xhr.statusText);
+                              console.log(textStatus);
+                              console.log(error);
+                           }
+                        }); //ajax done
+                     }//submitHandler
+                  });//playerform
+               firstClick = false;
+               scrollTo('playerSubmitMessage');
+            });//playersubmit button
+         });//load_main
       } else {
-         alert('Not Authenticated');
+         alert('Not Authenticated. Admin Access Only!');
       }//check adminMode
    });//wrapper_div
 });//submitPlayers
