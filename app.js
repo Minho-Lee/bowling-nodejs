@@ -70,17 +70,40 @@ var cloudant = Cloudant({
     url: cloudant_url
 });
 //Edit this variable value to change name of database.
-var dbname = 'players_db';
-var db;
+var dbname = 'players_db', dbname_post = 'posts_db';
+var db1, db2;
 
+//Create database for posts
+cloudant.db.create(dbname_post, function(err, data) {
+    db2 = cloudant.db.use(dbname_post);
+    if (err) 
+        console.log(dbname_post + ' database already exists.');
+    else {
+        console.log('Created ' + dbname_post + ' database.');
+        db2.insert({
+            _id: "_design/posts_db",
+            views: {
+                "posts_db": {
+                    "map": "function (doc) {\n emit(doc._id, [doc._rev, doc.postid]);\n}"
+                }
+            }
+        },
+        function(err, data) {
+            if (err)
+                console.log("View already exists. Error: ", err); //NOTE: A View can be created through the GUI interface as well
+            else
+                console.log(dbname_post + ' view has been created');
+        });
+    }
+});
 //Create database
 cloudant.db.create(dbname, function(err, data) {
-    db = cloudant.db.use(dbname);
+    db1 = cloudant.db.use(dbname);
     if (err) //If database already exists
-        console.log("Database exists."); //NOTE: A Database can be created through the GUI interface as well
+        console.log(dbname + " database already exists."); //NOTE: A Database can be created through the GUI interface as well
     else {
-        console.log("Created database.");
-        db.insert({
+        console.log("Created " + dbname +" database.");
+        db1.insert({
                 _id: "_design/players_db",
                 views: {
                     "players_db": {
@@ -101,7 +124,7 @@ app.post('/submitplayer', function(req, res) {
     //console.log(req.body);
     var playerName = req.body.playerName,
               date = req.body.date;
-    db.find({
+    db1.find({
         selector: {
             userid: playerName
         }
@@ -131,11 +154,11 @@ app.post('/submitplayer', function(req, res) {
                 '_rev': eventNames[0]._rev,
                 'session': eventNames[0].session
             };
-            db.insert(user, function(err, body) {});
+            db1.insert(user, function(err, body) {});
             res.send(playerName + " already exists. Update complete!");
         } else {
             console.log('Unable to find '+ playerName);
-            db.insert({
+            db1.insert({
                     'userid': playerName,
                     'session': [{
                         'date' : date,
@@ -209,7 +232,7 @@ app.post('/getplayer', function(req, res) {
     var playerName = req.body.userid;
     console.log(req.body);
     //console.log(req.body.userid);
-    db.find({
+    db1.find({
         selector: {
             userid: playerName
         }
@@ -240,7 +263,7 @@ app.post('/getplayer', function(req, res) {
 app.post('/retrieverankings', function(req, res) {
     //console.log(req.body.text);
     console.log('retrieving all docs from db!');
-    db.find({
+    db1.find({
         selector: {
             //calling every doc except for _design/player by querying 'userid'
             $text: req.body.text
