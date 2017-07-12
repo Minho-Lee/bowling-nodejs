@@ -313,37 +313,65 @@ $("#getrankings").on('click', function() {
             // Retrieve ^ button disabled. Now ranking loads on page load
             //at this point player_array is [name, average for each session]
             //displaying onto a table using DataTable library
-            var table = $("#displayRankings").DataTable({
-               "data" : player_array_rank, 
-               //"paging": false,
-               "columns" : [
-                  { "title" : "Rank" },
-                  { "title" : "Name" },
-                  { "title" : "Average" }
-               ],
-               "columnDefs": [{
-                  "searchable": false,
-                  "orderable": false,
-                  "targets": 0
-               },
-               {
-                  "searchable": true,
-                  "orderable": false,
-                  "targets": 1
-               },
-               {
-                  "searchable": false,
-                  "orderable": false,
-                  "targets": 2
-               }],
-               "order" : [[2, 'desc']]
-            });//dataTable init
-            //puts a default index rank
-            table.on( 'order.dt search.dt', function () {
-               table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                  cell.innerHTML = i + 1;
-               });
-            }).draw();
+            if (!$("#rankingMsg").html()) {
+               //render this table if there are at least 1 player in the db
+               var table = $("#displayRankings").DataTable({
+                  "data" : player_array_rank, 
+                  //"paging": false,
+                  "columns" : [
+                     { "title" : "Rank" },
+                     { "title" : "Name" },
+                     { "title" : "Average" }
+                  ],
+                  "columnDefs": [{
+                     "searchable": false,
+                     "orderable": false,
+                     "targets": 0
+                  },
+                  {
+                     "searchable": true,
+                     "orderable": false,
+                     "targets": 1
+                  },
+                  {
+                     "searchable": false,
+                     "orderable": false,
+                     "targets": 2
+                  }],
+                  "order" : [[2, 'desc']]
+               });//dataTable init
+               //puts a default index rank
+               table.on( 'order.dt search.dt', function () {
+                  table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                     cell.innerHTML = i + 1;
+                  });
+               }).draw();
+               //allows making a clone of an array without copying its reference (only its values)
+               let player_array_high = [...player_array_rank];
+               var maxscore = player_array_high[0][2], player_high = [];
+               for (var i = 1; i < player_array_high.length; i++) {
+                  var temp = player_array_high[i][2];
+                  if (temp > maxscore) { 
+                     maxscore = temp;
+                     console.log(player_array_high[i][1]);
+                     
+                     player_high = [[1, (player_array_high[i][1]), temp]];
+                  }
+               }
+               
+               console.log(player_high);
+
+               var highscore = $("#recordhigh").DataTable({
+                  "data": player_high,
+                  "columns": [
+                     { "title": "Rank" },
+                     { "title": "Name" },
+                     { "title": "Average" }
+                  ],
+                  "searching" : false,
+                  "order" : false
+               });//dataTable end
+            }//end if
             //hide retrieve button after submitting
            // $(this).hide(300);
          //});//rankings
@@ -882,6 +910,7 @@ function getDocs(){
                //as the first column so no need to push in a default rank column
                player_array_rank.push([0, name, parseInt(avg_of_avg)]);
                player_array_team.push(["", 0, name, parseInt(avg_of_avg)]);
+               // player_array_high.push([])
             }; //end for
          }//end if
       },
@@ -978,4 +1007,4 @@ var scrollTo = function(id) {
 var playerAverage = 0;
 var counter = 0;
 var average_array = [], date_array = [];
-var player_array_rank = [], player_array_team = [];
+var player_array_rank = [], player_array_team = [], player_array_high = [];
