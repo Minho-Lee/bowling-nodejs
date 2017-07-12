@@ -347,30 +347,46 @@ $("#getrankings").on('click', function() {
                   });
                }).draw();
                //allows making a clone of an array without copying its reference (only its values)
-               let player_array_high = [...player_array_rank];
-               var maxscore = player_array_high[0][2], player_high = [];
+               // let player_array_high = [...player_array_rank];
+               var maxscore = parseInt(player_array_high[0][2]), player_high = [];
                for (var i = 1; i < player_array_high.length; i++) {
-                  var temp = player_array_high[i][2];
+                  var date = player_array_high[i][0];
+                      name = player_array_high[i][1];
+                      temp = parseInt(player_array_high[i][2]);
+
                   if (temp > maxscore) { 
+                     console.log(temp + ' / ' + maxscore);
                      maxscore = temp;
-                     console.log(player_array_high[i][1]);
-                     
-                     player_high = [[1, (player_array_high[i][1]), temp]];
+                     player_high = [[date, name, temp]];
                   }
                }
-               
-               console.log(player_high);
 
                var highscore = $("#recordhigh").DataTable({
                   "data": player_high,
                   "columns": [
-                     { "title": "Rank" },
+                     { "title": "Date" },
                      { "title": "Name" },
-                     { "title": "Average" }
+                     { "title": "High Score" }
                   ],
                   "searching" : false,
                   "order" : false
                });//dataTable end
+
+               // $.ajax({
+               //    type: "POST",
+               //    url: "/gethighscore",
+               //    data: { 'score': player_high[0][2]},
+               //    success: function(res, status, xhr) {
+               //       console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
+               //       console.log("status: " + status);
+               //       console.log(res);
+               //    },
+               //    error: function(xhr, textStatus, error){
+               //       console.log(xhr.statusText);
+               //       console.log(textStatus);
+               //       console.log(error);
+               //    }
+               // });//end ajax
             }//end if
             //hide retrieve button after submitting
            // $(this).hide(300);
@@ -904,6 +920,12 @@ function getDocs(){
                for (var inner = 0; inner < docs[outer].session.length; inner++) {
                   // $("#rankingMsg").append(docs[outer].session[inner].average + "<br/>");
                   avg_of_avg += parseInt((docs[outer].session[inner].average));
+                  player_array_high.push([docs[outer].session[inner].date,
+                                          name, docs[outer].session[inner].game1]);
+                  player_array_high.push([docs[outer].session[inner].date,
+                                          name, docs[outer].session[inner].game2]);
+                  player_array_high.push([docs[outer].session[inner].date,
+                                          name, docs[outer].session[inner].game3]);
                }; //end for
                avg_of_avg = Math.round(avg_of_avg / docs[outer].session.length);
                //making teams would not require a rank but rather a clickable option

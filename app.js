@@ -283,6 +283,26 @@ app.post('/retrieverankings', function(req, res) {
     });//db.find
 });//retrieveranking post
 
+app.post('/gethighscore', function(req, res) {
+    console.log('getting high score!');
+    var score = req.body.score;
+    console.log(score);
+    console.log(typeof score);
+    db1.find({
+        selector: {
+            'session[0].game1' : 188
+        }
+    }, function(err, result) {
+        if (err)
+            throw err;
+
+        var eventNames = result.docs;
+        res.json({
+            eventNames
+        });
+    });
+});//gethighscore post
+
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
