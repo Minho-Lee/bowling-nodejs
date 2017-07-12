@@ -348,21 +348,26 @@ $("#getrankings").on('click', function() {
                }).draw();
                //allows making a clone of an array without copying its reference (only its values)
                // let player_array_high = [...player_array_rank];
-               var maxscore = parseInt(player_array_high[0][2]), player_high = [];
+               var maxscore = parseInt(player_array_high[0][2]), player_high = [],
+                   over200 = [];
                for (var i = 1; i < player_array_high.length; i++) {
                   var date = player_array_high[i][0];
                       name = player_array_high[i][1];
                       temp = parseInt(player_array_high[i][2]);
 
                   if (temp > maxscore) { 
-                     console.log(temp + ' / ' + maxscore);
                      maxscore = temp;
                      player_high = [[date, name, temp]];
+                  }
+
+                  if (temp >= 200) {
+                     over200.push([date, name, temp]);
                   }
                }
 
                var highscore = $("#recordhigh").DataTable({
                   "data": player_high,
+                  "paging": false,
                   "columns": [
                      { "title": "Date" },
                      { "title": "Name" },
@@ -371,6 +376,30 @@ $("#getrankings").on('click', function() {
                   "searching" : false,
                   "order" : false
                });//dataTable end
+
+               $("#club200").DataTable({
+                  'data': over200,
+                  'paging': false,
+                  'columns': [
+                     { 'title': 'Date' },
+                     { 'title': 'Name' },
+                     { 'title': 'Score' }
+                  ],
+                  'order': [[0, 'desc']],
+                  'columnDefs' :[{
+                     "orderable": true,
+                     "searchable": false,
+                     "targets": [0]
+                  }, {
+                     "orderable": false,
+                     "searchable": true,
+                     "targets": [1]
+                  }, {
+                     "orderable": false,
+                     "searchable": false,
+                     "targets": [2]
+                  }]
+               });//DataTable end
 
                // $.ajax({
                //    type: "POST",
