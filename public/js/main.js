@@ -206,6 +206,7 @@ $("#getplayers").on('click', function() {
                                     <th>Game 2</th><th>Game 3</th>\
                                     <th>Average</th></tr>");
                      };
+                     var temp_array = [];
                      for (var i = 0; i < res.player.session.length; i++) {
                         var game1 = parseInt(res.player.session[i].game1),
                             game2 = parseInt(res.player.session[i].game2),
@@ -214,16 +215,25 @@ $("#getplayers").on('click', function() {
                             date  = res.player.session[i].date;
 
                         playerAverage += average;
-                        average_array.push(average);
-                        date_array.push(date);
+                        temp_array.push([date, game1, game2, game3, average]);
+
+                     };//end for
+
+                     //sorting the player array in order of Date (descending)
+                     temp_array.sort(function(a,b){
+                        return a[0].localeCompare(b[0]);
+                     });
+                     for (var i = 0; i < temp_array.length; i++) {
                         $("#showScore")
                            .append("\
-                              <tr><td>"+date+"</td>\
-                              <td>"+ game1 + "</td>\
-                              <td>"+ game2 +"</td>\
-                              <td>"+ game3+"</td>\
-                              <td>"+ average + "</tr>");
-                     };//end for
+                              <tr><td>"+temp_array[i][0]+"</td>\
+                              <td>"+ temp_array[i][1] + "</td>\
+                              <td>"+ temp_array[i][2] +"</td>\
+                              <td>"+ temp_array[i][3] +"</td>\
+                              <td>"+ temp_array[i][4] + "</tr>");
+                        average_array.push(temp_array[i][4]);
+                        date_array.push(temp_array[i][0]);
+                     }
 
                      //if player hit over 200, then change the color of that game to red
                      $("#showScore tr td").each(function(i, element) {
@@ -249,6 +259,7 @@ $("#getplayers").on('click', function() {
                      //setting dimensions does NOT work for chartjs
                      //ctx.canvas.width = ___ DOES NOT work
                      //if anything, change the container size that wraps around it.
+                     
                      var myChart = new Chart(ctx, {
                         type: 'line',
                         data: {
@@ -404,7 +415,7 @@ $("#getrankings").on('click', function() {
                // $.ajax({
                //    type: "POST",
                //    url: "/gethighscore",
-               //    data: { 'score': player_high[0][2]},
+               //    data: { 'score': 201 },
                //    success: function(res, status, xhr) {
                //       console.log("success! Type: "+ xhr.getResponseHeader("content-type"));
                //       console.log("status: " + status);

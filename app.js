@@ -290,7 +290,9 @@ app.post('/gethighscore', function(req, res) {
     console.log(typeof score);
     db1.find({
         selector: {
-            'session[0].game1' : 188
+            'session' : {
+                'date': '2017-07-05'
+            }
         }
     }, function(err, result) {
         if (err)
